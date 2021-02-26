@@ -42,9 +42,9 @@
 
 \begin{abstract}
 \noindent
-In this paper a stable finite element formulation for the hyperbolic shallow water equations is presented. This method takes care of the instabilities caused by the mixed wave form, the convective term and the dry domain. Etc...
-
+In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is ble to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
 \vspace{1em}
+
 \noindent
 \keywords{Shallow water equations, FIC, stabilization, dry-wetting model}
 \end{abstract}
@@ -52,7 +52,9 @@ In this paper a stable finite element formulation for the hyperbolic shallow wat
 
 \section{Introduction}
 
-The FIC-based stabilization has been applied to convection-diffusion, incompressible flows and turbulent flows \cite{onate1998}\cite{onate2001}, in that cases where the convective term has an important role, a first order FIC term is enough to provide stability to the system. However, the shallow water equations are governed by the convective term and the wave equation in mixed formulation \cite{codina2008}, in consequence the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. A generalization of this method is proposed in order to provide a global stability for the shallow water equations. Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization.
+In modeling the shallow water equations for hydrodynamics traditionally have been used finite volumes [cite Riemann] because of its advantages of stability and monotonicity. Because of its geometric flexibility and its natural way to introduce high order schemes, finite elements have been applied too [some citations]. In order to prevent instabilities in finite elements stabilization [citations] of finite order of interpolation [Taylor-Hood] can be explored. More recently, the discontinuous Galerkin has been introduced, which has the advantages of the geometrical flexibility of the finite elements and the stability of the finite volumes, but the introduction of high order schemes is not straightforward. In this research we are interested in classical stabilized finite elements with equal interpolation order for all the variables and we will explore the capabilities of the finite increment calculus (FIC) to develop stable formulations for the shallow water equations.
+
+Several families of stabilization can be found in the literature, the most relevant are SUPG, ASGS, GLS and FIC. Due to the hyperbolic character of the shallow water equations, a particular stabilization method for compressible flow or the Euler equations need to be developed. The FIC-based stabilization has been applied to convection-diffusion, incompressible flows and turbulent flows \cite{onate1998}\cite{onate2001}, in that cases where the convective term has an important role, a first order FIC term is enough to provide stability to the system. However, the shallow water equations are governed by the convective term and the wave equation in mixed formulation \cite{codina2008}, in consequence the common derivation of the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. A generalization of this method is proposed in order to provide a global stability for the shallow water equations. Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization.
 
 Additionally the dry domain requires an accurate modeling because the hyperbolic equations positive water depth in all the domain. Among several proposals \cite{heniche2000}\cite{candy2017}\cite{barros2011} a modified depth integration \cite{defina2000} is performed in combination with the FIC stabilization.
 
