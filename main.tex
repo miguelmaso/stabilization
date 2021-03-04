@@ -385,6 +385,32 @@ The stabilization and shock capturing terms from equation (\ref{discrete_sw}) re
 \end{align}
 
 
+\subsection{Dry domain model}
+
+When small or quasi zero water depths are involved in simulations some instabilities may arise. The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+
+\begin{equation} \label{h_inv_kurganov}
+h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
+\end{equation}
+where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes:
+
+\begin{equation}
+\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
+\end{equation}
+This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
+
+The second issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
+
+\begin{equation}
+\mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(0, 1, 1)
+\end{equation}
+
+The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction as
+\begin{equation}
+\eta = hh^{-1}_k
+\end{equation}
+
+
 \subsection{Temporal integration}
 
 The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in compact form 
@@ -427,35 +453,9 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 \end{equation}
 
 
-\subsection{Dry domain model}
-
-When small or quasi zero water depths are involved in simulations some instabilities may arise. The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
-
-\begin{equation} \label{h_inv_kurganov}
-h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
-\end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes:
-
-\begin{equation}
-\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
-\end{equation}
-This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
-
-The second issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
-
-\begin{equation}
-\mathbf{K} \defeq \mathbf{K} + \alpha\,\text{diag}(0, 1, 1)
-\end{equation}
-
-The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction as
-\begin{equation}
-\eta = hh^{-1}_k
-\end{equation}
-
-
 \section{Examples} \label{sec:examples}
 
-This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013, kratos2020}.
+This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013, kratos2020}, an open source framework of numerical methods written in C++.
 
 \subsection{Flow past a backward step}
 
