@@ -105,9 +105,9 @@ The problem is closed with an initial boundary condition
 \end{equation}
 where $\Phi_0$ are the initial water height and velocities, verifying Equation (\ref{general_sw}) and the boundary conditions
 
-\begin{align}    
-\Phi = \Phi_D \qquad &\text{in} \Gamma_D \\
-\mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \Gamma_N
+\begin{align}
+\Phi = \Phi_D \qquad &\text{in} \ \Gamma_D \\
+\mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \ \Gamma_N
 \end{align}
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider also absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 
@@ -455,11 +455,14 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 
 \section{Examples} \label{sec:examples}
 
-This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013, kratos2020}, an open source framework of numerical methods written in C++.
+This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++. Even thought Kratos implements triangles and quadrilaterals with several orders of interpolation \cite{kratos2020}, we have restricted ourselves to linear triangles in order to test the possibilities of the stabilization method. Each example is oriented to test a single aspect of the procedure explained in this research.
 
-\subsection{Flow past a backward step}
+\subsection{Wave in a channel with a backward step}
 
-In this section a channel with a backward step is presented. The inlet is at the left side of the domain and the outlet is at right, see Fig. (). A vortex is generated when the flow pass through the backward step, ass seen in Fig. (). In Fig. () there is a comparison of different stabilization parameters.
+The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue and a calibration of the stabilization parameter is performed.
+We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. 
+
+%In this section a channel with a backward step is presented. The inlet is at the left side of the domain and the outlet is at right, see Fig. (). A vortex is generated when the flow pass through the backward step, ass seen in Fig. (). In Fig. () there is a comparison of different stabilization parameters.
 
 % \begin{figure}[H]
 % \begin{subfigure}{\textwidth}
@@ -497,11 +500,57 @@ In this section a channel with a backward step is presented. The inlet is at the
 
 \subsection{Oscillation in a parabolic basin}
 
-This benchmark tests the accuracy of the location of the moving boundary.
+The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to water at rest but the free surface is in a non horizontal plane. The solution of that problem is an oscillation where the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
+
+The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10$ and all the boundaries are reflective ($\mathbf{u}\cdot\mathbf{n} = 0$). The topography is given by the following expression
+\begin{equation}
+z(x,y) = h_0 \left(\frac{1}{a^2}\left(x - \frac{L}{2}\right)^2 - 1\right)
+\end{equation}
+and the primitive variables are defined by
+\begin{subequations}
+\begin{align}
+h(x,y) &=
+\begin{cases}
+-h_0\left(\left(\frac{1}{a}\left(x - \frac{L}{2}\right) + \frac{1}{2a}\cos(2Bt)\right)^2 - 1\right)
+\quad &\text{if} \ x_1(t) < x < x_2(t) \\
+0 \quad &\text{otherwise}
+\end{cases} \\
+\mathbf{u}(x,y) &=
+\begin{cases}
+(B,0)\sin(2Bt) \quad &\text{if} \ x_1(t) < x < x_2(t) \\
+(0,0) \quad &\text{otherwise}
+\end{cases}
+\end{align}
+\end{subequations}
+where $B=\sqrt{2gh_0}/2a$, and $x_1$, $x_2$ are time dependent functions which define the location of the dry-wet interface:
+\begin{equation}
+\begin{split}
+x_1(t) = -\frac{1}{2}\cos(2Bt) - a + \frac{L}{2} \\
+x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
+\end{split}
+\end{equation}
+
 
 \subsection{Short channel with smooth transition and shock}
 
-This benchmark is based on the Mac Donald's type solutions.
+The third example in a benchmark based on the Mac Donald's type solutions \cite{macdonald1997}. The analytical solution also can be found in the same compilation than the previous example \cite{delestre2013}. This test presents channel with a steady state solution. There is a subcritical inlet in a region where a transcritical flow is produced. The outlet is also subcritical and a shock is generated at $\sfrac{2}{3}$ of the channel. The aim of this example is to evaluate the presented shock capturing technique and the correct location of the hydraulic jump.
+
+Here we will consider the one-dimensional shallow water equations without diffusion and only with Manning bottom friction as source term. A steady state solution satisfies $\pder{q}{x}=0$ and the equation (\ref{general_sw}) reduces to
+\begin{equation} \label{steady_state}
+\pder{z}{x} = \left(\frac{v^2}{gh}-1\right) \pder{h}{x} - n^2\frac{\abs{v}v}{h^{\sfrac{4}{3}}}
+\end{equation}
+This relation allows to integrate the topography given an analytical expression for the water height. Another approach in hydraulics is to consider a given discharge and topography and integrate the water height using the relation (\ref{steady_state}). In both approaches exact solutions can be obtained. Since this expression involves the bottom friction, we can prove if the friction term is coded in order to satisfy the steady state.
+
+For this benchmark we have considered the domain defined by the interval $[0,100]\times[0,5]$ which is a channel of $100m$ length and $5m$ width, and the following boundary conditions:
+\begin{equation}
+\begin{split}
+    q_1 = 2\ \text{m/s} \qquad &\text{in} \ \Gamma_{upstream} \\
+    h = h_{ex}(100) \qquad &\text{in} \ \Gamma_{downstream} \\
+    q_2 = 0 \qquad &\text{in} \ \Gamma_{walls}
+\end{split}
+\end{equation}
+The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $200/3$ and defines the hydraulic jump.
+
 
 \subsection{Experiment}
 
