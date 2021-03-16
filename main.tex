@@ -462,40 +462,56 @@ This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, d
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue and a calibration of the stabilization parameter is performed.
 We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. 
 
-%In this section a channel with a backward step is presented. The inlet is at the left side of the domain and the outlet is at right, see Fig. (). A vortex is generated when the flow pass through the backward step, ass seen in Fig. (). In Fig. () there is a comparison of different stabilization parameters.
+\begin{figure}
+    \includegraphics[width=\textwidth]{img/step/mesh.pdf}
+    \caption{Definition of the domain and mesh used in the simulation. The average element size is $0.06m$, near the obstacle there is a mesh refinement to $0.02m$. There are $3.125$ nodes and $5.826$ elements.}
+    \label{step_mesh}
+\end{figure}
 
-% \begin{figure}[H]
-% \begin{subfigure}{\textwidth}
-%     \includegraphics[width=\textwidth]{img/backward_step_height.pdf}
-%     \caption{Mesh and water height results}
-% \end{subfigure}
-% \begin{subfigure}{\textwidth}
-%     \includegraphics[width=\textwidth]{img/backward_step_velocity.pdf}
-%     \caption{Velocity results}
-% \end{subfigure}
-% \caption{Definition of the domain of the flow past a backward step. The mean water level is $2m$ and the mean flow rate is $0.5m^2/s$.}
-% \label{backward_general}
-% \end{figure}
 
-% \begin{figure}[H]
-% \centering
-% \includegraphics[width=0.7\textwidth]{img/flow_past_backward_step_velocity_detail.pdf}
-% \caption{Detail of the vortex}
-% \label{backward_vortex}
-% \end{figure}
+\begin{figure}[H]
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/free_surface_1.pdf}
+\end{subfigure}
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/free_surface_2.pdf}
+\end{subfigure}
+\caption{Free surface results of the wave propagation (above) at times from $0$ to $3s$ and results for the reflected wave (below) at times from $3$ to $6s$.}
+\label{waves_propagation}
+\end{figure}
 
-% \begin{figure}[H]
-% \begin{subfigure}{\textwidth}
-%     \includegraphics[width=\textwidth]{img/flow_past_backward_step_height_stab.pdf}
-%     \caption{Results with stabilization parameter $0.5$}
-% \end{subfigure}
-% \begin{subfigure}{\textwidth}
-%     \includegraphics[width=\textwidth]{img/flow_past_backward_step_height_unstab.pdf}
-%     \caption{Results with stabilization parameter $0.005$}
-% \end{subfigure}
-% \caption{Detail of the inlet with different stabilization parameters. The results are the contour lines of the water height.}
-% \label{backward_stab}
-% \end{figure}
+
+\begin{figure}[H]
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.001_time_1.pdf}
+\end{subfigure}
+\par\medskip
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.01_time_1.pdf}
+\end{subfigure}
+\par\medskip
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.1_time_1.pdf}
+\end{subfigure}
+\caption{Contour plots of the free surface elevation at time $t=1s$ for different stabilization factors. The upper figure with $\tau=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\tau=0.01$ and the lower figure shows an over diffusive result with $\tau=0.1$.}
+\label{stab_parameters_time1}
+\end{figure}
+
+\begin{figure}[H]
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.001_time_5.pdf}
+\end{subfigure}
+\par\medskip
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.01_time_5.pdf}
+\end{subfigure}
+\par\medskip
+\begin{subfigure}{\textwidth}
+    \includegraphics[width=\textwidth]{img/step/stab_0.1_time_5.pdf}
+\end{subfigure}
+\caption{Contour plots of the free surface elevation at time $t=5s$ for different stabilization factors. The upper figure with $\tau=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\tau=0.01$ and the lower figure shows an over diffusive result with $\tau=0.1$.}
+\label{stab_parameters_time2}
+\end{figure}
 
 
 \subsection{Oscillation in a parabolic basin}
