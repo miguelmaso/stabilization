@@ -4,7 +4,8 @@
 # (.git/info/exclude) could be modified
 
 # main output
-#*.pdf # by the moment, the pdf is kept from local compilation
+*.pdf
+
 # but include the pdf which are in folders
 !*/*
 
