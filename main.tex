@@ -10,6 +10,7 @@
 \usepackage{lmodern}       % font
 \usepackage{fix-cm}        % arbitrary font size
 \usepackage{authblk}       % authors block
+\usepackage{array}         % extending tabular environment
 \usepackage{subcaption}    % sub-figures
 \usepackage{float}         % placing figures
 \usepackage{framed}        % framed environment with right alignment
@@ -27,6 +28,10 @@
 \newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
 \newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
 \makeatother
+
+\newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}#1\ignorespaces}
 
 \title{A FIC-FEM procedure for the shallow water equations over partially wet domains}
 
@@ -385,32 +390,6 @@ The stabilization and shock capturing terms from equation (\ref{discrete_sw}) re
 \end{align}
 
 
-\subsection{Dry domain model}
-
-When small or quasi zero water depths are involved in simulations some instabilities may arise. The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
-
-\begin{equation} \label{h_inv_kurganov}
-h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
-\end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes:
-
-\begin{equation}
-\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
-\end{equation}
-This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
-
-The second issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
-
-\begin{equation}
-\mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(0, 1, 1)
-\end{equation}
-
-The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction as
-\begin{equation}
-\eta = hh^{-1}_k
-\end{equation}
-
-
 \subsection{Temporal integration}
 
 The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in compact form 
@@ -451,6 +430,38 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 \begin{equation}
 \Phi_h^{n+1,0} = \Phi_h^n + \Delta t^n \dot{\Phi}_h^{n}
 \end{equation}
+
+
+
+\subsection{Dry domain model}
+
+When small or quasi zero water depths are involved in simulations some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+
+\begin{equation} \label{h_inv_kurganov}
+h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
+\end{equation}
+where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes:
+
+\begin{equation}
+\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
+\end{equation}
+This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
+
+The second issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
+
+\begin{equation}
+\mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(1, 1, 0)
+\end{equation}
+
+The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction as
+\begin{equation}
+\eta = hh^{-1}_k
+\end{equation}
+and
+\begin{equation}
+\alpha = k(1-\eta)
+\end{equation}
+In our numerical experiments we have chosen $k=10^3$.
 
 
 
@@ -580,10 +591,26 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{figure}
 
 \begin{figure}[H]
-    \centering
-    \includegraphics[width=.6\textwidth]{img/par/conv_1.pdf}
-    \caption{Convergence graphic}
-    \label{parabola_convergence}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/par/conv_1.pdf}    
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.58\textwidth}
+    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
+    $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
+    205     & 0.25  &  0.002 & 0.041 & 0.211 \\ %0.0760 \\
+    306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
+    1,111   & 0.1   &  0.002 &  0.10 & 0.106 \\ %0.0382 \\
+    1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
+    4,221   & 0.05  &  0.002 &  0.21 & 0.0336 \\ %0.0121 \\
+\rowstyle{\bfseries}
+    4,221   & 0.05  &  0.004 &  0.42 & 0.0347 \\ %0.0113 \\
+    11,356  & 0.03  &  0.002 &  0.34 & inf \\
+    101,101 & 0.01  &  0.0005 &  0.26 & inf \\ \hline
+    \end{tabular}
+\end{subfigure}
+\caption{Convergence graphic}
+\label{parabola_convergence}
 \end{figure}
 
 
