@@ -635,9 +635,9 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
     \begin{tabular}{+>{\small}r^c^c^c^c} \hline
     $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
     205     & 0.25  &  0.002 & 0.041 & 0.211 \\ %0.0760 \\
-    306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
+%    306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
     1,111   & 0.1   &  0.002 &  0.10 & 0.106 \\ %0.0382 \\
-    1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
+%    1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
     4,221   & 0.05  &  0.002 &  0.21 & 0.0336 \\ %0.0121 \\
 \rowstyle{\bfseries}
     4,221   & 0.05  &  0.004 &  0.42 & 0.0347 \\ %0.0113 \\
@@ -645,7 +645,7 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
     101,101 & 0.01  &  0.0005 &  0.26 & inf \\ \hline
     \end{tabular}
 \end{subfigure}
-\caption{Convergence graphic}
+\caption{Convergence analysis for the parabolic basin benchmark}
 \label{parabola_convergence}
 \end{figure}
 
@@ -676,17 +676,36 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
     \caption{Geometry of the channel, the vertical line shows the position of the hydraulic jump, the shadowed area correspond to the location where the $L_2$ norm of the error is computed.}
 \end{figure}
 
+
 \begin{figure}[H]
-    \begin{subfigure}{.49\textwidth}
-        \includegraphics[width=\textwidth]{img/jump/height_convergence.pdf}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{.49\textwidth}
-        \includegraphics[width=\textwidth]{img/jump/momentum_convergence.pdf}
-    \end{subfigure}
-    \caption{Convergence graphics for the water height (left) and discharge (right) for the short channel with smooth transition and shock.}
-    \label{mac_donald_shock_convergence}
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/jump/momentum_convergence.pdf}    
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.58\textwidth}
+    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
+    $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL   & $L_2(e_{rel})$ \\ \hline
+    204         &        2.0 &      0.005 & 0.016 & 0.177 \\
+    606         &        1.0 &      0.005 & 0.031 & 0.138 \\
+    2211        &        0.5 &      0.005 & 0.062 & 0.088 \\
+    13026       &        0.2 &      0.005 & 0.15  & 0.041 \\ \hline
+    \end{tabular}
+\end{subfigure}
+\caption{Convergence analysis for the short channel with smooth transition and shock.}
+\label{hydraulic_jump_convergence}
 \end{figure}
+
+% \begin{figure}[H]
+%     \begin{subfigure}{.49\textwidth}
+%         \includegraphics[width=\textwidth]{img/jump/height_convergence.pdf}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}{.49\textwidth}
+%         \includegraphics[width=\textwidth]{img/jump/momentum_convergence.pdf}
+%     \end{subfigure}
+%     \caption{Convergence graphics for the water height (left) and discharge (right) for the short channel with smooth transition and shock.}
+%     \label{mac_donald_shock_convergence}
+% \end{figure}
 
 \begin{figure}
     \centering
