@@ -435,7 +435,10 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 
 \subsection{Dry domain model}
 
-When small or quasi zero water depths are involved in simulations some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+When small or quasi zero water depths are involved in simulations some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. 
+
+\paragraph{Recovery of the velocity field}
+The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height and this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
 h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
@@ -447,7 +450,22 @@ where $\varepsilon$ is a threshold which depends on the elements size, usually $
 \end{equation}
 This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
 
-The second issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
+
+\paragraph{Partially wet elements}
+At the elements where the shoreline is located the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding that elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of that elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved introducing a modified topography and imposing equilibrium:
+\begin{equation}
+    \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
+\end{equation}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.5\textwidth]{img/fig/partially_dry.pdf}
+    \caption{Dry, wet and partially wet elements in the one dimensional case. The dashed line shows the modified topography  and the corresponding free surface.}
+    \label{partially_dry}
+\end{figure}
+
+\paragraph{Avoiding the singularity of the system matrix}
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(1, 1, 0)
