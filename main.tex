@@ -513,7 +513,7 @@ We study the propagation of a wave in a channel with a backward step. The wave i
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{subfigure}{.05\textwidth}
     \caption{}
 \end{subfigure}
@@ -538,7 +538,7 @@ We study the propagation of a wave in a channel with a backward step. The wave i
 \label{stab_parameters_time1}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \begin{subfigure}{.05\textwidth}
         \caption{}
     \end{subfigure}
@@ -597,6 +597,34 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
 
+\begin{figure}
+    \includegraphics[width=\textwidth]{img/par/mesh_0.1.pdf}
+    \caption{One of the meshes used to test the parabolic basin benchmark. The current element size is $0.1m$.}
+    \label{parabola_mesh}
+\end{figure}
+
+\begin{figure}[H]
+\begin{subfigure}{0.4\textwidth}
+    \includegraphics[width=\textwidth]{img/par/conv_1.pdf}    
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.58\textwidth}
+    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
+    $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
+    205     & 0.25  &  0.002 & 0.041 & 0.211 \\ %0.0760 \\
+%    306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
+    1,111   & 0.1   &  0.002 &  0.10 & 0.106 \\ %0.0382 \\
+%    1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
+    4,221   & 0.05  &  0.002 &  0.21 & 0.0336 \\ %0.0121 \\
+\rowstyle{\bfseries}
+    4,221   & 0.05  &  0.004 &  0.42 & 0.0347 \\ %0.0113 \\
+    11,356  & 0.03  &  0.002 &  0.34 & inf \\
+    101,101 & 0.01  &  0.0005 &  0.26 & inf \\ \hline
+    \end{tabular}
+\end{subfigure}
+\caption{Convergence analysis for the parabolic basin benchmark}
+\label{parabola_convergence}
+\end{figure}
 
 \begin{figure}[H]
 \begin{subfigure}{\textwidth}
@@ -624,29 +652,6 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{subfigure}
 \caption{Results with the fie mesh of size $0.01m$ at time $t=1s$. The images display the water height at the top, the x-discharge at the middle and the x-velocity below. There is not legend for simplicity, the red colour is positive and blue means a null or negative magnitude.}
 \label{parabola_results}
-\end{figure}
-
-\begin{figure}[H]
-\begin{subfigure}{0.4\textwidth}
-    \includegraphics[width=\textwidth]{img/par/conv_1.pdf}    
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.58\textwidth}
-    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
-    $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
-    205     & 0.25  &  0.002 & 0.041 & 0.211 \\ %0.0760 \\
-%    306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
-    1,111   & 0.1   &  0.002 &  0.10 & 0.106 \\ %0.0382 \\
-%    1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
-    4,221   & 0.05  &  0.002 &  0.21 & 0.0336 \\ %0.0121 \\
-\rowstyle{\bfseries}
-    4,221   & 0.05  &  0.004 &  0.42 & 0.0347 \\ %0.0113 \\
-    11,356  & 0.03  &  0.002 &  0.34 & inf \\
-    101,101 & 0.01  &  0.0005 &  0.26 & inf \\ \hline
-    \end{tabular}
-\end{subfigure}
-\caption{Convergence analysis for the parabolic basin benchmark}
-\label{parabola_convergence}
 \end{figure}
 
 
