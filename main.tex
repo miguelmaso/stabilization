@@ -452,7 +452,7 @@ This projection will introduce some artificial diffusion in the velocity field n
 
 
 \paragraph{Partially wet elements}
-At the elements where the shoreline is located the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding that elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of that elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved introducing a modified topography and imposing equilibrium:
+At the elements where the shoreline is located the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved introducing a modified topography and imposing equilibrium:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -479,8 +479,14 @@ and
 \begin{equation}
 \alpha = k(1-\eta)
 \end{equation}
-In our numerical experiments we have chosen $k=10^3$.
+In our numerical experiments we have chosen $k=10^3$. See the figure (\ref{inverse_heihgt}).
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/fig/inverse_height.pdf}
+    \caption{Dimensionless functions to compute the  inverse height and the wet fraction.}
+    \label{inverse_heihgt}
+\end{figure}
 
 
 \section{Examples} \label{sec:examples}
@@ -722,7 +728,7 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{img/jump/mesh_0.2.pdf}
-    \caption{Graph along the cut defined by the center of the channel. The mesh sie is $0.2m$}
+    \caption{Graph along the cut defined by the center of the channel. The mesh size is $0.2m$}
     \label{mac_donald_shock_graph_2}
 \end{figure}
 
