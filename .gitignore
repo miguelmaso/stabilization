@@ -27,5 +27,5 @@
 # build auxiliary files:
 *.fdb_latexmk
 *.synctex
-*.synctex.gz
+*.synctex*
 
