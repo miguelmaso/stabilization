@@ -15,6 +15,10 @@
 \usepackage{float}         % placing figures
 \usepackage{framed}        % framed environment with right alignment
 \usepackage[toc]{appendix} % changing numbering to capital letters
+\usepackage{cite}
+\usepackage{ulem}
+\usepackage[usenames,dvipsnames]{xcolor}
+\newcommand\Ignasi[1]{\textcolor{blue}{#1}}
 
 \newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
 \newcommand{\ppder}[2]{\frac{\partial^2#1}{\partial#2^2}}
@@ -47,8 +51,12 @@
 
 \begin{abstract}
 \noindent
-In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is ble to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
+\Ignasi{FALTA COMPLETAR. PARLAR DE LA NOVETAT (LA FORMULACIO ESTABILITZADA) I ELS 4 EXEMPLES QUE S'HAN RESOLT}
+
+In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is able to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
 \vspace{1em}
+
+\Ignasi{KEYWORDS: shallow water equations, finite element method, FIC stabilization, dry-wetting model}
 
 \noindent
 \keywords{Shallow water equations, FIC, stabilization, dry-wetting model}
@@ -57,15 +65,19 @@ In this paper we present a stable finite element formulation for the shallow wat
 
 \section{Introduction}
 
-In modeling the shallow water equations for hydrodynamics traditionally have been used finite volumes [cite Riemann] because of its advantages of stability and monotonicity. Because of its geometric flexibility and its natural way to introduce high order schemes, finite elements have been applied too [some citations]. In order to prevent instabilities in finite elements stabilization [citations] of finite order of interpolation [Taylor-Hood] can be explored. More recently, the discontinuous Galerkin has been introduced, which has the advantages of the geometrical flexibility of the finite elements and the stability of the finite volumes, but the introduction of high order schemes is not straightforward. In this research we are interested in classical stabilized finite elements with equal interpolation order for all the variables and we will explore the capabilities of the finite increment calculus (FIC) to develop stable formulations for the shallow water equations.
+\Ignasi{HAURIES DE COMENÇAR PARLANT UNA MICA DE LA MOTIVACIO DE LA RESOLUCIO D'AQUEST TIPUS D'EQUACIONS: QUÈ PERMETEN RESOLDRE QUE SIGUI RELLEVANT PER A LA SOCIETAT?, QUINA ÉS L'AVENTATGE DE FER-HO AMB METODES NUMERICS?, HI HA ALTRES MÈTODES (ANALITICS, ESTADISTICS, ETC.)?}
 
-Several families of stabilization can be found in the literature, the most relevant are SUPG, ASGS, GLS and FIC. Due to the hyperbolic character of the shallow water equations, a particular stabilization method for compressible flow or the Euler equations need to be developed. The FIC-based stabilization has been applied to convection-diffusion, incompressible flows and turbulent flows \cite{onate1998}\cite{onate2001}, in that cases where the convective term has an important role, a first order FIC term is enough to provide stability to the system. However, the shallow water equations are governed by the convective term and the wave equation in mixed formulation \cite{codina2008}, in consequence the common derivation of the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. A generalization of this method is proposed in order to provide a global stability for the shallow water equations. Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization.
+\Ignasi{\sout{In modeling t}T}he shallow water equations for hydrodynamics \Ignasi{have} traditionally \Ignasi{\sout{have}} been \Ignasi{modelled \sout{used} using} finite volumes [cite Riemann] because of its advantages of stability and monotonicity. \Ignasi{\sout{Because of} Given} its geometric flexibility and its natural way to introduce high order schemes, finite elements have been applied too [some citations]. In order to prevent \Ignasi{numerical} instabilities in finite elements\Ignasi{,} stabilization \Ignasi{\sout{[citations]}} of finite order of interpolation \Ignasi{\sout{[Taylor-Hood]}} can be explored \Ignasi{[Taylor-Hood, OTHER CITATIONS]}. More recently, the discontinuous Galerkin \Ignasi{technique} has been introduced \Ignasi{[CITATIONS] \sout{,}. It \sout{which}} has the advantages of the geometrical flexibility of the finite elements and the stability of the finite volumes, but the introduction of high order schemes is not straightforward. In this research we are interested in classical stabilized finite elements with equal interpolation order for all the variables and we will explore the capabilities of the finite increment calculus (FIC) to develop stable formulations for the shallow water equations.
 
-Additionally the dry domain requires an accurate modeling because the hyperbolic equations positive water depth in all the domain. Among several proposals \cite{heniche2000}\cite{candy2017}\cite{barros2011} a modified depth integration \cite{defina2000} is performed in combination with the FIC stabilization.
+Several families of stabilization can be found in the literature, the most relevant are SUPG\Ignasi{[CITATIONS]}, ASGS\Ignasi{[CITATIONS]}, GLS\Ignasi{[CITATIONS]} and FIC\Ignasi{[CITATIONS]}. Due to the hyperbolic character of the shallow water equations, a particular stabilization method for compressible flow or the Euler equations need to be developed. The FIC-based stabilization has been applied to convection-diffusion, incompressible flows and turbulent flows \cite{onate1998,onate2001}\Ignasi{T'HE MODIFICAT AQUESTA CITA PER A QUE APAREGUIN VARIES CITES AGRUPADES (AMB EL PAQUET CITE ES POT FER. E.G. [2-4]) \sout{, i}. I}n \Ignasi{\sout{that}those} cases\Ignasi{,} where the convective term has an important role, a first order FIC term is enough to provide stability to the system. However, the shallow water equations are governed by the convective term and the wave equation in \Ignasi{a} mixed formulation \cite{codina2008} \Ignasi{and}, in consequence\Ignasi{,} the common derivation of the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. A generalization of this method is proposed in order to provide a global stability for the shallow water equations. Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization. \Ignasi{AQUESTA ULTIMA FRASE NO L'HE ENTES. VOLS DIR QUE HAS EXPLORAT TERMES D'ALTRES FORMULACIONS FIC PER A ESTABILITZAR EL SHOCK CAPTURING? PODRIES POSAR AIXO EN UN ALTRE PARAGRAF I PARLAR DE L'ESTAT DE L'ART EN AQUESTA QUESTIO EN CONCRET}
+
+Additionally\Ignasi{,} the dry domain requires an accurate modeling because the hyperbolic equations \Ignasi{require} positive water depth in all the domain \Ignasi{HE AFEGIT LA PARAULA require, REVISA SI AIXI S'ENTEN EL QUE VOLIES DIR}. Among several proposals \cite{heniche2000,candy2017,barros2011} a modified depth integration \cite{defina2000} is performed in combination with the FIC stabilization. \Ignasi{FALTA COMPLETAR UNA MICA L'ESTAT DE L'ART D'AQUEST PUNT}
+
+\Ignasi{AL FINAL HAURIES DE POSAR 1 PARAGRAF EXPLICANT COM S'ORGANITZA EL PAPER: PRIMER PRESENTES LES EQUACIONS DE GOVERN, DESPRES L'ESTABILITZACIO, EXEMPLES, ETC.}
 
 \section{Governing equations and linearization}
 
-We start considering the shallow water equations, which come from the depth integrated Navier-Stokes equations and  assuming the vertical velocity and its acceleration be negligible \cite{zien3}.
+\Ignasi{Let us \sout{We}} start \Ignasi{\sout{considering} presenting} the shallow water equations\Ignasi{\sout{, which come from the}. They are the result of} depth \Ignasi{\sout{integrated} integrating the} Navier-Stokes equations \Ignasi{\sout{and},} assuming the vertical velocity and its acceleration \Ignasi{\sout{be}} negligible \cite{zien3}. \Ignasi{HAURIES D'EXPLICAR SI ESCRIUS LES EQUACIONS AMB VARIABLES CONSERVATIVES I PER QUÈ HO FAS AIXI AMB CITES} \Ignasi{Their general expression can be written as} 
 
 \begin{equation} \label{general_sw}
 \pder{\Phi}{t} + \pder{\mathbf{F}_i}{x_i} + \pder{\mathbf{G}_i}{x_i} + \mathbf{Q} = \mathbf{0} \quad \text{for} \enspace i=1,2
@@ -103,12 +115,13 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
+\Ignasi{AQUI HAURIES DE DEFINIR TOTES LES VARIABLES QUE ESTAS INTRODUINT A LES EQUACIONS 1 I 2, I EL SIGNIFICAT DE CADA EQUACIO (BALANÇ DE MASSA, MOMENT O EL QUE SIGUI). TAMBÉ HAURIES D'INDICAR D'ALGUNA MANERA FACIL QUE i ÉS CADA COMPONENT DE LES DUES DIMENSIONS AMB QUE MODELES EL DOMINI (TOT I QUE ARA S'ENTEN, EL PRIMER COP QUE HO HE LLEGIT M'HA SEMBLAT CONFUS)}
 The problem is closed with an initial boundary condition
 
 \begin{equation}
 \Phi = \Phi_0
 \end{equation}
-where $\Phi_0$ are the initial water height and velocities, verifying Equation (\ref{general_sw}) and the boundary conditions
+where $\Phi_0$ are the initial water height and velocities, verifying Equation (\ref{general_sw})\Ignasi{,} and the \Ignasi{suitable} boundary conditions
 
 \begin{align}
 \Phi = \Phi_D \qquad &\text{in} \ \Gamma_D \\
@@ -116,13 +129,13 @@ where $\Phi_0$ are the initial water height and velocities, verifying Equation (
 \end{align}
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider also absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 
-The bottom friction is modelled with the Manning formula extended to two dimensions
+The bottom friction \Ignasi{DEFINEIX (AQUÍ O ABANS) BOTTOM FRICTION COM $\tau^b_{31}$} is modelled with the Manning formula \Ignasi{\sout{extended to} generalized for} two dimensions
 
 \begin{equation}
 \frac{\tau^b_{31}}{\rho} = -gn^2\frac{\abs{\mathbf{q}}\mathbf{q}}{h^{\sfrac{7}{3}}}
 \end{equation}
 
-The averaged horizontal stresses are combination of the molecular stresses and the Reynolds stresses as follows
+The averaged horizontal stresses are \Ignasi{calculated from the} combination of the molecular stresses and the Reynolds stresses as follows
 
 \begin{equation} \label{stresses}
 \frac{\tau_{ij}}{\rho} = (\nu + \nu_t)\left(
@@ -135,7 +148,7 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 \pder{\Phi}{t} + \mathbf{A}_i\pder{\Phi}{x_i}
  - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{F} = 0
 \end{equation}
-where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes. The convective matrix is obtained applying the chain rule to the vector of fluxes $\mathbf{F}_i$
+where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes. The convective matrix \Ignasi{ET REFEREIXES A Ai?} is obtained \Ignasi{after} applying the chain rule to the vector of fluxes $\mathbf{F}_i$
 
 \begin{subequations}
 \begin{align}
@@ -166,7 +179,7 @@ And the bottom friction term is linearized using a reaction matrix $\mathbf{S}$
     0 & 0 & 0
 \end{matrix}\right]
 \end{equation}
-In the following sections, the rain, atmospheric pressure gradient and the wind friction will be neglected.
+In the following sections, the rain, atmospheric pressure gradient and the wind friction will be neglected \Ignasi{SI AQUESTS TERMES JA HAN APAREGUT ABANS, ELS HAURIES D'HAVER DEFINIT, ENCARA QUE DESPRES NO APAREGUIN MÉS}.
 
 \section{Stabilization}\label{sec:stabilization}
 
@@ -178,13 +191,13 @@ r_j \defeq
   -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{F} \qquad j\in\{1,n_d\}
 \end{equation}
 
-It is well known that in the one dimensional case, the FIC-based stabilization has a unique definition and the stabilization parameter $l^e$ is usually the element length
+I\Ignasi{\sout{t is well known that i}}n the one dimensional case \Ignasi{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}, the FIC-based stabilization has a unique definition and the stabilization parameter $l^e$ is usually the element length \Ignasi{[CITA]}
 
 \begin{equation}
 r - \frac{1}{2}l^e\pder{r}{x} = 0
 \end{equation}
 
-However, in greater space dimensions $n_d$ or more than one balance equations $n_b$, the choice of the $l^e$ parameter is non trivial. Several approaches can be defined, taking $l^e$ as a vector \cite{onate1998}, in later publications Oñate \cite{onate2001} presented a generalized formulation for different $n_d$ and $n_b$, for the stabilization of the Navier-Stokes equations Cotela \cite{cotela2016} proposed different projections of the element size over the velocity or projecting it onto the velocity gradient.
+However, in \Ignasi{\sout{greater space dimensions $n_d$ or more than one} two or three dimensional cases, or when the number of} balance equations $n_b$ \Ignasi{is larger than one}, the choice of the $l^e$ parameter is \Ignasi{\sout{non trivial} nontrivial}. Several approaches can be \Ignasi{\sout{defined} found in the literature. \sout{, taking} \cite{onate1998} took} $l^e$ as a vector, \Ignasi{but} in later publications \Ignasi{\sout{Oñate} such as} \cite{onate2001} \Ignasi{\sout{presented}} a generalized formulation for different $n_d$ and $n_b$ \Ignasi{was presented. \sout{, f}F}or the stabilization of the Navier-Stokes equations \Ignasi{\sout{Cotela}} \cite{cotela2016} proposed different projections of the element size over the velocity \Ignasi{and \sout{or projecting it onto} over} the velocity gradient. \Ignasi{To sum up, the different forms of the residual for the FIC stabilization can be written as}
 
 \begin{subequations}
 \begin{align}
@@ -196,6 +209,8 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
     \qquad i,j\in\{1,n_d\}
 \end{align}
 \end{subequations}
+
+%TODO: Ignasi - seguir per aqui
 
 In practice the FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations). In this paper is proposed a stabilization parameter oriented along the characteristics of the hyperbolic equations
 
