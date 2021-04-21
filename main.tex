@@ -281,10 +281,10 @@ In this work we have neglected the boundary integrals assuming the residual $r_j
 \right) d\Omega
 =0
 \end{multline}
-
-\begin{framed}
-Equivalence with SUPG and VMS if parallel projection are used.
-\end{framed}
+Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\frac{l^e}{2\lambda}$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
+% \begin{framed}
+% Equivalence with SUPG and VMS if parallel projection are used.
+% \end{framed}
 
 
 \subsection{Shock capturing}
@@ -843,6 +843,14 @@ Gauge number & X & Y \\ \hline
 \end{figure}
 
 \section{Concluding remarks} \label{sec:conclusions}
+
+We have extended the FIC-FEM procedure to the shallow water equations. Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. \Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA}
+
+Even though this method presents an equivalent structure with SUPG, a more general framework can be found in VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability.
+
+The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have choose $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing.
+
+The present FIC-FEM procedure has been able to produce accurate results for the examples considered.
 
 
 \section*{Appendix A}
