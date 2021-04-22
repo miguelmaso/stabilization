@@ -588,6 +588,11 @@ We study the propagation of a wave in a channel with a backward step. The wave i
     \label{step_mesh}
 \end{figure}
 
+The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization. The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
+The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001, 0.01, 0.1$. In that example, the shock capturing term is switch off.
+
+The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
+The lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
 
 \begin{figure}[H]
 \begin{subfigure}{\textwidth}
@@ -622,7 +627,7 @@ We study the propagation of a wave in a channel with a backward step. The wave i
 \begin{minipage}[c]{.94\textwidth}
     \includegraphics[width=\textwidth]{img/step/stab_0.1_time_1.pdf}        
 \end{minipage}
-\caption{Contour plots of the free surface elevation at time $t=1s$ for different stabilization factors. The upper figure with $\tau=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\tau=0.01$ and the lower figure shows an over diffusive result with $\tau=0.1$.}
+\caption{Contour plots of the free surface elevation at time $t=1s$ for different stabilization factors. The upper figure with $\beta=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\beta=0.01$ and the lower figure shows an over diffusive result with $\beta=0.1$.}
 \label{stab_parameters_time1}
 \end{figure}
 
@@ -647,7 +652,7 @@ We study the propagation of a wave in a channel with a backward step. The wave i
     \begin{minipage}[c]{.94\textwidth}
         \includegraphics[width=\textwidth]{img/step/stab_0.1_time_5.pdf}        
     \end{minipage}
-\caption{Contour plots of the free surface elevation at time $t=5s$ for different stabilization factors. The upper figure with $\tau=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\tau=0.01$ and the lower figure shows an over diffusive result with $\tau=0.1$.}
+\caption{Contour plots of the free surface elevation at time $t=5s$ for different stabilization factors. The upper figure with $\beta=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\beta=0.01$ and the lower figure shows an over diffusive result with $\beta=0.1$.}
 \label{stab_parameters_time2}
 \end{figure}
 
