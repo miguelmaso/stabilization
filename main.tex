@@ -787,9 +787,9 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
 
 \subsection{Experiment}
 
-The last example consist on the reproduction of the experiment carried out by Soares \cite{soares2007}. A dam break flow with a building downstream is simulated and the problem definition is depicted in figure \ref{experiment_sketch}. The channel is $3.4m$ width and the end of the dam is located at $x=0$. As initial conditions, the water depth is set to $0.4m$ in the reservoir and the channel is dry. The manning coefficient is $0.01ms^{-1}$ over all the domain. At the beginning of the simulation, the gate of the dam is removed and the water is allowed to flow around the building.
+The last example consist on the reproduction of the experiment carried out by Soares \cite{soares2007}. A dam break flow with a building downstream is simulated and the problem definition is depicted in figure \ref{experiment_sketch}. The channel is $3.4m$ width and the end of the dam is located at $x=0$. As initial conditions, the water depth is set to $0.4m$ in the reservoir, the channel is dry. The manning coefficient is $0.01ms^{-1}$ over all the domain. At the beginning of the simulation, the gate of the dam is removed and the water is allowed to flow around the building.
 
-Figure \ref{experiment_plots} shows several results of the water depth after the gate release and figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges.
+Figure \ref{experiment_plots} shows several results of the water depth after the gate release and figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges. An initial delay is observed in the propagation of the front in the gauges 1 to 5. The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
 Regarding the performance of that formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
 
 \begin{figure}[H]
@@ -844,7 +844,7 @@ Gauge number & X & Y \\ \hline
 
 \section{Concluding remarks} \label{sec:conclusions}
 
-We have extended the FIC-FEM procedure to the shallow water equations. Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. \Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA}
+We have extended the FIC-FEM procedure to the shallow water equations. Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA}
 
 Even though this method presents an equivalent structure with SUPG, a more general framework can be found in VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability.
 
