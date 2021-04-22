@@ -291,15 +291,15 @@ The FIC formulation is obtained introducing the residual of the shallow water eq
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
-    \omega_i r_j + \omega_k \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
+    \omega_i r_j + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
 \right) d\Omega = 0
 \end{equation}
 The second term of expression (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$ the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element, hence the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements, since there is a discontinuity
 
 \begin{equation} \label{variational_fic_parts}
 \int_\Omega \omega_k r_j d\Omega
-+ \int_\Omega \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
-+ \sum_e \int_{\Gamma_e} \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
++ \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
++ \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
 \end{equation}
 In this work we have neglected the boundary integrals assuming the residual $r_j$ is null at the boundary of the elements. Here we introduce the balance equation (\ref{residual}) and we integrate by parts the diffusive term
 
@@ -308,7 +308,7 @@ In this work we have neglected the boundary integrals assuming the residual $r_j
     \omega_k \pder{\Phi}{t} + \omega_k \mathbf{A}_i\pder{\Phi}{x_i}
     + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\Phi}{x_i} + \mathbf{S}\Phi + \mathbf{F}
 \right) d\Omega\\ +
-\int_\Omega \frac{l^e}{2\lambda} \left(
+\int_\Omega \frac{\beta l^e}{\lambda} \left(
     \pder{\omega_k}{x_j} \mathbf{A}_j \pder{\Phi}{t}
     + \pder{\omega_k}{x_j} \mathbf{A}_j\mathbf{A}_i\pder{\Phi}{x_i}
     + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{jk} \pder{\Phi}{x_i} \right. \\
@@ -317,7 +317,7 @@ In this work we have neglected the boundary integrals assuming the residual $r_j
 \right) d\Omega
 =0
 \end{multline}
-Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\frac{l^e}{2\lambda}$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
+Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\frac{\beta l^e}{\lambda}$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
 % \begin{framed}
 % Equivalence with SUPG and VMS if parallel projection are used.
 % \end{framed}
