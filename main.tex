@@ -318,9 +318,6 @@ In this work we have neglected the boundary integrals assuming the residual $r_j
 =0
 \end{multline}
 Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\frac{\beta l^e}{\lambda}$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
-% \begin{framed}
-% Equivalence with SUPG and VMS if parallel projection are used.
-% \end{framed}
 
 
 \subsection{Shock capturing}
@@ -591,19 +588,24 @@ We study the propagation of a wave in a channel with a backward step. The wave i
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization. The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
 The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001, 0.01, 0.1$. In that example, the shock capturing term is switch off.
 
-The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
-The lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
-
 \begin{figure}[H]
 \begin{subfigure}{\textwidth}
+    \centering
     \includegraphics[width=\textwidth]{img/step/free_surface_1.pdf}
+    \caption{Time from $0$ to $3s$}
 \end{subfigure}
 \begin{subfigure}{\textwidth}
+    \centering
     \includegraphics[width=\textwidth]{img/step/free_surface_2.pdf}
+    \caption{Time from $3$ to $6s$}
 \end{subfigure}
-\caption{Timestamps of the free surface along the cut AA' from the figure(\ref{step_mesh}). Above the wave is propagating from left to right at times from $0$ to $3s$. The results in the figure below represent the propagation of the reflected wave from right to left at times from $3$ to $6s$.}
+\caption{Timestamps of the free surface along the cut AA' from the figure(\ref{step_mesh}). In figure (a) the initial perturbation is propagating to the right. The results in figure (b) represent the propagation of the reflected wave from right to left.}
 \label{waves_propagation}
 \end{figure}
+
+
+The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
+In figures (\ref{stab_parameters_time1}) and (\ref{stab_parameters_time2}) can be observed that the lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
 
 
 \begin{figure}[H]
@@ -627,7 +629,7 @@ The lower value of $\beta$ is not enough to provide stability, while the higher 
 \begin{minipage}[c]{.94\textwidth}
     \includegraphics[width=\textwidth]{img/step/stab_0.1_time_1.pdf}        
 \end{minipage}
-\caption{Contour plots of the free surface elevation at time $t=1s$ for different stabilization factors. The upper figure with $\beta=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\beta=0.01$ and the lower figure shows an over diffusive result with $\beta=0.1$.}
+\caption{Contour plots of the free surface elevation at time $t=1s$ for different stabilization factors. (a) $\beta=0.001$, (b) $\beta=0.01$, (c) $\beta=0.1$}
 \label{stab_parameters_time1}
 \end{figure}
 
@@ -652,7 +654,7 @@ The lower value of $\beta$ is not enough to provide stability, while the higher 
     \begin{minipage}[c]{.94\textwidth}
         \includegraphics[width=\textwidth]{img/step/stab_0.1_time_5.pdf}        
     \end{minipage}
-\caption{Contour plots of the free surface elevation at time $t=5s$ for different stabilization factors. The upper figure with $\beta=0.001$ gives an oscillating solution, the middle figure shows a stabilized solution with $\beta=0.01$ and the lower figure shows an over diffusive result with $\beta=0.1$.}
+\caption{Contour plots of the free surface elevation at time $t=5s$ for different stabilization factors. (a) $\beta=0.001$, (b) $\beta=0.01$, (c) $\beta=0.1$}
 \label{stab_parameters_time2}
 \end{figure}
 
@@ -704,15 +706,6 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \begin{subfigure}{0.58\textwidth}
     \begin{tabular}{+>{\small}r^c^c^c^c} \hline
     $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
-%     205     & 0.25  &  0.002 & 0.041 & 0.211 \\ %0.0760 \\
-%     306     & 0.2   &  0.002 & 0.051 & 0.138 \\ %0.0496 \\
-%     1,111   & 0.1   &  0.002 &  0.10 & 0.106 \\ %0.0382 \\
-%     1,876   & 0.075 &  0.002 &  0.14 & 0.0619 \\ %0.0223 \\
-%     4,221   & 0.05  &  0.002 &  0.21 & 0.0336 \\ %0.0121 \\
-% \rowstyle{\bfseries}
-%     4,221   & 0.05  &  0.004 &  0.42 & 0.0347 \\ %0.0113 \\
-%     11,356  & 0.03  &  0.002 &  0.34 & inf \\
-%     101,101 & 0.01  &  0.0005 &  0.26 & inf \\ \hline
 205 & 0.25 & 0.008 & 0.5 & 0.24 \\
 1,111 & 0.1 & 0.003 & 0.5 & 0.064 \\
 4,221 & 0.05 & 0.002 & 0.5 & 0.023 \\
@@ -727,13 +720,17 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 
 \begin{figure}[H]
 \begin{subfigure}{\textwidth}
+    \centering
+    Time $t=0.5s$
     \includegraphics[width=\textwidth]{img/par/parabola_t0.5.pdf}
 \end{subfigure}
 \par\medskip
 \begin{subfigure}{\textwidth}
+    \centering
+    Time $t=1s$
     \includegraphics[width=\textwidth]{img/par/parabola_t1.0.pdf}
 \end{subfigure}
-\caption{Cuts along the mesh of size $0.03m$ at times $=0.5s$ (above) and $t=1s$ (below). There are 333 nodes along the cut.}
+\caption{Cuts along the mesh of size $0.03m$ at different times. There are 333 nodes on the cut.}
 \label{parabola_graphic}
 \end{figure}
 
@@ -799,17 +796,6 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
 \label{hydraulic_jump_convergence}
 \end{figure}
 
-% \begin{figure}[H]
-%     \begin{subfigure}{.49\textwidth}
-%         \includegraphics[width=\textwidth]{img/jump/height_convergence.pdf}
-%     \end{subfigure}
-%     \hfill
-%     \begin{subfigure}{.49\textwidth}
-%         \includegraphics[width=\textwidth]{img/jump/momentum_convergence.pdf}
-%     \end{subfigure}
-%     \caption{Convergence graphics for the water height (left) and discharge (right) for the short channel with smooth transition and shock.}
-%     \label{mac_donald_shock_convergence}
-% \end{figure}
 
 \begin{figure}
     \centering
