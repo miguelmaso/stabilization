@@ -273,35 +273,33 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
 \end{align}
 \end{subequations}
 
-%TODO: Ignasi - seguir per aqui
-
-In practice the FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations). In this paper is proposed a stabilization parameter oriented along the characteristics of the hyperbolic equations
+\Ignasi{\sout{In practice t}T}he FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations). In this paper \Ignasi{\sout{is proposed}we propose} a stabilization parameter \Ignasi{which is} oriented along the characteristics of the hyperbolic equations
 
 \begin{equation} \label{fic_sw}
 r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
-for consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. Note that this stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ is providing a weighting procedure among the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples section (\ref{sec:examples}).
+\Ignasi{\sout{f}F}or consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. Note that this stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ \Ignasi{\sout{is providing}provides} a weighting procedure \Ignasi{\sout{among}between} the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples \Ignasi{of} section \Ignasi{\sout{(}}\ref{sec:examples}\Ignasi{\sout{)}}.
 \begin{equation} \label{fic_sw_beta}
 r_j - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
 
-The FIC formulation is obtained introducing the residual of the shallow water equations (\ref{residual}) into the expression from Eq (\ref{fic_sw}). Finally, multiplying the equation by a test function $\omega_k$ and integrating over the domain $\Omega$ we obtain
+The FIC formulation is \Ignasi{\sout{obtained}the result of} introducing the residual of the shallow water equations (\ref{residual}) into the expression \Ignasi{\sout{from}in} Eq \Ignasi{\sout{(\ref{fic_sw})}(\ref{fic_sw_beta})}. \Ignasi{\sout{Finally,}The variational expression of the equation is obtained by} multiplying the equation by a test function $\omega_k$ and integrating over the domain $\Omega$ we obtain
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
     \omega_i r_j + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
 \right) d\Omega = 0
 \end{equation}
-The second term of expression (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$ the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element, hence the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements, since there is a discontinuity
+The second term of \Ignasi{the} expression (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$\Ignasi{,} the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element, hence the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements\Ignasi{\sout{, since there is a discontinuity} NO ACABO D'ENTENDRE AQUESTA ULTIMA FRASE QUE HE ESBORRAT}
 
 \begin{equation} \label{variational_fic_parts}
 \int_\Omega \omega_k r_j d\Omega
 + \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
 + \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
 \end{equation}
-In this work we have neglected the boundary integrals assuming the residual $r_j$ is null at the boundary of the elements. Here we introduce the balance equation (\ref{residual}) and we integrate by parts the diffusive term
+In this work we \Ignasi{\sout{have}} neglect\Ignasi{\sout{ed}} the boundary integrals assuming \Ignasi{that} the residual $r_j$ is null at the boundary of the elements. \Ignasi{\sout{Here}At this point} we introduce the balance equation (\ref{residual}) and \Ignasi{\sout{we}} integrate by parts the diffusive term
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
@@ -317,20 +315,20 @@ In this work we have neglected the boundary integrals assuming the residual $r_j
 \right) d\Omega
 =0
 \end{multline}
-Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\frac{\beta l^e}{\lambda}$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
-
+Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter \Ignasi{$\beta l^e/\lambda$} is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
 
 \subsection{Shock capturing}
 
-In this section we explore other possibilities of the characteristic length definition in order to obtain a shock capturing stabilization. In this case, the mass balance and the momentum balance are considered separately and the characteristic length is projected onto the gradient of the unknown
+In this section we explore other possibilities of the characteristic length definition in order to obtain a shock capturing stabilization. \Ignasi{\sout{In this case}Here}, the mass balance and the momentum balance are considered separately and the characteristic length is projected onto the gradient of the unknown
 
-\begin{subequations}
+\begin{subequations} \label{eq:shock_capt}
 \begin{align}
-r_i^q + \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \\
-r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0
+r_i^q + \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \label{eq:shock_capt_a}\\ 
+r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:shock_capt_b}
 \end{align}
 \end{subequations}
-It is possible to obtain a variational formulation multiplying by a test function $\omega_k$ and integrating over the domain in the same way as in equation \ref{variational_fic}, and then integrating by parts:
+
+\Ignasi{\sout{It is possible to obtain a variational formulation m}M}ultiplying \Ignasi{the momentum balance equation (\ref{eq:shock_capt_a})} by a \Ignasi{proper} test function $\omega_k$ \Ignasi{,\sout{and}} integrating over the domain in the same way as in equation \ref{variational_fic}, and then integrating by parts \Ignasi{, one obtains its variational form}:
 
 \begin{align}    
 \int_\Omega \omega_k r_i^q d\Omega
@@ -354,7 +352,8 @@ It is possible to obtain a variational formulation multiplying by a test functio
     \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}r_i^q \right) d\Omega
     &= 0
 \end{align}
-After the integration by parts, the last two terms are dropped because involve derivatives of the characteristic and can be transformed into a boundary integral. The same procedure is applied to the mass balance equation and we obtain the following expressions for both unknowns
+
+After the integration by parts, the last two terms are dropped because \Ignasi{they} involve derivatives of the characteristic \Ignasi{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral. The same procedure is applied to the mass balance equation and we obtain the following expressions for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
 \begin{align}
 \int_\Omega \omega_k r_i^q d\Omega 
@@ -377,13 +376,14 @@ k_{art} = \frac{1}{2}\alpha l_e \frac{\abs{R(h)}}{\abs{\nabla h}}
 \end{equation}
 \end{subequations}
 where $\alpha$ is an algorithmic constant.
-This approach can be refined introducing stabilization along the streamlines, therefore $k_{art}$ and $\nu_{art}$ needs to be added only in the crosswind direction. This is accomplished by adding a diffusive term with the orthogonal tensor
+
+\Ignasi{\sout{This}Such} approach can be refined \Ignasi{by} introducing \Ignasi{the} stabilization along the streamlines \Ignasi{\sout{,}. This way,\sout{therefore}} $k_{art}$ and $\nu_{art}$ need\Ignasi{\sout{s}} to be added only in the crosswind direction. \Ignasi{\sout{This is accomplished by adding a} The} diffusive term \Ignasi{is added} with the \Ignasi{following} orthogonal tensor
 
 \begin{equation}
 \mathbf{D}_{art} = k_{art}
 \left( \mathbf{I} - \frac{1}{\abs{\mathbf{u}}^2} \mathbf{u} \otimes \mathbf{u} \right)
 \end{equation}
-The viscosity is introduced with a fourth order tensor in the crosswind direction using Voigt's notation:
+\Ignasi{\sout{T}And t}he viscosity is introduced with a fourth order tensor in the crosswind direction using Voigt's notation:
 \begin{subequations}
 \begin{equation}
 \mathbf{C}_{art} = \nu_{art} \mathbf{I}_4 \mathbf{O}
@@ -396,12 +396,11 @@ The viscosity is introduced with a fourth order tensor in the crosswind directio
 \end{matrix}\right]
 \end{equation}
 \end{subequations}
-where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses derived from equation (\ref{stresses}) and will be defined in section (\ref{sec:fem}).
-
+where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses\Ignasi{, which is} derived from equation (\ref{stresses}) and will be defined in section \Ignasi{\sout{(}}\ref{sec:fem}\Ignasi{\sout{)}}.
 
 \section{Finite element formulation} \label{sec:fem} 
 
-It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface \cite{hood1974,heniche2000,bercovier1979} in order to develop stable finite elements formulations. In this research we restrict ourselves to use linear triangles to both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is stable. For that reason, the terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stables.
+It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface in order to develop stable finite elements formulations \Ignasi{\cite{hood1974,heniche2000,bercovier1979}}. In this research we restrict ourselves to use linear triangles \Ignasi{\sout{to}for} both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is stable. For that reason, \Ignasi{all\sout{the}} terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stables.
 
 \subsection{Spatial discretization}
 
@@ -410,12 +409,12 @@ A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ 
 \begin{equation}
 \phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai}
 \end{equation}
-where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. The dot $\dot\Phi_h$ means temporal derivative. Following the Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) ins combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
+where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. The dot $\dot\Phi_h$ means temporal derivative. Following the Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) i\Ignasi{\sout{n}}s combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
 [\mathbf{M} + \mathbf{M}_K] \dot{\Phi}_h
 + [\mathbf{G} + \mathbf{G}_K + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_K] \Phi_h
 = \mathbf{F} + \mathbf{F}_K
-\end{equation}
+\end{equation}%TODO: Ignasi - seguir per aqui
 The matrices from equation (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}), the matrices with subscript K correspond the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices from equation (\ref{discrete_sw}) are defined as
 
 \begin{align}
