@@ -251,13 +251,15 @@ r_j \defeq
   -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{F} \qquad j\in\{1,n_d\}
 \end{equation}
 
-\IgnasiCorregit{\sout{It is well known that i}}In the one dimensional case ($n_d=1$) \Ignasi{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization has a unique definition and the stabilization parameter $l^e$ is usually the element length \cite{onate1998}\IgnasiCorregit{[CITA]}
+In the one dimensional case ($n_d=1$) \Ignasi{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization has a unique definition and the stabilization parameter $l^e$ is usually the element length \cite{onate1998}
 
 \begin{equation}
 r - \frac{1}{2}l^e\pder{r}{x} = 0
 \end{equation}
 
-However, in two or three dimensional cases, or when the number of\IgnasiCorregit{\sout{greater space dimensions $n_d$ or more than one} two or three dimensional cases, or when the number of} balance equations $n_b$ is different than $n_d$\IgnasiCorregit{is larger than one}, the choice of the $l^e$ parameter is nontrivial \IgnasiCorregit{\sout{non trivial} nontrivial}. Several approaches can be found in the literature.\IgnasiCorregit{\sout{defined} found in the literature. \sout{, taking} \cite{onate1998} took} \cite{onate1998} took $l^e$ as a vector, \IgnasiCorregit{but}but in later publications \IgnasiCorregit{\sout{Oñate} such as}such as \cite{onate2001} \IgnasiCorregit{\sout{presented}} a generalized formulation for different $n_d$ and $n_b$ was presented.\IgnasiCorregit{was presented. \sout{, f}F} For the stabilization of the Navier-Stokes equations \IgnasiCorregit{\sout{Cotela}} \cite{cotela2016} proposed different projections of the element size over the velocity and over \IgnasiCorregit{and \sout{or projecting it onto} over} the velocity gradient. To sum up, the different forms of the residual for the FIC stabilization can be written as \IgnasiCorregit{To sum up, the different forms of the residual for the FIC stabilization can be written as}
+However, in two or three dimensional cases, or when the number of balance equations $n_b$ is different than $n_d$, the choice of the $l^e$ parameter is nontrivial.
+Several approaches can be found in the literature. \cite{onate1998} took $l^e$ as a vector, but in later publications such as \cite{onate2001} a generalized formulation for different $n_d$ and $n_b$ was presented.
+For the stabilization of the Navier-Stokes equations \cite{cotela2016} proposed different projections of the element size over the velocity and over the velocity gradient. To sum up, the different forms of the residual for the FIC stabilization can be written as
 
 \begin{subequations}
 \begin{align}
@@ -270,33 +272,33 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
 \end{align}
 \end{subequations}
 
-\Ignasi{\sout{In practice t}T}he FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations). In this paper \Ignasi{\sout{is proposed}we propose} a stabilization parameter \Ignasi{which is} oriented along the characteristics of the hyperbolic equations
+The FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations). In this paper we propose a stabilization parameter which is oriented along the characteristics of the hyperbolic equations
 
 \begin{equation} \label{fic_sw}
 r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
-\Ignasi{\sout{f}F}or consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. Note that this stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ \Ignasi{\sout{is providing}provides} a weighting procedure \Ignasi{\sout{among}between} the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples \Ignasi{of} section \Ignasi{\sout{(}}\ref{sec:examples}\Ignasi{\sout{)}}.
+For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. Note that this stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of section \ref{sec:examples}.
 \begin{equation} \label{fic_sw_beta}
 r_j - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
 
-The FIC formulation is \Ignasi{\sout{obtained}the result of} introducing the residual of the shallow water equations (\ref{residual}) into the expression \Ignasi{\sout{from}in} Eq \Ignasi{\sout{(\ref{fic_sw})}(\ref{fic_sw_beta})}. \Ignasi{\sout{Finally,}The variational expression of the equation is obtained by} multiplying the equation by a test function $\omega_k$ and integrating over the domain $\Omega$ we obtain
+The FIC formulation is the result of introducing the residual of the shallow water equations (\ref{residual}) into the expression in Eq (\ref{fic_sw_beta}). The variational expression of the equation is obtained by multiplying the equation by a test function $\omega_k$ and integrating over the domain $\Omega$ we obtain
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
     \omega_i r_j + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
 \right) d\Omega = 0
 \end{equation}
-The second term of \Ignasi{the} expression (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$\Ignasi{,} the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element, hence the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements\Ignasi{\sout{, since there is a discontinuity} NO ACABO D'ENTENDRE AQUESTA ULTIMA FRASE QUE HE ESBORRAT}
+The second term of the expression (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element, hence the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements
 
 \begin{equation} \label{variational_fic_parts}
 \int_\Omega \omega_k r_j d\Omega
 + \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
 + \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
 \end{equation}
-In this work we \Ignasi{\sout{have}} neglect\Ignasi{\sout{ed}} the boundary integrals assuming \Ignasi{that} the residual $r_j$ is null at the boundary of the elements. \Ignasi{\sout{Here}At this point} we introduce the balance equation (\ref{residual}) and \Ignasi{\sout{we}} integrate by parts the diffusive term
+In this work we neglect the boundary integrals assuming that the residual $r_j$ is null at the boundary of the elements. At this point we introduce the balance equation (\ref{residual}) and integrate by parts the diffusive term
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
@@ -312,11 +314,11 @@ In this work we \Ignasi{\sout{have}} neglect\Ignasi{\sout{ed}} the boundary inte
 \right) d\Omega
 =0
 \end{multline}
-Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter \Ignasi{$\beta l^e/\lambda$} is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
+Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\beta l^e/\lambda$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS \cite{cotela2016}.
 
 \subsection{Shock capturing}
 
-In this section we explore other possibilities of the characteristic length definition in order to obtain a shock capturing stabilization. \Ignasi{\sout{In this case}Here}, the mass balance and the momentum balance are considered separately and the characteristic length is projected onto the gradient of the unknown
+In this section we explore other possibilities of the characteristic length definition in order to obtain a shock capturing stabilization. Here, the mass balance and the momentum balance are considered separately and the characteristic length is projected onto the gradient of the unknown
 
 \begin{subequations} \label{eq:shock_capt}
 \begin{align}
@@ -325,7 +327,7 @@ r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:s
 \end{align}
 \end{subequations}
 
-\Ignasi{\sout{It is possible to obtain a variational formulation m}M}ultiplying \Ignasi{the momentum balance equation (\ref{eq:shock_capt_a})} by a \Ignasi{proper} test function $\omega_k$ \Ignasi{,\sout{and}} integrating over the domain in the same way as in equation \ref{variational_fic}, and then integrating by parts \Ignasi{, one obtains its variational form}:
+Multiplying the momentum balance equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in equation \ref{variational_fic}, and then integrating by parts, one obtains its variational form:
 
 \begin{align}    
 \int_\Omega \omega_k r_i^q d\Omega
@@ -350,7 +352,7 @@ r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:s
     &= 0
 \end{align}
 
-After the integration by parts, the last two terms are dropped because \Ignasi{they} involve derivatives of the characteristic \Ignasi{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral. The same procedure is applied to the mass balance equation and we obtain the following expressions for both unknowns
+After the integration by parts, the last two terms are dropped because they involve derivatives of the characteristic length\IgnasiCorregit{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral. The same procedure is applied to the mass balance equation and we obtain the following expressions for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
 \begin{align}
 \int_\Omega \omega_k r_i^q d\Omega 
@@ -374,13 +376,13 @@ k_{art} = \frac{1}{2}\alpha l_e \frac{\abs{R(h)}}{\abs{\nabla h}}
 \end{subequations}
 where $\alpha$ is an algorithmic constant.
 
-\Ignasi{\sout{This}Such} approach can be refined \Ignasi{by} introducing \Ignasi{the} stabilization along the streamlines \Ignasi{\sout{,}. This way,\sout{therefore}} $k_{art}$ and $\nu_{art}$ need\Ignasi{\sout{s}} to be added only in the crosswind direction. \Ignasi{\sout{This is accomplished by adding a} The} diffusive term \Ignasi{is added} with the \Ignasi{following} orthogonal tensor
+Such approach can be refined by introducing the stabilization along the streamlines. This way, $k_{art}$ and $\nu_{art}$ need to be added only in the crosswind direction. The diffusive term is added with the following orthogonal tensor
 
 \begin{equation}
 \mathbf{D}_{art} = k_{art}
 \left( \mathbf{I} - \frac{1}{\abs{\mathbf{u}}^2} \mathbf{u} \otimes \mathbf{u} \right)
 \end{equation}
-\Ignasi{\sout{T}And t}he viscosity is introduced with a fourth order tensor in the crosswind direction using Voigt's notation:
+And the viscosity is introduced with a fourth order tensor in the crosswind direction using Voigt's notation:
 \begin{subequations}
 \begin{equation}
 \mathbf{C}_{art} = \nu_{art} \mathbf{I}_4 \mathbf{O}
@@ -393,11 +395,11 @@ where $\alpha$ is an algorithmic constant.
 \end{matrix}\right]
 \end{equation}
 \end{subequations}
-where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses\Ignasi{, which is} derived from equation (\ref{stresses}) and will be defined in section \Ignasi{\sout{(}}\ref{sec:fem}\Ignasi{\sout{)}} \Ignasi{JO POTSER DEFINIRIA $\mathbf{I}_4$ AQUI PERO TAMPOC ES CRITIC AIXO}.
+where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses, which is derived from equation (\ref{stresses}) and will be defined in section \ref{sec:fem}\IgnasiCorregit{JO POTSER DEFINIRIA $\mathbf{I}_4$ AQUI PERO TAMPOC ES CRITIC AIXO}.
 
 \section{Finite element formulation} \label{sec:fem} 
 
-It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface in order to develop stable finite elements formulations \Ignasi{\cite{hood1974,heniche2000,bercovier1979}}. In this research we restrict ourselves to use linear triangles \Ignasi{\sout{to}for} both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is stable. For that reason, \Ignasi{all\sout{the}} terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stables.
+It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface in order to develop stable finite elements formulations \cite{hood1974,heniche2000,bercovier1979}. In this research we restrict ourselves to use linear triangles for both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is stable. For that reason, all terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stables.
 
 \subsection{Spatial discretization}
 
@@ -406,13 +408,13 @@ A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ 
 \begin{equation}
 \phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai}
 \end{equation}
-where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. The dot $\dot\Phi_h$ means temporal derivative. Following the Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) i\Ignasi{\sout{n}}s combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
+where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. The dot $\dot\Phi_h$ means temporal derivative. Following the Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
 [\mathbf{M} + \mathbf{M}_K] \dot{\Phi}_h
 + [\mathbf{G} + \mathbf{G}_K + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_K] \Phi_h
 = \mathbf{F} + \mathbf{F}_K
 \end{equation}
-The matrices from equation (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}), the matrices with subscript K correspond \Ignasi{to} the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices from equation (\ref{discrete_sw}) are defined as
+The matrices from equation (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}), the matrices with subscript K correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices from equation (\ref{discrete_sw}) are defined as
 
 \begin{align}
     \displaystyle \mathbf{M}^{ab} &= \int_{\Omega_e}N_a \mathbf{I} N_b d\Omega &
@@ -467,11 +469,11 @@ The stabilization and shock capturing terms from equation (\ref{discrete_sw}) re
 
 \subsection{Temporal integration}
 
-The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in \Ignasi{the following} compact form \Ignasi{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
+The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form \Ignasi{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
 \begin{equation} \label{discrete_compact}
 \mathbf{M}\dot{\Phi}_h + \mathbf{K}\Phi_h = \mathbf{F}
 \end{equation}
-We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \Ignasi{[CITA]}. The system in a discrete time domain yields
+We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
 \mathbf{M}\dot{\Phi}_h^{n+1} + \mathbf{K}^{n+1}\Phi_h^{n+1} = \mathbf{F}^{n+1} \\
@@ -509,7 +511,7 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 
 \subsection{Dry domain model}
 
-When small or quasi zero water depths are involved in simulations\Ignasi{,} some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. \Ignasi{In this section we review the challenges associated to such problem, and the way we have circumvented them.}
+When small or quasi zero water depths are involved in simulations, some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. In this section we review the challenges associated to such problem, and the way we have circumvented them.
 
 \paragraph{Recovery of the velocity field}
 The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height and this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
@@ -517,16 +519,16 @@ The first issue is the computation of the velocity field, since it involves the 
 \begin{equation} \label{h_inv_kurganov}
 h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
 \end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes: \Ignasi{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
+where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes: \IgnasiCorregit{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
 
 \begin{equation}
-\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
+\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
 \end{equation}
-This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expression\Ignasi{\sout{s}} (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$. \Ignasi{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
+where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$. \Ignasi{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
 
 
 \paragraph{Partially wet elements}
-At the elements where the shoreline is located\Ignasi{,} the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved \Ignasi{by} introducing a modified topography and imposing equilibrium:
+At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (see figure \ref{partially_dry}). This is achieved by introducing a modified topography and imposing equilibrium:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -539,21 +541,22 @@ At the elements where the shoreline is located\Ignasi{,} the interpolated water 
 \end{figure}
 
 \paragraph{Avoiding the singularity of the system matrix}
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (\Ignasi{\sout{but}although} not \Ignasi{the \sout{more}most} accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
 
 \begin{equation}
-\mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(1, 1, 0)
+\mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
-The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction as
+The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
 \begin{equation}
-\eta = hh^{-1}_k
+\omega = hh^{-1}_k
 \end{equation}
-and \Ignasi{so $\alpha$ is defined as} \Ignasi{CREC QUE EL SIMBOL $\alpha$ JA L'HAVIES UTILITZAT ABANS}
+and so $\xi$ is defined as \IgnasiCorregit{CREC QUE EL SIMBOL $\alpha$ JA L'HAVIES UTILITZAT ABANS}
 \begin{equation}
-\alpha = k(1-\eta)
+\xi = k(1-\omega)
 \end{equation}
-In our numerical experiments we have chosen $k=10^3$. See the figure \Ignasi{\sout{(}}\ref{inverse_heihgt}\Ignasi{\sout{)}}. \Ignasi{NO ACABO D'ENTENDRE QUÈ MOSTRES A LA FIGURA \ref{inverse_heihgt}}
+In our numerical experiments we have chosen $k=10^3$.
+%See the figure \Ignasi{\sout{(}}\ref{inverse_heihgt}\Ignasi{\sout{)}}. \Ignasi{NO ACABO D'ENTENDRE QUÈ MOSTRES A LA FIGURA \ref{inverse_heihgt}}
 
 \begin{figure}
     \centering
