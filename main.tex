@@ -396,7 +396,7 @@ where $\alpha$ is an algorithmic constant.
 \end{matrix}\right]
 \end{equation}
 \end{subequations}
-where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses\Ignasi{, which is} derived from equation (\ref{stresses}) and will be defined in section \Ignasi{\sout{(}}\ref{sec:fem}\Ignasi{\sout{)}}.
+where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses\Ignasi{, which is} derived from equation (\ref{stresses}) and will be defined in section \Ignasi{\sout{(}}\ref{sec:fem}\Ignasi{\sout{)}} \Ignasi{JO POTSER DEFINIRIA $\mathbf{I}_4$ AQUI PERO TAMPOC ES CRITIC AIXO}.
 
 \section{Finite element formulation} \label{sec:fem} 
 
@@ -414,8 +414,8 @@ where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$
 [\mathbf{M} + \mathbf{M}_K] \dot{\Phi}_h
 + [\mathbf{G} + \mathbf{G}_K + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_K] \Phi_h
 = \mathbf{F} + \mathbf{F}_K
-\end{equation}%TODO: Ignasi - seguir per aqui
-The matrices from equation (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}), the matrices with subscript K correspond the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices from equation (\ref{discrete_sw}) are defined as
+\end{equation}
+The matrices from equation (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}), the matrices with subscript K correspond \Ignasi{to} the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices from equation (\ref{discrete_sw}) are defined as
 
 \begin{align}
     \displaystyle \mathbf{M}^{ab} &= \int_{\Omega_e}N_a \mathbf{I} N_b d\Omega &
@@ -470,11 +470,11 @@ The stabilization and shock capturing terms from equation (\ref{discrete_sw}) re
 
 \subsection{Temporal integration}
 
-The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in compact form 
+The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in \Ignasi{the following} compact form \Ignasi{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
 \begin{equation} \label{discrete_compact}
 \mathbf{M}\dot{\Phi}_h + \mathbf{K}\Phi_h = \mathbf{F}
 \end{equation}
-We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme. The system in a discrete time domain yields
+We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \Ignasi{[CITA]}. The system in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
 \mathbf{M}\dot{\Phi}_h^{n+1} + \mathbf{K}^{n+1}\Phi_h^{n+1} = \mathbf{F}^{n+1} \\
@@ -499,7 +499,7 @@ with
 
 The solution of this implicit system requires an iterative procedure which is defined in an incremental way as
 $\Phi_h^{n+1,i+1} = \Phi_h^{n+1,i} + \delta\Phi_h^i$
-where the superscript $i$ denotes the non linear iteration. This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration:
+where the superscript $i$ denotes the non linear iteration.\Ignasi{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\Phi_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration: \Ignasi{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT? D'ALTRA BANDA, AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?}
 \begin{equation}
 [\beta_0\mathbf{M} + \mathbf{K}^{n+1}] \delta\Phi_h^i
 = \mathbf{F}^{n+1,i} - \mathbf{K}^{n+1,i}\Phi_h^{n+1,i} - \mathbf{M}\dot{\Phi}_h^{n+1,i}
@@ -510,10 +510,9 @@ The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a predictio
 \end{equation}
 
 
-
 \subsection{Dry domain model}
 
-When small or quasi zero water depths are involved in simulations some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. 
+When small or quasi zero water depths are involved in simulations\Ignasi{,} some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. \Ignasi{In this section we review the challenges associated to such problem, and the way we have circumvented them.}
 
 \paragraph{Recovery of the velocity field}
 The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height and this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure, first of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
@@ -521,16 +520,16 @@ The first issue is the computation of the velocity field, since it involves the 
 \begin{equation} \label{h_inv_kurganov}
 h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
 \end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes:
+where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes: \Ignasi{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
 
 \begin{equation}
 \mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M}_c \mathbf{q}
 \end{equation}
-This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expressions (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$.
+This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expression\Ignasi{\sout{s}} (\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$. \Ignasi{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
 
 
 \paragraph{Partially wet elements}
-At the elements where the shoreline is located the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved introducing a modified topography and imposing equilibrium:
+At the elements where the shoreline is located\Ignasi{,} the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy \emph{equilibrium at rest} (see figure \ref{partially_dry}). This is achieved \Ignasi{by} introducing a modified topography and imposing equilibrium:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -543,7 +542,7 @@ At the elements where the shoreline is located the interpolated water depth will
 \end{figure}
 
 \paragraph{Avoiding the singularity of the system matrix}
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (but not more accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (\Ignasi{\sout{but}although} not \Ignasi{the \sout{more}most} accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation:
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \alpha\,\text{diag}(1, 1, 0)
@@ -553,11 +552,11 @@ The selection of the areas where there is a dry domain is controlled with a wet 
 \begin{equation}
 \eta = hh^{-1}_k
 \end{equation}
-and
+and \Ignasi{so $\alpha$ is defined as} \Ignasi{CREC QUE EL SIMBOL $\alpha$ JA L'HAVIES UTILITZAT ABANS}
 \begin{equation}
 \alpha = k(1-\eta)
 \end{equation}
-In our numerical experiments we have chosen $k=10^3$. See the figure (\ref{inverse_heihgt}).
+In our numerical experiments we have chosen $k=10^3$. See the figure \Ignasi{\sout{(}}\ref{inverse_heihgt}\Ignasi{\sout{)}}. \Ignasi{NO ACABO D'ENTENDRE QUÈ MOSTRES A LA FIGURA \ref{inverse_heihgt}}
 
 \begin{figure}
     \centering
@@ -566,6 +565,7 @@ In our numerical experiments we have chosen $k=10^3$. See the figure (\ref{inver
     \label{inverse_heihgt}
 \end{figure}
 
+%TODO: Ignasi - seguir per aqui
 
 \section{Examples} \label{sec:examples}
 
@@ -876,13 +876,13 @@ Gauge number & X & Y \\ \hline
 
 \section{Concluding remarks} \label{sec:conclusions}
 
-We have extended the FIC-FEM procedure to the shallow water equations. Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA}
+We have extended the FIC-FEM procedure to the shallow water equations. Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA} \Ignasi{ESTIC D'ACORD, FES UNA ACLARACIO D'AIXO}
 
-Even though this method presents an equivalent structure with SUPG, a more general framework can be found in VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability.
+Even though this method presents an equivalent structure \Ignasi{\sout{with}as} SUPG, a more general framework can be found in VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms.\Ignasi{NO ENTENC PERQUE PARLES DE L'ESTABILITZACIO VMS AQUI. HA DE QUEDAR CLAR QUINA ES L'APORTACIO DEL PAPER EN RELACIO A L'ESTABILITZACIO PRESENTADA} Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability.
 
-The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have choose $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing.
+The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have choose $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing. \Ignasi{REVISA QUE NO HAGIS REPETIT EL SIMBOL $\alpha$ PER A VARIS SIGNIFICATS}
 
-The present FIC-FEM procedure has been able to produce accurate results for the examples considered.
+The present FIC-FEM procedure has been able to produce accurate results for the examples considered. \Ignasi{JO AFEGIRIA UN PETIT PARAGRAF RESUMINT ELS RESULTATS OBTINGUTS ALS EXEMPLES. (NO DETALLAT, NOMES UNES PINCELLADES)}
 
 
 
