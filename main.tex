@@ -469,14 +469,15 @@ The stabilization and shock capturing terms from equation (\ref{discrete_sw}) re
 
 \subsection{Temporal integration}
 
-The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form \Ignasi{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
+The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form \IgnasiCorregit{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
 \begin{equation} \label{discrete_compact}
-\mathbf{M}\dot{\Phi}_h + \mathbf{K}\Phi_h = \mathbf{F}
+\tilde{\mathbf{M}}\dot{\Phi}_h + \tilde{\mathbf{K}}\Phi_h = \tilde{\mathbf{F}}
 \end{equation}
+where the tilde symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
 We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
-\mathbf{M}\dot{\Phi}_h^{n+1} + \mathbf{K}^{n+1}\Phi_h^{n+1} = \mathbf{F}^{n+1} \\
+\tilde{\mathbf{M}}\dot{\Phi}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\Phi_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
 \dot{\Phi}_h^{n+1} = \beta_0 \Phi_h^{n+1} + \beta_1 \Phi_h^n + \beta_2 \Phi_h^{n-1}
 \end{split}
 \end{equation}
@@ -498,10 +499,11 @@ with
 
 The solution of this implicit system requires an iterative procedure which is defined in an incremental way as
 $\Phi_h^{n+1,i+1} = \Phi_h^{n+1,i} + \delta\Phi_h^i$
-where the superscript $i$ denotes the non linear iteration.\Ignasi{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\Phi_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration: \Ignasi{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT? D'ALTRA BANDA, AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?}
+where the superscript $i$ denotes the non linear iteration.\IgnasiCorregit{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\Phi_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration:
+\IgnasiCorregit{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT?}\Ignasi{AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?} \Miguel{ÉS NEWTON-RAPHSON}
 \begin{equation}
-[\beta_0\mathbf{M} + \mathbf{K}^{n+1}] \delta\Phi_h^i
-= \mathbf{F}^{n+1,i} - \mathbf{K}^{n+1,i}\Phi_h^{n+1,i} - \mathbf{M}\dot{\Phi}_h^{n+1,i}
+[\beta_0\tilde{\mathbf{M}} + \tilde{\mathbf{K}}^{n+1,i}] \delta\Phi_h^i
+= \tilde{\mathbf{F}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\Phi_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\Phi}_h^{n+1,i}
 \end{equation}
 The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a prediction given from the BDF formula at the last time step:
 \begin{equation}
@@ -524,11 +526,14 @@ where $\varepsilon$ is a threshold which depends on the elements size, usually $
 \begin{equation}
 \mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
 \end{equation}
-where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema. Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the original expression is recovered when $h>\varepsilon$. \Ignasi{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
+where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema.
+Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.\IgnasiCorregit{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
 
 
 \paragraph{Partially wet elements}
-At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface. Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water. We have chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (see figure \ref{partially_dry}). This is achieved by introducing a modified topography and imposing equilibrium:
+At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface.
+Therefore those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water.
+We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (see figure \ref{partially_dry}). This is achieved by introducing a modified topography and imposing equilibrium:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
