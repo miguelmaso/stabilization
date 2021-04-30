@@ -580,6 +580,8 @@ This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, d
 
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue\Ignasi{.\sout{and}Also, }a calibration of the stabilization parameter is performed \Ignasi{to optimize the effect of the stabilization terms in the obtained solution}.
 We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. 
+The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (see figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
+The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In that example, the shock capturing term is disabled.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/step/mesh.pdf}
@@ -601,14 +603,14 @@ The time step is set automatically to keep a Courant number equal to $1.0$ at ev
     \includegraphics[width=\textwidth]{img/step/free_surface_2.pdf}
     \caption{Time from $3$ to $6s$}
 \end{subfigure}
-\caption{Timestamps of the free surface along the cut AA' from the figure(\ref{step_mesh}). In figure (a) the initial perturbation is propagating to the right. The results in figure (b) represent the propagation of the reflected wave from right to left.}
+\caption{Timestamps of the free surface along the cut AA' from the figure \ref{step_mesh}. In figure (a) the initial perturbation is propagating to the right. The results in figure (b) represent the propagation of the reflected wave from right to left.}
 \label{waves_propagation}
 \end{figure}
 
 \Ignasi{HAS DE CITAR TOTES LES FIGURES I DONAR UNA PETITA EXPLICACIO DEL QUE HI MOSTRES. ELS PEUS DE FIGURA PODEN SER MES BREUS AIXI.}
 
 The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
-In figures (\ref{stab_parameters_time1}) and (\ref{stab_parameters_time2}) can be observed that the lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
+In figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} can be observed that the lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
 
 %TODO: Ignasi - seguir per aqui
 
@@ -695,6 +697,10 @@ x_1(t) = -\frac{1}{2}\cos(2Bt) - a + \frac{L}{2} \\
 x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
+
+The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. All the meshes employed are listed in table \ref{parabola_convergence} and figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water begins to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh, the most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
+
+Figure \ref{parabola_results} show the results using the finer mesh. The discretization is not shown for the sake of simplicity. As expected, there is no transversal variation on the results.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/par/mesh_0.1.pdf}
