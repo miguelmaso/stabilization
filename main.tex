@@ -695,6 +695,10 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
 
+The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. All the meshes employed are listed in table \ref{parabola_convergence} and figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water begins to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh, the most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
+
+Figure \ref{parabola_results} show the results using the finer mesh. The discretization is not shown for the sake of simplicity. As expected, there is no transversal variation on the results.
+
 \begin{figure}
     \includegraphics[width=\textwidth]{img/par/mesh_0.1.pdf}
     \caption{One of the meshes used to test the parabolic basin benchmark. The current element size is $0.1m$.}
