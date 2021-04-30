@@ -849,6 +849,8 @@ A dam break flow with a building downstream is simulated and the problem definit
 As initial conditions, the water depth is set to $0.4m$ in the reservoir, the channel is dry. The manning coefficient is $0.01ms^{-1}$ over all the domain.
 At the beginning of the simulation, the gate of the dam is removed and the water is allowed to flow around the building.
 
+The domain is discretized with a mesh with an average element size of $0.05m$. There are 115.000 elements and the time step is computed to keep a courant number of 1.0. In figure \ref{experiment_mesh} there are two details of the mesh, near the dam and around the building.
+
 Figure \ref{experiment_plots} shows several results of the water depth after the gate release and figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges. An initial delay is observed in the propagation of the front in the gauges 1 to 5.
 The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
 Regarding the performance of that formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
