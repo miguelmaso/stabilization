@@ -521,7 +521,7 @@ The first issue is the computation of the velocity field, since it involves the 
 \begin{equation} \label{h_inv_kurganov}
 h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
 \end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. The second step in the velocity computation is a diffusive projection on the nodes: \IgnasiCorregit{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
+where $\varepsilon$ is a threshold which depends on the elements size, usually $\varepsilon = 0.1 l_e$ is chosen. There is a dimensionless representation of equation (\ref{h_inv_kurganov}) in figure \ref{inverse_heihgt}. The second step in the velocity computation is a diffusive projection on the nodes: \IgnasiCorregit{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
 
 \begin{equation}
 \mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
@@ -552,7 +552,7 @@ Since all the elements are included in the computational domain, the last issue 
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
-The selection of the areas where there is a dry domain is controlled with a wet fraction function. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
+The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in figure \ref{inverse_heihgt}. The expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
 \begin{equation}
 \omega = hh^{-1}_k
 \end{equation}
@@ -884,7 +884,9 @@ Gauge number & X & Y \\ \hline
 We have extended the FIC-FEM procedure to the shallow water equations. Unlike the FIC-based stabilizations for incompressible flows, the present procedure is applied to the coupled mass and momentum balance at the same time using the linearization matrix $\mathbf{A}_i$. It can be seen that this procedure casts to the classical FIC-stabilization for convection diffusion problems, taking the velocity $u_i$ as linearization term. The same procedure can be applied to develop stabilized formulations for compressible flows.
 %Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA} \Ignasi{ESTIC D'ACORD, FES UNA ACLARACIO D'AIXO}
 
-((Even though this method presents an equivalent structure as SUPG, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. However, since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability.)) \Ignasi{NO ENTENC PERQUE PARLES DE L'ESTABILITZACIO VMS AQUI. HA DE QUEDAR CLAR QUINA ES L'APORTACIO DEL PAPER EN RELACIO A L'ESTABILITZACIO PRESENTADA} \Miguel{AQUÍ ESTIC PARLANT DEL LIMITS DE L'APORTACIÓ.}
+The present extension of the FIC-procedure to the shallow water equations uses the linearization matrix $\mathbf{A}_i$ for the fluxes term to project the characteristic length. However, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in section \ref{sec:examples}.
+%((Even though this method presents an equivalent structure as SUPG, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. However, since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in section \ref{sec:examples}))
+%\Ignasi{NO ENTENC PERQUE PARLES DE L'ESTABILITZACIO VMS AQUI. HA DE QUEDAR CLAR QUINA ES L'APORTACIO DEL PAPER EN RELACIO A L'ESTABILITZACIO PRESENTADA} \Miguel{AQUÍ ESTIC PARLANT DEL LIMITS DE L'APORTACIÓ.}
 
 The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have chosen $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing. \IgnasiCorregit{REVISA QUE NO HAGIS REPETIT EL SIMBOL $\alpha$ PER A VARIS SIGNIFICATS}
 
