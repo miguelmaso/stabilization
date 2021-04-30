@@ -573,12 +573,14 @@ In our numerical experiments we have chosen $k=10^3$.
 
 \section{Examples} \label{sec:examples}
 
-This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++. Even thought Kratos implements triangles and quadrilaterals with several orders of interpolation \cite{kratos2020}, we have restricted ourselves to linear triangles in order to test the possibilities of the stabilization method. \Ignasi{AQUESTA FRASE D'ABANS JO LA POSARIA A LA INTRODUCCIO DE L'ARTICLE, JUST ABANS DE LA ORGANITZACIO DEL PAPER} \Ignasi{In this section we present four different examples. Three of them are \sout{Each example is}} oriented to \Ignasi{\sout{test} verify} a single aspect of the procedure explained in this research \Ignasi{,and the last one is devoted to test all the capabilities of the formulation in a practical case with experimental data}.
+This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++. 
+%Even thought Kratos implements triangles and quadrilaterals with several orders of interpolation \cite{kratos2020}, we have restricted ourselves to linear triangles in order to test the possibilities of the stabilization method. \Ignasi{AQUESTA FRASE D'ABANS JO LA POSARIA A LA INTRODUCCIO DE L'ARTICLE, JUST ABANS DE LA ORGANITZACIO DEL PAPER}
+In this section we present four different examples. Three of them are oriented to verify a single aspect of the procedure explained in this research,and the last one is devoted to test all the capabilities of the formulation in a practical case with experimental data.
 
 
 \subsection{Wave in a channel with a backward step}
 
-The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue\Ignasi{.\sout{and}Also, }a calibration of the stabilization parameter is performed \Ignasi{to optimize the effect of the stabilization terms in the obtained solution}.
+The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. Also, a calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
 We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. 
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (see figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
 The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In that example, the shock capturing term is disabled.
@@ -590,7 +592,7 @@ The time step is set automatically to keep a Courant number equal to $1.0$ at ev
 \end{figure}
 
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization. The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
-The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001, 0.01, 0.1$. In \Ignasi{\sout{that example}this case}, the shock capturing term is switch\Ignasi{ed} off.
+The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is executed three times with different algorithmic constants $\beta = 0.001, 0.01, 0.1$. In this case, the shock capturing term is switched off.
 
 \begin{figure}[H]
 \begin{subfigure}{\textwidth}
@@ -607,7 +609,7 @@ The time step is set automatically to keep a Courant number equal to $1.0$ at ev
 \label{waves_propagation}
 \end{figure}
 
-\Ignasi{HAS DE CITAR TOTES LES FIGURES I DONAR UNA PETITA EXPLICACIO DEL QUE HI MOSTRES. ELS PEUS DE FIGURA PODEN SER MES BREUS AIXI.}
+\IgnasiCorregit{HAS DE CITAR TOTES LES FIGURES I DONAR UNA PETITA EXPLICACIO DEL QUE HI MOSTRES. ELS PEUS DE FIGURA PODEN SER MES BREUS AIXI.}
 
 The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
 In figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} can be observed that the lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
@@ -764,13 +766,13 @@ Figure \ref{parabola_results} show the results using the finer mesh. The discret
 
 \subsection{Short channel with smooth transition and shock}
 
-The third example in a benchmark based on the Mac Donald's type solutions \cite{macdonald1997}. The analytical solution also can be found in the same compilation than the previous example \cite{delestre2013}. This test presents channel with a steady state solution. There is a subcritical inlet in a region where a transcritical flow is produced. The outlet is also subcritical and a shock is generated at $\sfrac{2}{3}$ of the channel. The aim of this example is to evaluate the presented shock capturing technique and the correct location of the hydraulic jump.
+The third example in a benchmark based on the Mac Donald's type solutions \cite{macdonald1997}. The analytical solution also can be found in the same compilation than the previous example \cite{delestre2013}. This test presents a channel with a steady state solution. There is a subcritical inlet and a transcritical flow is produced. The outlet is also subcritical and then a shock is generated at $\sfrac{2}{3}$ of the channel. The aim of this example is to evaluate the presented shock capturing technique and the correct location of the hydraulic jump, which depends on the bottom friction law.
 
 Here we will consider the one-dimensional shallow water equations without diffusion and only with Manning bottom friction as source term. A steady state solution satisfies $\pder{q}{x}=0$ and the equation (\ref{general_sw}) reduces to
 \begin{equation} \label{steady_state}
 \pder{z}{x} = \left(\frac{v^2}{gh}-1\right) \pder{h}{x} - n^2\frac{\abs{v}v}{h^{\sfrac{4}{3}}}
 \end{equation}
-This relation allows to integrate the topography given an analytical expression for the water height. Another approach in hydraulics is to consider a given discharge and topography and integrate the water height using the relation (\ref{steady_state}). In both approaches exact solutions can be obtained. Since this expression involves the bottom friction, we can prove if the friction term is coded in order to satisfy the steady state.
+This relation allows to integrate the topography given an analytical expression for the water height. Another approach in hydraulics is to consider a given discharge and topography and integrate the water height using the relation (\ref{steady_state}). Following both approaches exact solutions can be obtained. Since this expression involves the bottom friction, we can prove if the friction term is coded in order to satisfy the steady state.
 
 For this benchmark we have considered the domain defined by the interval $[0,100]\times[0,5]$ which is a channel of $100m$ length and $5m$ width, and the following boundary conditions:
 \begin{equation}
@@ -780,7 +782,25 @@ For this benchmark we have considered the domain defined by the interval $[0,100
     q_y = 0 \qquad &\text{in} \ \Gamma_{walls}
 \end{split}
 \end{equation}
-The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3\ m$ and defines the hydraulic jump.
+The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3\ m$ and defines the hydraulic jump. The expression of the exact water depth is:
+\begin{equation} \label{jump_height_definition}
+    h = \begin{cases}
+        \left(\frac{4}{g}\right)^\frac{1}{3} \left(\frac{4}{3} - \frac{x}{L}\right) - \frac{9x}{10L}
+            \left(\frac{x}{L} - \frac{2}{3}\right) \, ,\ \text{for} \ x < \frac{2L}{3}\\
+        \left(\frac{4}{g}\right)^\frac{1}{3} \left(
+              a_1 \left(\frac{x}{L} - \frac{2}{3}\right)^4
+            + a_1 \left(\frac{x}{L} - \frac{2}{3}\right)^3
+            - a_2 \left(\frac{x}{L} - \frac{2}{3}\right)^2 \right. \\ \left. \qquad\qquad\qquad\qquad
+            + a_3 \left(\frac{x}{L} - \frac{2}{3}\right)
+            + a_4
+        \right) \, ,\ \text{for} \ x \geq \frac{2L}{3}
+    \end{cases}
+\end{equation}
+where $a_1=0.674202$, $a_2=21.7112$, $a_3=14.492$ and $a_4=1.4305$. The topography is obtained by a numerical integration using the fourth order Runge Kutta method.
+
+Like in the previous example, several meshes are employed and a convergence analysis is performed (see figure \ref{hydraulic_jump_convergence}). Given thar initial conditions, the hydraulic jump is developed between the first $80s$. The overall error is computed at time $t=200s$, in order to ensure the stationary state is achieved.
+
+The reader can compare the results from two different meshes n figures \ref{mac_donald_shock_graph_5} and \ref{mac_donald_shock_graph_2}. The oscillations are reduced with the finer mesh (figure \ref{mac_donald_shock_graph_2}), but there is a peak on the discharge at the location of the shock. This peak is originate because the momentum balance includes the gradient of the total water depth, and the analytical gradient is a Dirac delta function.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/jump/sketch/sketch.pdf}
@@ -788,7 +808,7 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}
 \begin{subfigure}{0.4\textwidth}
     \includegraphics[width=\textwidth]{img/jump/momentum_convergence.pdf}    
 \end{subfigure}
