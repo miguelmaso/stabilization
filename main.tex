@@ -497,7 +497,7 @@ with
 \end{split}
 \end{equation}
 
-The solution of this implicit system requires an iterative procedure which is defined in an incremental way as
+The solution of this implicit system requires an iterative procedure. We have used the Newton-Raphson procedure, is defined in an incremental way as
 $\Phi_h^{n+1,i+1} = \Phi_h^{n+1,i} + \delta\Phi_h^i$
 where the superscript $i$ denotes the non linear iteration.\IgnasiCorregit{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\Phi_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration:
 \IgnasiCorregit{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT?}\Ignasi{AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?} \Miguel{ÉS NEWTON-RAPHSON}
