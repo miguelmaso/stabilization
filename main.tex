@@ -17,17 +17,13 @@
 \usepackage[toc]{appendix} % changing numbering to capital letters
 \usepackage{cite}          % bibliography style, multiple citations
 \usepackage[normalem]{ulem}% underline (ul) command
-\usepackage{ifthen}
 \usepackage[usenames,dvipsnames]{xcolor}
 
+\usepackage{ifthen}
 \newboolean{show_comments}
 \setboolean{show_comments}{true}
 \newcommand\Ignasi[1]{\ifthenelse{\boolean{show_comments}}{\textcolor{blue}{#1}}{}}
-
-\newboolean{show_corregit}
-\setboolean{show_corregit}{false}
-\newcommand\IgnasiCorregit[1]{\ifthenelse{\boolean{show_corregit}}{\textcolor{blue}{#1}}{}}
-\newcommand\Miguel[1]{\ifthenelse{\boolean{show_corregit}}{\textcolor{red}{#1}}{}}
+\newcommand\Miguel[1]{\ifthenelse{\boolean{show_comments}}{\textcolor{red}{#1}}{}}
 
 \newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
 \newcommand{\ppder}[2]{\frac{\partial^2#1}{\partial#2^2}}
@@ -54,8 +50,6 @@
 
 \begin{abstract}
 \noindent
-\IgnasiCorregit{FALTA COMPLETAR. PARLAR DE LA NOVETAT (LA FORMULACIO ESTABILITZADA) I ELS 4 EXEMPLES QUE S'HAN RESOLT}
-\Miguel{AMPLIAT. ES PROU? VAIG UNA MICA PERDUT AMB LES COSES GENERALS}
 We present a stable finite element formulation for the shallow water equations using the finite increment calculus (FIC) procedure.
 This research is focused on the stability properties of the FIC technique and uses linear triangles for the spatial discretization with an equal order of interpolation for all the variables.
 The extension to higher order polynomial interpolation functions and different geometries is straightforward.
@@ -66,8 +60,6 @@ An experimental benchmark tests the overall accuracy of the present formulation.
 %In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is able to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
 \vspace{1em}
 
-\IgnasiCorregit{KEYWORDS: shallow water equations, finite element method, FIC stabilization, dry-wetting model}
-
 \noindent
 \keywords{shallow water equations, finite element method, continuous Galerkin, FIC stabilization, dry-wetting model}
 \end{abstract}
@@ -75,8 +67,6 @@ An experimental benchmark tests the overall accuracy of the present formulation.
 
 \section{Introduction}
 
-\IgnasiCorregit{HAURIES DE COMENÇAR PARLANT UNA MICA DE LA MOTIVACIO DE LA RESOLUCIO D'AQUEST TIPUS D'EQUACIONS: QUÈ PERMETEN RESOLDRE QUE SIGUI RELLEVANT PER A LA SOCIETAT?, QUINA ÉS L'AVENTATGE DE FER-HO AMB METODES NUMERICS?, HI HA ALTRES MÈTODES (ANALITICS, ESTADISTICS, ETC.)?}
-\Miguel{HE AFEGIT ALGUN PARÀGRAF}
 
 The shallow water equations are often used to study the hydrological dynamics of rivers and estuaries or coastal hydrodynamics.
 Derived from the vertical integration of the three-dimensional (3D) Navier-Stokes equations, the shallow water equations define an averaged free surface flow in the horizontal plane.
@@ -93,21 +83,20 @@ Several families of stabilization methods can be found in the literature, usuall
 ASGS\cite{codina1998}, GLS \cite{hughes1989} and FIC\cite{onate1996,onate1998}.
 Due to the hyperbolic character of the shallow water equations, a particular stabilization method for compressible flow or the Euler equations need to be developed.
 The FIC approach is based on the incremental solution of a modified system of non-local governing equations accounting for higher order terms obtained by applying the balance laws in domains of finite size.
-The FIC-based stabilization has been applied in conjunction with the FEM to convection-diffusion, incompressible flows, among other applications \cite{onate1998,onate2001}\IgnasiCorregit{T'HE MODIFICAT AQUESTA CITA PER A QUE APAREGUIN VARIES CITES AGRUPADES (AMB EL PAQUET CITE ES POT FER. E.G. [2-4])}.
+The FIC-based stabilization has been applied in conjunction with the FEM to convection-diffusion, incompressible flows, among other applications \cite{onate1998,onate2001}.
 In those cases, where the convective term has an important role, a first order FIC term is enough to provide stability to the system.
 However, the shallow water equations are governed by the convective term and the wave equation in a mixed formulation \cite{codina2008}. In consequence, the common derivation of the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. 
 A generalization of this method is proposed in order to provide a global stability for the shallow water equations.
 
 Once global stability is achieved, local instabilities may appear near discontinuities, which are inherent to the supercritical flows.
 A local shock capturing technique was initially proposed by Hughes \cite{hughes1986} and a review of shock capturing techniques can be found in Codina \cite{codina2011}.
-Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization \cite{cotela2016}. \IgnasiCorregit{AQUESTA ULTIMA FRASE NO L'HE ENTES. VOLS DIR QUE HAS EXPLORAT TERMES D'ALTRES FORMULACIONS FIC PER A ESTABILITZAR EL SHOCK CAPTURING? PODRIES POSAR AIXO EN UN ALTRE PARAGRAF I PARLAR DE L'ESTAT DE L'ART EN AQUESTA QUESTIO EN CONCRET} \Miguel{AIXÍ ÉS, ALTRES TERMES DE FIC PODEN INTRODUIR SHOCK CAPTURING.}
+Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization \cite{cotela2016}.
 
 Additionally, the dry domain requires an accurate modeling because the hyperbolic equations require positive water depth in all the domain.
 Several authors have proposed different methods to solve the shallow water equations with moving shoreline. Leclerc et al. \cite{leclerc1990} proposed an Eulerian method. Later, Heniche et al. \cite{heniche2000} modified the method allowing the free surface to plunge under the topography.
 Other authors developed a rough-porous layer \cite{candy2017,barros2011} or a modified depth integration \cite{defina2000}. These approaches introduce new physical parameters in the balance equations.
-An Eulerian approach based on the work of \cite{leclerc1990} and \cite{heniche2000} is presented. \IgnasiCorregit{FALTA COMPLETAR UNA MICA L'ESTAT DE L'ART D'AQUEST PUNT} \Miguel{ESTAT DE L'ART AMPLIAT. ENCARA ES PODRIA PARLAR DELS MÈTODES LAGRANGIANS}
+An Eulerian approach based on the work of \cite{leclerc1990} and \cite{heniche2000} is presented.
 
-\IgnasiCorregit{AL FINAL HAURIES DE POSAR 1 PARAGRAF EXPLICANT COM S'ORGANITZA EL PAPER: PRIMER PRESENTES LES EQUACIONS DE GOVERN, DESPRES L'ESTABILITZACIO, EXEMPLES, ETC.} \Miguel{FET}
 
 This article is organized as follows. Firstly the governing equations of the shallow water problems are presented.
 In Section \ref{sec:stabilization} the FIC stabilization procedure is applied to add the stabilization terms and the shock capturing terms.
@@ -122,8 +111,6 @@ The conclusions are given in Section \ref{sec:conclusions}.
 \section{Governing equations and linearization}
 
 The shallow water equations are the result of integrating vertically the Navier-Stokes equations, assuming the vertical velocity and its acceleration negligible \cite{abbot1979,zien3}.
-\IgnasiCorregit{HAURIES D'EXPLICAR SI ESCRIUS LES EQUACIONS AMB VARIABLES CONSERVATIVES I PER QUÈ HO FAS AIXI AMB CITES}
-\Miguel{TINC DUBTES IS ARA ÉS PROU O CALEN MÉS CITES. ALTRES AUTORS NO ACOSTUMEN A DEDICAR GAIRE TEMPS A EXPLICAR LES EQUACIONS.}
 The equations governing mass and momentum conservation can be written in conservative form with water depth $h$ and specific discharge $\mathbf{q}=(h\mathbf{u})$ as follows,
 
 \begin{equation} \label{general_sw}
@@ -164,9 +151,6 @@ with
 \end{subequations}
 where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
-\IgnasiCorregit{AQUI HAURIES DE DEFINIR TOTES LES VARIABLES QUE ESTAS INTRODUINT A LES EQUACIONS 1 I 2, I EL SIGNIFICAT DE CADA EQUACIO (BALANÇ DE MASSA, MOMENT O EL QUE SIGUI). TAMBÉ HAURIES D'INDICAR D'ALGUNA MANERA FACIL QUE i ÉS CADA COMPONENT DE LES DUES DIMENSIONS AMB QUE MODELES EL DOMINI (TOT I QUE ARA S'ENTEN, EL PRIMER COP QUE HO HE LLEGIT M'HA SEMBLAT CONFUS)}
-\Miguel{FET}
-
 \begin{figure}
     \centering
     \includegraphics[width=.8\textwidth]{img/fig/diagram.pdf}
@@ -179,7 +163,7 @@ The problem is closed with an initial boundary condition,
 \begin{equation}
 \bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
-where $\bm{\phi}_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard\IgnasiCorregit{suitable} boundary conditions in space
+where $\bm{\phi}_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard boundary conditions in space
 
 \begin{align}
 \bm{\phi} = \bm{\phi}_D \qquad &\text{in} \ \Gamma_D \\
@@ -187,13 +171,13 @@ where $\bm{\phi}_0$ are the initial water height and specific discharge. Equatio
 \end{align}
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 
-The bottom friction $\tau^b_{3i}$\IgnasiCorregit{DEFINEIX (AQUÍ O ABANS) BOTTOM FRICTION COM } is modelled with the Manning formula \IgnasiCorregit{\sout{extended to} generalized for} generalized for two dimensions as
+The bottom friction $\tau^b_{3i}$ is modelled with the Manning formula generalized for two dimensions as
 
 \begin{equation}
 \frac{\tau^b_{3i}}{\rho} = -gn^2\frac{\abs{\mathbf{u}}\mathbf{u}}{h^{\sfrac{4}{3}}}
 \end{equation}
 
-The averaged horizontal stresses are \IgnasiCorregit{calculated from the} calculated from the combination of the molecular stresses and the Reynolds stresses as follows
+The averaged horizontal stresses are calculated from the combination of the molecular stresses and the Reynolds stresses as follows
 
 \begin{equation} \label{stresses}
 \frac{\tau_{ij}}{\rho} = (\nu + \nu_t)\left(
@@ -206,7 +190,7 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
  - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} = 0
 \end{equation}
-where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ \IgnasiCorregit{ET REFEREIXES A Ai?} are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
+where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
 \begin{align}
 \pder{\mathbf{F}_i}{x_i} &= \pder{\mathbf{F}_i}{\bm{\phi}}\pder{\bm{\phi}}{x_i} \\
@@ -248,7 +232,7 @@ r_j \defeq
   -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
 \end{equation}
 
-In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$)\IgnasiCorregit{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization is based on a modified non local version of the governing equations as \cite{onate1998}
+In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$), the FIC-based stabilization is based on a modified non local version of the governing equations as \cite{onate1998}
 
 \begin{equation}
 r - \frac{1}{2}l^e\pder{r}{x} = 0
@@ -346,7 +330,7 @@ which is integrated by parts and after rearranging terms yields
         = 0
         \label{variational_shock_capturing}
 \end{multline}
-The last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length\IgnasiCorregit{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral.
+The last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
 
 The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}) and we obtain the following system of equations for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
@@ -392,7 +376,7 @@ with
     0 & 0 & 1-\frac{q_1q_2}{\mathbf{q}\mathbf{q}}
 \end{matrix}\right]
 \end{equation}
-where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses, which is derived from Equation (\ref{stresses}) and will be defined in Section \ref{sec:fem}\IgnasiCorregit{JO POTSER DEFINIRIA $\mathbf{I}_4$ AQUI PERO TAMPOC ES CRITIC AIXO}.
+where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses, which is derived from Equation (\ref{stresses}) and will be defined in Section \ref{sec:fem}.
 
 \section{Finite element formulation} \label{sec:fem} 
 
@@ -466,7 +450,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
 
 \subsection{Temporal integration}
 
-The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form \IgnasiCorregit{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
+The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form 
 \begin{equation} \label{discrete_compact}
 \tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{F}}
 \end{equation}
@@ -496,8 +480,8 @@ with
 
 The solution of this implicit system requires an iterative procedure. We have used the Newton-Raphson method, by which the problem unknowns are computed in an incremental way as
 $\bm{\phi}_h^{n+1,i+1} = \bm{\phi}_h^{n+1,i} + \delta\bm{\phi}_h^i$,
-where the superscript $i$ denotes the non linear iteration.\IgnasiCorregit{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\bm{\phi}_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\bm{\phi}_h^i$ and a right hand side vector which depends on the previous non linear iteration as
-\IgnasiCorregit{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT?}\IgnasiCorregit{AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?} \Miguel{ÉS NEWTON-RAPHSON}
+where the superscript $i$ denotes the non linear iteration.
+This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\bm{\phi}_h^i$ and a right hand side vector which depends on the previous non linear iteration as
 \begin{equation}
 [\beta_0\tilde{\mathbf{M}} + \tilde{\mathbf{K}}^{n+1,i}] \delta\bm{\phi}_h^i
 = \tilde{\mathbf{F}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\bm{\phi}_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1,i}
@@ -518,13 +502,13 @@ The first issue is the computation of the velocity field, since it involves the 
 \begin{equation} \label{h_inv_kurganov}
 h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
 \end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size; usually $\varepsilon = 0.1 l_e$ is chosen. Figure \ref{inverse_heihgt} shows a dimensionless representation of equation (\ref{h_inv_kurganov}). The second step in the velocity computation is a diffusive projection on the nodes: \IgnasiCorregit{QUE SON $\mathbf{M}_L$ I $\mathbf{M}_c$ ?}
+where $\varepsilon$ is a threshold which depends on the elements size; usually $\varepsilon = 0.1 l_e$ is chosen. Figure \ref{inverse_heihgt} shows a dimensionless representation of equation (\ref{h_inv_kurganov}). The second step in the velocity computation is a diffusive projection on the nodes:
 
 \begin{equation}
 \mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
 \end{equation}
 where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema.
-Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.\IgnasiCorregit{QUE VOLS DIR AMB "while the original expression is recovered when $h>\varepsilon$" ? JO HO EXPLICARIA MES CLAR}
+Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.
 
 
 \paragraph{Partially wet elements}
@@ -553,7 +537,7 @@ The selection of the areas where there is a dry domain is controlled with a wet 
 \begin{equation}
 \omega = hh^{-1}_k
 \end{equation}
-and so $\xi$ is defined as \IgnasiCorregit{CREC QUE EL SIMBOL $\alpha$ JA L'HAVIES UTILITZAT ABANS}
+and so $\xi$ is defined as
 \begin{equation}
 \xi = k(1-\omega)
 \end{equation}
@@ -570,8 +554,7 @@ In our numerical experiments we have chosen $k=10^3$.
 
 \section{Examples} \label{sec:examples}
 
-This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++. 
-%Even thought Kratos implements triangles and quadrilaterals with several orders of interpolation \cite{kratos2020}, we have restricted ourselves to linear triangles in order to test the possibilities of the stabilization method. \IgnasiCorregit{AQUESTA FRASE D'ABANS JO LA POSARIA A LA INTRODUCCIO DE L'ARTICLE, JUST ABANS DE LA ORGANITZACIO DEL PAPER}
+This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++.
 In this section we present four different examples. Three of them are oriented to verify a single aspect of the procedure explained in this research, the global stabilization, the shock capturing technique and the dry-wet interface.
 The last one is devoted to test all the capabilities of the formulation in a practical case for which experimental data is available.
 
@@ -604,8 +587,6 @@ The time step is set automatically to keep a Courant number equal to $1.0$ at ev
 \label{waves_propagation}
 \end{figure}
 
-\IgnasiCorregit{HAS DE CITAR TOTES LES FIGURES I DONAR UNA PETITA EXPLICACIO DEL QUE HI MOSTRES. ELS PEUS DE FIGURA PODEN SER MES BREUS AIXI.}
-\IgnasiCorregit{LA FIGURA \ref{waves_propagation} NO ESTA CITADA A L'ARTICLE. TOTES LES FIGURES HAN DE SER CITADES AL MENYS 1 COP.ELS PEUS DE FIGURA PODEN SER MES BREUS AIXI...}
 
 The best results are achieved with the intermediate value and it has been fixed for the rest of the examples in this paper.
 Figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} show that the lower value of $\beta$ is not enough to provide stability, while the higher value is over diffusive.
@@ -811,7 +792,6 @@ Results from different meshes are compared in Figures \ref{mac_donald_shock_grap
     \label{chanel_geometry}
 \end{figure}
 
-\IgnasiCorregit{LA FIGURA \ref{chanel_geometry} NO ESTA CITADA A L'ARTICLE.}
 
 \begin{figure}
 \begin{subfigure}{0.4\textwidth}
@@ -895,7 +875,6 @@ Gauge number & X & Y \\ \hline
 \label{gauges_positions}
 \end{table}
 
-\IgnasiCorregit{LA TAULA \ref{gauges_positions} NO ESTA CITADA A L'ARTICLE.}
 
 \begin{figure}
 \centering
@@ -917,17 +896,13 @@ Gauge number & X & Y \\ \hline
 \section{Concluding remarks} \label{sec:conclusions}
 
 We have extended the FIC-FEM procedure to the shallow water equations. Unlike the FIC-based stabilizations for incompressible flows, the present procedure is applied to the coupled mass and momentum balance at the same time using the linearization matrix $\mathbf{A}_i$. It can be seen that this procedure casts to the classical FIC-stabilization for convection diffusion problems, taking the velocity as linearization term. The same procedure can be applied to develop stabilized formulations for compressible flows.
-%Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA} \IgnasiCorregit{ESTIC D'ACORD, FES UNA ACLARACIO D'AIXO}
 
 The present extension of the FIC-procedure to the shallow water equations uses the linearization matrix $\mathbf{A}_i$ for the flux terms to project the characteristic length. However, an alternative framework can be explored with the ASGS \cite{hughes1995,codina2008} formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in Section \ref{sec:examples}.
-%((Even though this method presents an equivalent structure as SUPG, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. However, since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in Section \ref{sec:examples}))
-%\IgnasiCorregit{NO ENTENC PERQUE PARLES DE L'ESTABILITZACIO VMS AQUI. HA DE QUEDAR CLAR QUINA ES L'APORTACIO DEL PAPER EN RELACIO A L'ESTABILITZACIO PRESENTADA} \Miguel{AQUÍ ESTIC PARLANT DEL LIMITS DE L'APORTACIÓ.}
 
-The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have chosen $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing. \IgnasiCorregit{REVISA QUE NO HAGIS REPETIT EL SIMBOL $\alpha$ PER A VARIS SIGNIFICATS}
+The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have chosen $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing.
 
 The present FIC-FEM procedure has been able to produce accurate results for the examples considered.
 In the first example, the artificial diffusion is evaluated and it has been proved to be small and practically inappreciable. The shock capturing allows to solve supercritical problems with discontinuities and the present procedure is also able to deal with partially wet domains. Finally, a numerical simulation of a dam break flow against an isolated building is performed showing a good agreement with the experimental data.
-\IgnasiCorregit{JO AFEGIRIA UN PETIT PARAGRAF RESUMINT ELS RESULTATS OBTINGUTS ALS EXEMPLES. (NO DETALLAT, NOMES UNES PINCELLADES)}
 
 
 
