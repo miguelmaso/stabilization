@@ -133,14 +133,14 @@ The shallow water equations are the result of integrating vertically the Navier-
 The equations governing mass and momentum conservation can be written in conservative form with water depth $h$ and specific discharge $\mathbf{q}=(h\mathbf{u})$ as follows,
 
 \begin{equation} \label{general_sw}
-\pder{\Phi}{t} + \pder{\mathbf{F}_i}{x_i} + \pder{\mathbf{G}_i}{x_i} + \mathbf{Q} = \mathbf{0} \quad \text{for} \enspace i=1,2
+\pder{\bm{\phi}}{t} + \pder{\mathbf{F}_i}{x_i} + \pder{\mathbf{G}_i}{x_i} + \mathbf{Q} = \mathbf{0} \quad \text{for} \enspace i=1,2
 \end{equation}
 with
 
 \begin{subequations}\label{variables_and_fluxes}
 \allowdisplaybreaks
 \begin{align}
-\Phi &= \left\{
+\bm{\phi} &= \left\{
     \begin{array}{c}
         h \\
         hu_1 \\
@@ -168,7 +168,7 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\Phi$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 \IgnasiCorregit{AQUI HAURIES DE DEFINIR TOTES LES VARIABLES QUE ESTAS INTRODUINT A LES EQUACIONS 1 I 2, I EL SIGNIFICAT DE CADA EQUACIO (BALANÇ DE MASSA, MOMENT O EL QUE SIGUI). TAMBÉ HAURIES D'INDICAR D'ALGUNA MANERA FACIL QUE i ÉS CADA COMPONENT DE LES DUES DIMENSIONS AMB QUE MODELES EL DOMINI (TOT I QUE ARA S'ENTEN, EL PRIMER COP QUE HO HE LLEGIT M'HA SEMBLAT CONFUS)}
 \Miguel{FET}
@@ -183,12 +183,12 @@ where $\Phi$ is the vector of conserved variables, $\mathbf{F}$ is the vector of
 The problem is closed with an initial boundary condition,
 
 \begin{equation}
-\Phi(t=t_0) = \Phi_0
+\bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
-where $\Phi_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard\IgnasiCorregit{suitable} boundary conditions in space
+where $\bm{\phi}_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard\IgnasiCorregit{suitable} boundary conditions in space
 
 \begin{align}
-\Phi = \Phi_D \qquad &\text{in} \ \Gamma_D \\
+\bm{\phi} = \bm{\phi}_D \qquad &\text{in} \ \Gamma_D \\
 \mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \ \Gamma_N
 \end{align}
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
@@ -209,14 +209,14 @@ The averaged horizontal stresses are \IgnasiCorregit{calculated from the} calcul
 The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
-\pder{\Phi}{t} + \mathbf{A}_i\pder{\Phi}{x_i}
- - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{T} = 0
+\pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
+ - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} = 0
 \end{equation}
 where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ \IgnasiCorregit{ET REFEREIXES A Ai?} are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
 \begin{align}
-\pder{\mathbf{F}_i}{x_i} &= \pder{\mathbf{F}_i}{\Phi}\pder{\Phi}{x_i} \\
-\mathbf{A}_i &= \pder{\mathbf{F}_i}{\Phi}
+\pder{\mathbf{F}_i}{x_i} &= \pder{\mathbf{F}_i}{\bm{\phi}}\pder{\bm{\phi}}{x_i} \\
+\mathbf{A}_i &= \pder{\mathbf{F}_i}{\bm{\phi}}
 \end{align}
 \begin{equation}
 \mathbf{A}_1 = \left[\begin{matrix}
@@ -242,7 +242,7 @@ The bottom friction term is linearized using a reaction matrix $\mathbf{S}$
     0 & 0 & 0
 \end{matrix}\right]
 \end{equation}
-In the following sections, the rain, the atmospheric pressure gradient and the wind friction will be neglected, retaining the topography gradient in the source vector $mathbf{T}$.
+In the following sections, the rain, the atmospheric pressure gradient and the wind friction will be neglected, retaining the topography gradient in the source vector $\mathbf{T}$.
 
 \section{FIC stabilization}\label{sec:stabilization}
 
@@ -250,8 +250,8 @@ We will consider the quasi-linear balance equations written in residual form as 
 
 \begin{equation} \label{residual}
 r_j \defeq 
-  \pder{\Phi}{t} + \mathbf{A}_i\pder{\Phi}{x_i}
-  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{T} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
+  \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
+  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
 \end{equation}
 
 In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$)\IgnasiCorregit{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization is based on a modified non local version of the governing equations as \cite{onate1998}
@@ -306,15 +306,15 @@ In this work we neglect the boundary integrals assuming that the residual $r_j$ 
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
-    \omega_k \pder{\Phi}{t} + \omega_k \mathbf{A}_i\pder{\Phi}{x_i}
-    + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\Phi}{x_i} + \mathbf{S}\Phi + \mathbf{F}
+    \omega_k \pder{\bm{\phi}}{t} + \omega_k \mathbf{A}_i\pder{\bm{\phi}}{x_i}
+    + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} + \mathbf{S}\bm{\phi} + \mathbf{F}
 \right) d\Omega\\ +
 \int_\Omega \frac{\beta l^e}{\lambda} \left(
-    \pder{\omega_k}{x_j} \mathbf{A}_j \pder{\Phi}{t}
-    + \pder{\omega_k}{x_j} \mathbf{A}_j\mathbf{A}_i\pder{\Phi}{x_i}
-    + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{jk} \pder{\Phi}{x_i} \right. \\
+    \pder{\omega_k}{x_j} \mathbf{A}_j \pder{\bm{\phi}}{t}
+    + \pder{\omega_k}{x_j} \mathbf{A}_j\mathbf{A}_i\pder{\bm{\phi}}{x_i}
+    + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} \right. \\
     \left.
-    + \pder{\omega_k}{x_j} \mathbf{A}_j(\mathbf{S}\Phi + \mathbf{F})
+    + \pder{\omega_k}{x_j} \mathbf{A}_j(\mathbf{S}\bm{\phi} + \mathbf{F})
 \right) d\Omega
 =0
 \end{multline}
@@ -411,13 +411,13 @@ A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ 
 \begin{equation}
 \phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
 \end{equation}
-where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
+where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\bm{\phi}_h$ for the vectors of nodal unknowns -momentum and water height- on the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
-[\mathbf{M} + \mathbf{M}_F] \dot{\Phi}_h
-+ [\mathbf{G} + \mathbf{G}_F + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_F] \Phi_h
+[\mathbf{M} + \mathbf{M}_F] \dot{\bm{\phi}}_h
++ [\mathbf{G} + \mathbf{G}_F + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_F] \bm{\phi}_h
 = \mathbf{T} + \mathbf{T}_F
 \end{equation}
-The dot $\dot\Phi_h$ means temporal derivative. The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}); the matrices with subscript F correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing technique. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices in Eq. (\ref{discrete_sw}) are defined as
+where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}); the matrices with subscript F correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing technique. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices in Eq. (\ref{discrete_sw}) are defined as
 
 \begin{align}
     \displaystyle \mathbf{M}^{ab} &= \int_{\Omega_e}N_a \mathbf{I} N_b d\Omega &
@@ -474,14 +474,14 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
 
 The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form \IgnasiCorregit{JO NO UTILITZARIA EL MATEIX SIMBOL D'ABANS M, K, F AQUI. PODRIES POSAR UNS ALTRES SIMBOLS, e.g. $\tilde{\mathbf{M}}$,$\tilde{\mathbf{K}}$,$\tilde{\mathbf{F}}$}
 \begin{equation} \label{discrete_compact}
-\tilde{\mathbf{M}}\dot{\Phi}_h + \tilde{\mathbf{K}}\Phi_h = \tilde{\mathbf{F}}
+\tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{F}}
 \end{equation}
 where the tilde symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
 We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
-\tilde{\mathbf{M}}\dot{\Phi}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\Phi_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
-\dot{\Phi}_h^{n+1} = \beta_0 \Phi_h^{n+1} + \beta_1 \Phi_h^n + \beta_2 \Phi_h^{n-1}
+\tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\bm{\phi}_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
+\dot{\bm{\phi}}_h^{n+1} = \beta_0 \bm{\phi}_h^{n+1} + \beta_1 \bm{\phi}_h^n + \beta_2 \bm{\phi}_h^{n-1}
 \end{split}
 \end{equation}
 We will consider a variable time step to compute the BDF coefficients using the notation $t^{n+1} = t^n + \Delta t^n$:
@@ -501,16 +501,16 @@ with
 \end{equation}
 
 The solution of this implicit system requires an iterative procedure. We have used the Newton-Raphson method, by which the problem unknowns are computed in an incremental way as
-$\Phi_h^{n+1,i+1} = \Phi_h^{n+1,i} + \delta\Phi_h^i$,
-where the superscript $i$ denotes the non linear iteration.\IgnasiCorregit{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\Phi_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\Phi_h^i$ and a right hand side vector which depends on the previous non linear iteration as
+$\bm{\phi}_h^{n+1,i+1} = \bm{\phi}_h^{n+1,i} + \delta\bm{\phi}_h^i$,
+where the superscript $i$ denotes the non linear iteration.\IgnasiCorregit{POTSER QUEDARIA MES CLAR SI POSES L'INDEX D'ITERACIO i A L'ESQUERRA DEL SIMBOL $^{i+1}\bm{\phi}_h^{n+1}$, TOT I QUE AIXO NO ES IMPORTANT} This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\bm{\phi}_h^i$ and a right hand side vector which depends on the previous non linear iteration as
 \IgnasiCorregit{FALTA EL SUPERINDEX i A LA K DEL LHS, CERT?}\IgnasiCorregit{AQUESTA ESTRATEGIA IMPLICITA ITERATIVA ES EL NEWTON-RAPHSON? O HI HA ALGUNA DIFERENCIA EN CONCRET?} \Miguel{ÉS NEWTON-RAPHSON}
 \begin{equation}
-[\beta_0\tilde{\mathbf{M}} + \tilde{\mathbf{K}}^{n+1,i}] \delta\Phi_h^i
-= \tilde{\mathbf{F}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\Phi_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\Phi}_h^{n+1,i}
+[\beta_0\tilde{\mathbf{M}} + \tilde{\mathbf{K}}^{n+1,i}] \delta\bm{\phi}_h^i
+= \tilde{\mathbf{F}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\bm{\phi}_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1,i}
 \end{equation}
-The first non linear iteration $\Phi_h^{n+1,0}$ is initialized using a prediction given from the BDF formula at the last time step:
+The first non linear iteration $\bm{\phi}_h^{n+1,0}$ is initialized using a prediction given from the BDF formula at the last time step:
 \begin{equation}
-\Phi_h^{n+1,0} = \Phi_h^n + \Delta t^n \dot{\Phi}_h^{n}
+\bm{\phi}_h^{n+1,0} = \bm{\phi}_h^n + \Delta t^n \dot{\bm{\phi}}_h^{n}
 \end{equation}
 
 
