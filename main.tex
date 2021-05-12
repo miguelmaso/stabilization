@@ -227,10 +227,11 @@ In the following sections, the rain, the atmospheric pressure gradient and the w
 We will consider the quasi-linear balance equations written in residual form as a vector
 
 \begin{equation} \label{residual}
-r_j \defeq 
+\mathbf{r} \defeq 
   \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
-  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
+  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} \qquad i,k\in\{1,n_d\}
 \end{equation}
+where $n_d=2$ is the number of dimensions. The size of the vector $\mathbf{r}$ is equal to the number of balance equations, $n_b=3$.
 
 In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$), the FIC-based stabilization is based on a modified non local version of the governing equations as \cite{onate1998}
 
@@ -257,12 +258,12 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
 In this paper we propose a stabilization term which is oriented along the characteristics of the hyperbolic equations, as
 
 \begin{equation} \label{fic_sw}
-r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i} = 0
+\mathbf{r} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i} = 0
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
 For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}.
 \begin{equation} \label{fic_sw_beta}
-r_j - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
+\mathbf{r} - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
 
@@ -270,17 +271,17 @@ The FIC formulation is the result of introducing the residual of the shallow wat
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
-    \omega_i r_j + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
+    \omega_i \mathbf{r} + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
 \right) d\Omega = 0
 \end{equation}
 The second term of Equation (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element. Hence, the boundary integral which appears after integration by parts should be understood as the boundary of all the elements
 
 \begin{equation} \label{variational_fic_parts}
-\int_\Omega \omega_k r_j d\Omega
-+ \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
+\int_\Omega \omega_k \mathbf{r} d\Omega
++ \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} \mathbf{r} d\Omega
 + \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
 \end{equation}
-In this work we neglect the boundary integrals assuming that the residual $r_j$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term. The result is
+In this work we neglect the boundary integrals assuming that the residual $\mathbf{r}$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term. The result is
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
