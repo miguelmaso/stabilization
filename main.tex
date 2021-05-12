@@ -62,14 +62,13 @@
 \noindent
 \IgnasiCorregit{FALTA COMPLETAR. PARLAR DE LA NOVETAT (LA FORMULACIO ESTABILITZADA) I ELS 4 EXEMPLES QUE S'HAN RESOLT}
 \Miguel{AMPLIAT. ES PROU? VAIG UNA MICA PERDUT AMB LES COSES GENERALS}
-The aim of this paper is to develop a stable finite element formulation for the shallow water equations using the finite increment calculus (FIC) procedure.
+We present a stable finite element formulation for the shallow water equations using the finite increment calculus (FIC) procedure.
 This research is focused on the stability properties of the FIC technique and uses linear triangles for the spatial discretization with an equal order of interpolation for all the variables.
-The extension to higher order of polynomial interpolation functions and different geometries is straightforward.
+The extension to higher order polynomial interpolation functions and different geometries is straightforward.
 The present FIC-FEM procedure is also able to introduce artificial viscosity for an adequate shock capturing.
-A fully implicit time integration has been used and special attention has been payed to the dry domain in order to solve the moving boundaries with a fixed mesh eulerian approach.
-Three academic examples and the simulation of an experiment are included in order to test the capabilities of the FIC-FEM procedure.
-The first simple example tests the stability, the second one tests the shock capturing and the third one tests the dry-wet interface.
-The last example is a simulation of an experiment and the results are compared with the reference.
+An implicit time integration has been used. Special attention has been payed to the dry domain in order to solve the moving boundaries with a fixed mesh eulerian approach.
+Three academic examples are included in order to test the capabilities of the FIC-FEM procedure: the global stabilization, the shock capturing technique and the dry-wet interface.
+An experimental benchmark tests the overall accuracy of the present formulation.
 %In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is able to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
 \vspace{1em}
 
@@ -87,40 +86,44 @@ The last example is a simulation of an experiment and the results are compared w
 
 The shallow water equations are often used to study the hydrological dynamics of rivers and estuaries or coastal hydrodynamics.
 Derived from the vertical integration of the three-dimensional (3D) Navier-Stokes equations, the shallow water equations define an averaged free surface flow in the horizontal plane.
-Due to the complexity of the geometry and the source terms is not possible to find an analytical solution for the PDE, and appears the need to design strategies to find numerical solutions.
-In those physical phenomena, flooding or moving shoreline may occur, which is numerically defined by the null water depth.
+Due to the complexity of the geometry and the source terms is not possible to find an analytical solution for the PDE's, this explains the need to design strategies to find numerical solutions.
+In those physical phenomena, flooding or moving shoreline may occur, which is numerically defined by a null water depth.
 
-The shallow water equations have traditionally been modelled using finite volumes (FV) [REEMPLAZAR?] because of its advantages of stability and monotonicity. Given its geometric flexibility and its natural way to introduce high order schemes, finite elements (FEM) [REEMPLAZAR?] have been applied too \cite{zien3,navon1979,navon1988}.
-However, since finite elements exhibit spurious oscillations, the discontinuous Galerkin technique has been introduced \cite{ambati2007,khan2014,lee2019}.
-It has the advantages of the geometrical flexibility of the finite elements and the stability of finite volumes, but the introduction of high order schemes is not straightforward.
+The shallow water equations have traditionally been modelled using finite volumes (FV) because of its advantages of stability and monotonicity. Given its geometric flexibility and its natural way to introduce high order schemes, the finite element method (FEM) has been applied too \cite{zien3,navon1979,navon1988}.
+However, since the FEM can exhibit spurious oscillations, different stabilization procedures have been proposed; XXX the discontinuous Galerkin (DG) technique has been introduced \cite{ambati2007,khan2014,lee2019}.
+DG method has the advantages of the geometrical flexibility of the finite elements and the stability of finite volumes, but the introduction of high order DG schemes is not straightforward.
 In order to prevent numerical instabilities in finite elements, stabilization, monotonic schemes or different order of polynomial interpolation can be explored \cite{hood1974,zien3,ortiz2012}.
-%More recently, the discontinuous Galerkin \IgnasiCorregit{technique} has been introduced \IgnasiCorregit{[CITATIONS] \sout{,}. It \sout{which}} has the advantages of the geometrical flexibility of the finite elements and the stability of finite volumes, but the introduction of high order schemes is not straightforward.
 This research is focused in classical stabilized finite elements with an equal interpolation order for all the variables. We will explore the capabilities of the finite increment calculus (FIC) technique to develop stable formulations for the shallow water equations.
 
-Several families of stabilization methods can be found in the literature, usually applied to the convection-diffusion equations or Navier-Stokes equations. The most relevant are SUPG \cite{brooks1982},
-ASGS\cite{codina1998}, GLS \cite{huges1989} and FIC\cite{onate1996,onate1998}.
+Several families of stabilization methods can be found in the literature, usually applied to the convection-diffusion equations and the Navier-Stokes equations. The most relevant are SUPG \cite{brooks1982},
+ASGS\cite{codina1998}, GLS \cite{hughes1989} and FIC\cite{onate1996,onate1998}.
 Due to the hyperbolic character of the shallow water equations, a particular stabilization method for compressible flow or the Euler equations need to be developed.
-The FIC-based stabilization has been applied \emph{in conjunction with the FEM} to convection-diffusion, incompressible flows, among other applications \cite{onate1998,onate2001}\IgnasiCorregit{T'HE MODIFICAT AQUESTA CITA PER A QUE APAREGUIN VARIES CITES AGRUPADES (AMB EL PAQUET CITE ES POT FER. E.G. [2-4])}.
+The FIC approach is based on the incremental solution of a modified system of non-local governing equations accounting for higher order terms obtained by applying the balance laws in domains of finite size.
+The FIC-based stabilization has been applied in conjunction with the FEM to convection-diffusion, incompressible flows, among other applications \cite{onate1998,onate2001}\IgnasiCorregit{T'HE MODIFICAT AQUESTA CITA PER A QUE APAREGUIN VARIES CITES AGRUPADES (AMB EL PAQUET CITE ES POT FER. E.G. [2-4])}.
 In those cases, where the convective term has an important role, a first order FIC term is enough to provide stability to the system.
 However, the shallow water equations are governed by the convective term and the wave equation in a mixed formulation \cite{codina2008}. In consequence, the common derivation of the FIC-based stabilization is not enough to provide stability in all the range of applicability of the shallow water equations. 
 A generalization of this method is proposed in order to provide a global stability for the shallow water equations.
 
 Once global stability is achieved, local instabilities may appear near discontinuities, which are inherent to the supercritical flows.
-A local shock capturing technique was initially proposed by Hughes \cite{huges1986} and a review of shock capturing techniques can be found in Codina \cite{codina2011}.
+A local shock capturing technique was initially proposed by Hughes \cite{hughes1986} and a review of shock capturing techniques can be found in Codina \cite{codina2011}.
 Other possibilities of the FIC-based formulations are explored to provide a shock capturing stabilization \cite{cotela2016}. \IgnasiCorregit{AQUESTA ULTIMA FRASE NO L'HE ENTES. VOLS DIR QUE HAS EXPLORAT TERMES D'ALTRES FORMULACIONS FIC PER A ESTABILITZAR EL SHOCK CAPTURING? PODRIES POSAR AIXO EN UN ALTRE PARAGRAF I PARLAR DE L'ESTAT DE L'ART EN AQUESTA QUESTIO EN CONCRET} \Miguel{AIXÍ ÉS, ALTRES TERMES DE FIC PODEN INTRODUIR SHOCK CAPTURING.}
 
 Additionally, the dry domain requires an accurate modeling because the hyperbolic equations require positive water depth in all the domain.
-Several authors have proposed different methods to solve the shallow water equations with moving shoreline. Leclerc et al. \cite{leclerc1990} proposed an Eulerian method. Later, Heniche et al. \cite{heniche2000} modified that method allowing the free surface to plunge under the topography.
-Other authors developed a rough-porous layer \cite{candy2017,barros2011} or a modified depth integration \cite{defina2000}. Those approaches introduce new physical parameters in the balance equations.
+Several authors have proposed different methods to solve the shallow water equations with moving shoreline. Leclerc et al. \cite{leclerc1990} proposed an Eulerian method. Later, Heniche et al. \cite{heniche2000} modified the method allowing the free surface to plunge under the topography.
+Other authors developed a rough-porous layer \cite{candy2017,barros2011} or a modified depth integration \cite{defina2000}. These approaches introduce new physical parameters in the balance equations.
 An Eulerian approach based on the work of \cite{leclerc1990} and \cite{heniche2000} is presented. \IgnasiCorregit{FALTA COMPLETAR UNA MICA L'ESTAT DE L'ART D'AQUEST PUNT} \Miguel{ESTAT DE L'ART AMPLIAT. ENCARA ES PODRIA PARLAR DELS MÈTODES LAGRANGIANS}
 
 \IgnasiCorregit{AL FINAL HAURIES DE POSAR 1 PARAGRAF EXPLICANT COM S'ORGANITZA EL PAPER: PRIMER PRESENTES LES EQUACIONS DE GOVERN, DESPRES L'ESTABILITZACIO, EXEMPLES, ETC.} \Miguel{FET}
 
 This article is organized as follows. Firstly the governing equations of the shallow water problems are presented.
-In Section \ref{sec:stabilization} the FIC procedure is applied to add the stabilization terms and the shock capturing terms.
+In Section \ref{sec:stabilization} the FIC stabilization procedure is applied to add the stabilization terms and the shock capturing terms.
 In Section \ref{sec:fem} the spatial (FEM) and temporal discretizations are described.
-The dry domain model is presented in the same Section because it mainly depends on the discretization.
-Section \ref{sec:examples} presents some numerical examples. The conclusions are given in Section \ref{sec:conclusions}.
+The dry domain model is presented in the same section because it mainly depends on the discretization.
+Section \ref{sec:examples} presents some numerical examples.
+The first simple example tests the stability, the second one tests the shock capturing and the third one tests the dry-wet interface.
+The last example is a simulation of an experiment and the results are compared with the reference.
+The conclusions are given in Section \ref{sec:conclusions}.
+
 
 \section{Governing equations and linearization}
 
@@ -165,7 +168,7 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\Phi$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, being $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+where $\Phi$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 \IgnasiCorregit{AQUI HAURIES DE DEFINIR TOTES LES VARIABLES QUE ESTAS INTRODUINT A LES EQUACIONS 1 I 2, I EL SIGNIFICAT DE CADA EQUACIO (BALANÇ DE MASSA, MOMENT O EL QUE SIGUI). TAMBÉ HAURIES D'INDICAR D'ALGUNA MANERA FACIL QUE i ÉS CADA COMPONENT DE LES DUES DIMENSIONS AMB QUE MODELES EL DOMINI (TOT I QUE ARA S'ENTEN, EL PRIMER COP QUE HO HE LLEGIT M'HA SEMBLAT CONFUS)}
 \Miguel{FET}
@@ -180,7 +183,7 @@ where $\Phi$ is the vector of conserved variables, $\mathbf{F}$ is the vector of
 The problem is closed with an initial boundary condition,
 
 \begin{equation}
-\Phi = \Phi_0
+\Phi(t=t_0) = \Phi_0
 \end{equation}
 where $\Phi_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard\IgnasiCorregit{suitable} boundary conditions in space
 
@@ -188,7 +191,7 @@ where $\Phi_0$ are the initial water height and specific discharge. Equation (\r
 \Phi = \Phi_D \qquad &\text{in} \ \Gamma_D \\
 \mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \ \Gamma_N
 \end{align}
-where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider also absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
+where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 
 The bottom friction $\tau^b_{3i}$\IgnasiCorregit{DEFINEIX (AQUÍ O ABANS) BOTTOM FRICTION COM } is modelled with the Manning formula \IgnasiCorregit{\sout{extended to} generalized for} generalized for two dimensions as
 
@@ -207,9 +210,9 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
 \pder{\Phi}{t} + \mathbf{A}_i\pder{\Phi}{x_i}
- - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{F} = 0
+ - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{T} = 0
 \end{equation}
-where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes. The convective matrices $\mathbf{A}_i$ \IgnasiCorregit{ET REFEREIXES A Ai?} are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
+where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ \IgnasiCorregit{ET REFEREIXES A Ai?} are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
 \begin{align}
 \pder{\mathbf{F}_i}{x_i} &= \pder{\mathbf{F}_i}{\Phi}\pder{\Phi}{x_i} \\
@@ -229,7 +232,7 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization ma
     \end{matrix} \right]
 \end{equation}
 \end{subequations}
-and $c=\sqrt{gh}$ is the wave speed. The $\mathbf{A}_i$ matrix defines an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.
+and $c=\sqrt{gh}$ is the wave speed. The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.
 
 The bottom friction term is linearized using a reaction matrix $\mathbf{S}$
 \begin{equation}
@@ -239,7 +242,7 @@ The bottom friction term is linearized using a reaction matrix $\mathbf{S}$
     0 & 0 & 0
 \end{matrix}\right]
 \end{equation}
-In the following sections, the rain, atmospheric pressure gradient and the wind friction will be neglected. \IgnasiCorregit{SI AQUESTS TERMES JA HAN APAREGUT ABANS, ELS HAURIES D'HAVER DEFINIT, ENCARA QUE DESPRES NO APAREGUIN MÉS}
+In the following sections, the rain, the atmospheric pressure gradient and the wind friction will be neglected, retaining the topography gradient in the source vector $mathbf{T}$.
 
 \section{FIC stabilization}\label{sec:stabilization}
 
@@ -248,18 +251,18 @@ We will consider the quasi-linear balance equations written in residual form as 
 \begin{equation} \label{residual}
 r_j \defeq 
   \pder{\Phi}{t} + \mathbf{A}_i\pder{\Phi}{x_i}
-  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{F} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
+  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\Phi}{x_i}\right) + \mathbf{S}\Phi + \mathbf{T} \qquad j\in\{1,n_b\}, i\in\{1,n_d\}
 \end{equation}
 
-In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$)\IgnasiCorregit{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization is based on a modified version of the governing equations as \cite{onate1998}
+In the one dimensional case ($n_d=1$) and scalar balance ($n_b=1$)\IgnasiCorregit{$n_d=1$ POTSER HAS DE DEFINIR AQUEST $n_d$ AL PRINCIPI AMB L'EQUACIO 1}\Miguel{FET}, the FIC-based stabilization is based on a modified non local version of the governing equations as \cite{onate1998}
 
 \begin{equation}
 r - \frac{1}{2}l^e\pder{r}{x} = 0
 \end{equation}
 
-The stabilization parameter $l^e$ is usually taken the element length. However, in 2D and 3D, or when the number of balance equations $n_b$ is different than $n_d$, the choice of the $l^e$ parameter is nontrivial.
+The stabilization parameter $l^e$ is usually taken the element length. However, in 2D and 3D, or when the number of balance equations $n_b$ is different than $n_d$, the choice of the $l^e$ parameter is non trivial.
 Several approaches can be found in the literature. In \cite{onate1998} $l^e$ is chosen as a vector, but in later publications such as \cite{onate2001} a generalized formulation for different values of $n_d$ and $n_b$ was presented.
-For the stabilization of the Navier-Stokes equations \cite{cotela2016} proposed different projections of the element size over the velocity and over the velocity gradient. To sum up, the different forms of the FIC stabilization procedure can be written as
+For the stabilization of the Navier-Stokes equations different projections of the element size over the velocity and over the velocity gradient have been proposed \cite{cotela2016}. To sum up, the different forms of the FIC stabilization procedure can be written as
 
 \begin{subequations}
 \begin{align}
@@ -273,13 +276,13 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
 \end{subequations}
 
 %The FIC stabilization has been applied to problems with one balance equation (see \cite{onate1998} for the stabilization of the convection diffusion problem) or problems where the number of balance equations coincide with the number of space dimensions ($n_d = n_b$) (see \cite{onate1998} for the stabilization of the momentum and pressure equations of the Navier-Stokes equations).
-In this paper we propose a stabilization parameter which is oriented along the characteristics of the hyperbolic equations, as
+In this paper we propose a stabilization term which is oriented along the characteristics of the hyperbolic equations, as
 
 \begin{equation} \label{fic_sw}
-r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
+r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i} = 0
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
-For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. Note that this stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}.
+For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}.
 \begin{equation} \label{fic_sw_beta}
 r_j - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
@@ -292,14 +295,14 @@ The FIC formulation is the result of introducing the residual of the shallow wat
     \omega_i r_j + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i}
 \right) d\Omega = 0
 \end{equation}
-The second term of Equation (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element. Hence, the boundary integral which appears after integrating by parts should be understood as the boundary of all the elements
+The second term of Equation (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element. Hence, the boundary integral which appears after integration by parts should be understood as the boundary of all the elements
 
 \begin{equation} \label{variational_fic_parts}
 \int_\Omega \omega_k r_j d\Omega
 + \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} r_j d\Omega
 + \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_kr_j d\Gamma = 0
 \end{equation}
-In this work we neglect the boundary integrals assuming that the residual $r_j$ is null at the boundary of the elements. At this point we introduce the balance equation (\ref{residual}) and integrate by parts the diffusive term. The results is
+In this work we neglect the boundary integrals assuming that the residual $r_j$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term. The result is
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
@@ -315,7 +318,7 @@ In this work we neglect the boundary integrals assuming that the residual $r_j$ 
 \right) d\Omega
 =0
 \end{multline}
-Equation \ref{variational_balance_fic} represents the stabilized formulation for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\beta l^e/\lambda$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS techniques \cite{cotela2016}.
+Equation (\ref{variational_balance_fic}) is the stabilized variational form for the shallow water equations, similar to the expression obtained by SUPG. Note that the parameter $\beta l^e/\lambda$ is analogous to the characteristic time $\tau$ of the classical SUPG or GLS techniques \cite{cotela2016}.
 
 \subsection{Shock capturing stabilization}
 
@@ -323,43 +326,42 @@ In this section we explore other possibilities of the characteristic length defi
 
 \begin{subequations} \label{eq:shock_capt}
 \begin{align}
-r_i^q + \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \label{eq:shock_capt_a}\\ 
-r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:shock_capt_b}
+\text{Momentum balance:} &&
+    r_i^q + \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \label{eq:shock_capt_a} && \\ 
+\text{Mass balance:} &&
+    r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:shock_capt_b}
 \end{align}
 \end{subequations}
 
-Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in Equation \ref{variational_fic}, and then integrating by parts, one obtains the following variational form:
+Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in Equation (\ref{variational_fic}), and then integrating by parts, one obtains the following variational form:
+\begin{equation}
+    \int_\Omega \omega_k r_i^q d\Omega
+     - \int_\Omega \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j}
+     d\Omega = 0
+\end{equation}
+which is integrated by parts and after rearranging terms yields
+\begin{multline}
+    \int_\Omega \omega_k r_i^q d\Omega 
+    + \int_\Omega \pder{\omega_k}{x_j}
+        \frac{l^e r_i^q}{2\norm{\nabla q_i}}\pder{q_i}{x_j} d\Omega \\
+    + \int_\Omega \omega_k \pder{}{x_j}\left(
+         \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}
+        \right)r_i^q d\Omega 
+    - \int_\Omega \pder{}{x_j}\left(
+        \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}r_i^q \right) d\Omega
+        = 0
+        \label{variational_shock_capturing}
+\end{multline}
+The last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length\IgnasiCorregit{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral.
 
-\begin{align}
-\int_\Omega \omega_k r_i^q d\Omega
- - \int_\Omega \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j}
- d\Omega &= 0 \\[5pt]
- \pushleft{\int_\Omega \omega_k r_i^q d\Omega} \nonumber\\
-  + \int_\Omega \pder{}{x_j}\left(
-      \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}
-      \right)r_i^q d\Omega 
-  - \int_\Omega \pder{}{x_j}\left(
-      \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}r_i^q
-      \right) d\Omega
-    &= 0 \\[10pt]
-\pushleft{\int_\Omega \omega_k r_i^q d\Omega 
-+ \int_\Omega \pder{\omega_k}{x_j}
-    \frac{l^e r_i^q}{2\norm{\nabla q_i}}\pder{q_i}{x_j} d\Omega} \nonumber\\
-+ \int_\Omega \omega_k \pder{}{x_j}\left(
-     \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}
-    \right)r_i^q d\Omega 
-- \int_\Omega \pder{}{x_j}\left(
-    \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}r_i^q \right) d\Omega
-    &= 0
-    \label{variational_shock_capturing}
-\end{align}
-
-After the integration by parts, the last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length\IgnasiCorregit{AQUI FALTA UNA PARAULA, O M'EQUIVOCO?} and can be transformed into a boundary integral. The same procedure is applied to the mass balance equation and we obtain the following expressions for both unknowns
+The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}) and we obtain the following system of equations for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
 \begin{align}
+\text{Momentum balance:} &&
 \int_\Omega \omega_k r_i^q d\Omega 
 + \int_\Omega \pder{\omega_k}{x_j}
-\frac{l^e r_i^q}{2\norm{\nabla q_i}}\pder{q_i}{x_j} d\Omega &=0 \\
+\frac{l^e r_i^q}{2\norm{\nabla q_i}}\pder{q_i}{x_j} d\Omega &=0 && \\
+\text{Mass balance:} &&
 \int_\Omega \omega_k r^h d\Omega 
 + \int_\Omega \pder{\omega_k}{x_j}
     \frac{l^e r^h}{2\norm{\nabla h_i}}\pder{q_i}{x_j} d\Omega &=0
@@ -384,39 +386,38 @@ Such approach can be refined by introducing the stabilization along the streamli
 \mathbf{D}_{art} = k_{art}
 \left( \mathbf{I} - \frac{1}{\abs{\mathbf{u}}^2} \mathbf{u} \otimes \mathbf{u} \right)
 \end{equation}
-The viscosity is introduced into the momentum balance with a fourth order tensor in the crosswind direction using Voigt's notation:
-\begin{subequations}
+The viscosity is introduced into the momentum balance with a fourth order tensor in the crosswind direction. Using Voigt's notation,
 \begin{equation}
-\mathbf{C}_{art} = \nu_{art} \mathbf{I}_4 \mathbf{O}
+\mathbf{C}_{art} = \nu_{art} \mathbf{I}_4 \mathbf{J}
 \end{equation}
+with
 \begin{equation}
-\mathbf{O} = \left[\begin{matrix}
+\mathbf{J} = \left[\begin{matrix}
     1-\frac{q_1q_1}{\mathbf{q}\mathbf{q}} & -\frac{q_1q_2}{\mathbf{q}\mathbf{q}} & 0 \\
     -\frac{q_1q_2}{\mathbf{q}\mathbf{q}} & 1-\frac{q_2q_2}{\mathbf{q}\mathbf{q}} & 0 \\
     0 & 0 & 1-\frac{q_1q_2}{\mathbf{q}\mathbf{q}}
 \end{matrix}\right]
 \end{equation}
-\end{subequations}
 where $\mathbf{I}_4$ is the fourth order identity tensor for the stresses, which is derived from Equation (\ref{stresses}) and will be defined in Section \ref{sec:fem}\IgnasiCorregit{JO POTSER DEFINIRIA $\mathbf{I}_4$ AQUI PERO TAMPOC ES CRITIC AIXO}.
 
 \section{Finite element formulation} \label{sec:fem} 
 
-It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface in order to develop stable finite element formulations \cite{hood1974,heniche2000,bercovier1979}. In this work we restrict ourselves to linear triangles for both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is stable. For that reason, all terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stable.
+It is conventional to use higher order of interpolation for the momentum or velocity than for the water depth or free surface in order to develop stable finite element formulations \cite{hood1974,heniche2000,bercovier1979}. In this work we restrict ourselves to linear triangles for both $\mathbf{q}$ and $h$ unknowns, since the FIC-FEM procedure is intrinsically stable. For that reason, all terms including spatial derivatives of order higher than two will be neglected. Bilinear quadrilaterals and higher order elements with the same number of degrees of freedom for all the variables will be also stable.
 
 \subsection{Spatial discretization}
 
 A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ and the problem variables can be interpolated with the basis functions of the finite elements space as
 
 \begin{equation}
-\phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai}
+\phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
 \end{equation}
-where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. The dot $\dot\Phi_h$ means temporal derivative. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
+where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\Phi_h$ for the vectors of nodal unknowns -momentum and water height- on all the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
-[\mathbf{M} + \mathbf{M}_K] \dot{\Phi}_h
-+ [\mathbf{G} + \mathbf{G}_K + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_K] \Phi_h
-= \mathbf{F} + \mathbf{F}_K
+[\mathbf{M} + \mathbf{M}_F] \dot{\Phi}_h
++ [\mathbf{G} + \mathbf{G}_F + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_F] \Phi_h
+= \mathbf{T} + \mathbf{T}_F
 \end{equation}
-The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}); the matrices with subscript K correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices in Eq. (\ref{discrete_sw}) are defined as
+The dot $\dot\Phi_h$ means temporal derivative. The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}); the matrices with subscript F correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing technique. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices in Eq. (\ref{discrete_sw}) are defined as
 
 \begin{align}
     \displaystyle \mathbf{M}^{ab} &= \int_{\Omega_e}N_a \mathbf{I} N_b d\Omega &
@@ -427,10 +428,10 @@ The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the ori
             \mathbf{C} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}
         \end{matrix}\right] \mathbf{B}_b^T d\Omega &
     \displaystyle \mathbf{R}^{ab} &= \int_{\Omega_e} N_a \mathbf{S} N_b d\Omega \\[5pt]
-    \displaystyle \mathbf{F}^{ab} &= \int_{\Omega_e} N_a gh\mathbf{z}_b d\Omega +
+    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a gh\mathbf{z}_b d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ given by
 
 \begin{subequations}
 \begin{equation}
@@ -455,16 +456,16 @@ where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives ma
 \end{equation}
 \end{subequations}
 
-The stabilization and shock capturing terms from equation (\ref{discrete_sw}) result in analogous matrices with higher derivatives order, the boundary integral is neglected
+The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) result in analogous matrices with higher derivatives order, the boundary integral is neglected, i. e.,
 
 \begin{align}
-\displaystyle\mathbf{M}_K^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i N_b d\Omega &
-\displaystyle\mathbf{G}_K^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i\mathbf{A}_j \pder{N_b}{x_j} d\Omega \nonumber\\
+\displaystyle\mathbf{M}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i N_b d\Omega &
+\displaystyle\mathbf{G}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i\mathbf{A}_j \pder{N_b}{x_j} d\Omega \nonumber\\
 \displaystyle\mathbf{L}_{SC}^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \mathbf{B}_a \left[\begin{matrix}
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
-\displaystyle\mathbf{R}_K^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{F}_K^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i gh\mathbf{x}_b d\Omega
+\displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i gh\mathbf{x}_b d\Omega
 \nonumber
 \end{align}
 
@@ -476,7 +477,7 @@ The resulting expression from the spatial discretization (\ref{discrete_sw}) can
 \tilde{\mathbf{M}}\dot{\Phi}_h + \tilde{\mathbf{K}}\Phi_h = \tilde{\mathbf{F}}
 \end{equation}
 where the tilde symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
-We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system in a discrete time domain yields
+We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
 \tilde{\mathbf{M}}\dot{\Phi}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\Phi_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
@@ -543,12 +544,12 @@ We chose to include all the elements in the computation and to modify the balanc
 \begin{figure}
     \centering
     \includegraphics[width=.5\textwidth]{img/fig/partially_dry.pdf}
-    \caption{Dry, wet and partially wet elements in the one dimensional case. The dashed line shows the modified topography  and the corresponding free surface.}
+    \caption{Dry, wet and partially wet elements in 1D. The dashed line shows the modified topography  and the corresponding free surface.}
     \label{partially_dry}
 \end{figure}
 
 \paragraph{Avoiding the singularity of the system matrix}
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
@@ -577,15 +578,16 @@ In our numerical experiments we have chosen $k=10^3$.
 
 This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++. 
 %Even thought Kratos implements triangles and quadrilaterals with several orders of interpolation \cite{kratos2020}, we have restricted ourselves to linear triangles in order to test the possibilities of the stabilization method. \IgnasiCorregit{AQUESTA FRASE D'ABANS JO LA POSARIA A LA INTRODUCCIO DE L'ARTICLE, JUST ABANS DE LA ORGANITZACIO DEL PAPER}
-In this section we present four different examples. Three of them are oriented to verify a single aspect of the procedure explained in this research. The last one is devoted to test all the capabilities of the formulation in a practical case for which experimental data is available.
+In this section we present four different examples. Three of them are oriented to verify a single aspect of the procedure explained in this research, the global stabilization, the shock capturing technique and the dry-wet interface.
+The last one is devoted to test all the capabilities of the formulation in a practical case for which experimental data is available.
 
 
 \subsection{Wave in a channel with a backward step}
 
-The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. Also, a calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
+The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. A calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
 We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. Figure \ref{waves_propagation} shows the propagation of the wave along the channel.
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (Figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
-The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In that example, the shock capturing term is disabled.
+The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In this example, the shock capturing term is disabled.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/step/mesh.pdf}
@@ -674,7 +676,7 @@ The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10$ 
 \begin{equation}
 z(x,y) = h_0 \left(\frac{1}{a^2}\left(x - \frac{L}{2}\right)^2 - 1\right)
 \end{equation}
-and the primitive variables are defined by
+The primitive variables are defined by
 \begin{subequations}
 \begin{align}
 h(x,y) &=
@@ -698,9 +700,9 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
 
-The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. All the meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water begins to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh, the most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
+The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water begins to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
 
-Figure \ref{parabola_results} show the results using the finest mesh. The discretization is not shown for the sake of simplicity. As expected, there is no transversal variation on the results.
+Figure \ref{parabola_results} show the results using the finest mesh. The discretization is not shown for the sake of simplicity. As expected, there is no variation on the results in the transversal section.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/par/mesh_0.1.pdf}
@@ -740,7 +742,7 @@ Figure \ref{parabola_results} show the results using the finest mesh. The discre
     Time $t=1s$
     \includegraphics[width=\textwidth]{img/par/parabola_t1.0.pdf}
 \end{subfigure}
-\caption{parabolic basin. Cuts along the mesh of size $0.03m$ at different times. There are 333 nodes on the cut.}
+\caption{Parabolic basin. Cuts along the mesh of size $0.03m$ at different times. There are 333 nodes on the cut.}
 \label{parabola_graphic}
 \end{figure}
 
@@ -775,11 +777,11 @@ Figure \ref{parabola_results} show the results using the finest mesh. The discre
 
 The third example in a benchmark based on the Mac Donald's type solutions \cite{macdonald1997}. The analytical solution can be found in the same compilation than the previous example \cite{delestre2013}. This test presents a channel with a steady state solution. There is a subcritical inlet and a transcritical flow is produced. The outlet is also subcritical and then a shock is generated at $\sfrac{2}{3}$ of the channel. The aim of this example is to evaluate the shock capturing technique presented and the correct location of the hydraulic jump, which depends on the bottom friction law.
 
-Here we will consider the one-dimensional shallow water equations without diffusion and only with Manning bottom friction as source term. A steady state solution satisfies $\pder{q}{x}=0$ and Equation (\ref{general_sw}) reduces to
+Here we will consider the 1D shallow water equations without diffusion and only with Manning bottom friction as source term. A steady state solution satisfies $\pder{q}{x}=0$ and Equation (\ref{general_sw}) reduces to
 \begin{equation} \label{steady_state}
 \pder{z}{x} = \left(\frac{v^2}{gh}-1\right) \pder{h}{x} - n^2\frac{\abs{v}v}{h^{\sfrac{4}{3}}}
 \end{equation}
-This relation allows to integrate the topography given an analytical expression for the water height. Another approach in hydraulics is to consider a given discharge and topography and integrate the water height using Equation (\ref{steady_state}). Following both approaches exact solutions can be obtained. Since this expression involves the bottom friction, we can prove if the friction term is coded in order to satisfy the steady state.
+This relation allows to integrate the topography given an analytical expression for the water height. Another approach in hydraulics is to consider a given discharge and topography and integrate the water height using Equation (\ref{steady_state}). Following both approaches exact solutions can be obtained. Since this expression involves the bottom friction, we can verify if the friction term is correctly coded in order to satisfy the steady state.
 
 For this benchmark we have considered the domain defined by the interval $[0,100]\times[0,5]$ which is a channel of $100m$ length and $5m$ width (Figure \ref{chanel_geometry}), and the following boundary conditions:
 \begin{equation}
@@ -805,13 +807,13 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
 \end{equation}
 where $a_1=0.674202$, $a_2=21.7112$, $a_3=14.492$ and $a_4=1.4305$. The topography is obtained by a numerical integration using the fourth order Runge Kutta method.
 
-Like in the previous example, several meshes are employed and a convergence analysis is performed (see figure \ref{hydraulic_jump_convergence}). Given thar initial conditions, the hydraulic jump is developed between the first $80s$. The overall error is computed at time $t=200s$, in order to ensure the stationary state is achieved.
+As in the previous example, several meshes are employed and a convergence analysis is performed (Figure \ref{hydraulic_jump_convergence}). Given the initial conditions, the hydraulic jump is generated between the first $80s$. The overall error is computed at time $t=200s$, in order to ensure the stationary state is achieved.
 
-The reader can compare the results from different meshes in Figures \ref{mac_donald_shock_graph_5} and \ref{mac_donald_shock_graph_2}. The oscillations are reduced with the finer mesh (Figure \ref{mac_donald_shock_graph_2}), but there is a peak on the discharge at the location of the shock. This peak is originate because the momentum balance includes the gradient of the total water depth, and the analytical gradient is a Dirac delta function.
+Results from different meshes are compared in Figures \ref{mac_donald_shock_graph_5} and \ref{mac_donald_shock_graph_2}. The oscillations are reduced with the finer mesh (Figure \ref{mac_donald_shock_graph_2}), but there is a peak on the discharge at the location of the shock. This peak is originated because the momentum balance includes the gradient of the total water depth, and the analytical gradient is a Dirac delta function.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/jump/sketch/sketch.pdf}
-    \caption{Short channel. Geometry of the channel. The vertical line shows the position of the hydraulic jump, the shadowed area correspond to the location where the $L_2$ norm of the error is computed.}
+    \caption{Short channel. Geometry of the channel. The vertical line shows the position of the hydraulic jump. The shadowed area correspond to the location where the $L_2$ norm of the error is computed.}
     \label{chanel_geometry}
 \end{figure}
 
@@ -854,14 +856,14 @@ The reader can compare the results from different meshes in Figures \ref{mac_don
 \subsection{Experimental dam break flow against an isolated building}
 
 The last example consists on the reproduction of the experiment carried out by Soares \cite{soares2007}.
-A dam break flow with a building downstream is simulated and the problem definition is depicted in Figure \ref{experiment_sketch}. The channel is $3.4m$ width and the end of the dam is located at $x=0$.
+A dam break flow with a building downstream is simulated. The problem definition is depicted in Figure \ref{experiment_sketch}. The channel is $3.4m$ width and the end of the dam is located at $x=0$.
 As initial conditions, the water depth is set to $0.4m$ in the reservoir, while the channel is dry. The Manning coefficient is $0.01ms^{-1}$ over all the domain.
 At the beginning of the simulation, the gate of the dam is removed and the water is allowed to flow around the building.
 There are some gauges (Table \ref{gauges_positions}) where the water height is recorded and experimental data is used to validate the numerical method.
 
 The domain is discretized with a mesh with an average element size of $0.05m$. There are 115.000 elements and the time step is computed to keep a courant number of 1.0. Figure \ref{experiment_mesh} displays two details of the mesh, near the dam and around the building.
 
-Figure \ref{experiment_plots} shows several results of the water depth after the gate release and figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges. An initial delay is observed in the propagation of the front in the gauges 1 to 5.
+Figure \ref{experiment_plots} shows several results of the water depth after the gate release. Figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges. An initial delay is observed in the propagation of the front in the gauges 1 to 5.
 The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
 Regarding the performance of that formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
 
@@ -920,10 +922,10 @@ Gauge number & X & Y \\ \hline
 
 \section{Concluding remarks} \label{sec:conclusions}
 
-We have extended the FIC-FEM procedure to the shallow water equations. Unlike the FIC-based stabilizations for incompressible flows, the present procedure is applied to the coupled mass and momentum balance at the same time using the linearization matrix $\mathbf{A}_i$. It can be seen that this procedure casts to the classical FIC-stabilization for convection diffusion problems, taking the velocity $u_i$ as linearization term. The same procedure can be applied to develop stabilized formulations for compressible flows.
+We have extended the FIC-FEM procedure to the shallow water equations. Unlike the FIC-based stabilizations for incompressible flows, the present procedure is applied to the coupled mass and momentum balance at the same time using the linearization matrix $\mathbf{A}_i$. It can be seen that this procedure casts to the classical FIC-stabilization for convection diffusion problems, taking the velocity as linearization term. The same procedure can be applied to develop stabilized formulations for compressible flows.
 %Compared to the FIC-based stabilized formulations for incompressible flows, the FIC-FEM procedure should be applied to the coupled mass and momentum balance. The same procedure can be applied to develop stabilized formulations for compressible flows.\Miguel{NO SE SI S'ENTÉN AIXÒ: QUE NO ES POT ESTABILITZAR EL MOMENT PER UNA BANDA I LA MASSA PER L'ALTRA BANDA} \IgnasiCorregit{ESTIC D'ACORD, FES UNA ACLARACIO D'AIXO}
 
-The present extension of the FIC-procedure to the shallow water equations uses the linearization matrix $\mathbf{A}_i$ for the fluxes term to project the characteristic length. However, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in Section \ref{sec:examples}.
+The present extension of the FIC-procedure to the shallow water equations uses the linearization matrix $\mathbf{A}_i$ for the flux terms to project the characteristic length. However, an alternative framework can be explored with the ASGS \cite{hughes1995,codina2008} formulation, which includes the linearization matrices of the viscous terms and reaction terms. Since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in Section \ref{sec:examples}.
 %((Even though this method presents an equivalent structure as SUPG, a more general framework can be explored with the VMS formulation, which includes the linearization matrices of the viscous terms and reaction terms. However, since the shallow water equations are dominated by the convective matrix $\mathbf{A}_i$, and thus are strictly hyperbolic, the present stabilization is enough to provide stability, as shown in Section \ref{sec:examples}))
 %\IgnasiCorregit{NO ENTENC PERQUE PARLES DE L'ESTABILITZACIO VMS AQUI. HA DE QUEDAR CLAR QUINA ES L'APORTACIO DEL PAPER EN RELACIO A L'ESTABILITZACIO PRESENTADA} \Miguel{AQUÍ ESTIC PARLANT DEL LIMITS DE L'APORTACIÓ.}
 
