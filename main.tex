@@ -15,8 +15,8 @@
 \usepackage{float}         % placing figures
 \usepackage{framed}        % framed environment with right alignment
 \usepackage[toc]{appendix} % changing numbering to capital letters
-\usepackage{cite}
-\usepackage{ulem}
+\usepackage{cite}          % bibliography style, multiple citations
+\usepackage[normalem]{ulem}% underline (ul) command
 \usepackage{ifthen}
 \usepackage[usenames,dvipsnames]{xcolor}
 
@@ -37,14 +37,6 @@
 \newcommand{\keywords}[1]{\textit{Keywords -} #1}
 \renewcommand\Affilfont{\itshape\small}
 
-\makeatletter
-\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
-\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
-\makeatother
-
-\newcolumntype{+}{>{\global\let\currentrowstyle\relax}}
-\newcolumntype{^}{>{\currentrowstyle}}
-\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}#1\ignorespaces}
 
 \title{A FIC-FEM procedure for the shallow water equations over partially wet domains}
 
@@ -716,7 +708,7 @@ Figure \ref{parabola_results} show the results using the finest mesh. The discre
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.58\textwidth}
-    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
+    \begin{tabular}{>{\small}rcccc} \hline
     $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL & $L_2(e_{rel})$ \\ \hline
 205 & 0.25 & 0.008 & 0.5 & 0.24 \\
 1,111 & 0.1 & 0.003 & 0.5 & 0.064 \\
@@ -825,7 +817,7 @@ Results from different meshes are compared in Figures \ref{mac_donald_shock_grap
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.58\textwidth}
-    \begin{tabular}{+>{\small}r^c^c^c^c} \hline
+    \begin{tabular}{>{\small}rcccc} \hline
     $n_{nodes}$ & $\Delta x$ & $\Delta t$ & CFL   & $L_2(e_{rel})$ \\ \hline
     204         &        2.0 &      0.005 & 0.016 & 0.177 \\
     606         &        1.0 &      0.005 & 0.031 & 0.138 \\
