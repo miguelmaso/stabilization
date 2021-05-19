@@ -149,7 +149,7 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}$ is the vector of convective fluxes, $\mathbf{G}$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 \begin{figure}
     \centering
@@ -271,7 +271,7 @@ The FIC formulation is the result of introducing the residual of the shallow wat
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
-    \omega_i \mathbf{r} + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
+    \omega_k \mathbf{r} + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
 \right) d\Omega = 0
 \end{equation}
 The second term of Equation (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element. Hence, the boundary integral which appears after integration by parts should be understood as the boundary of all the elements
@@ -317,8 +317,10 @@ Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper te
     \int_\Omega \omega_k r_i^q d\Omega
      - \int_\Omega \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j}
      d\Omega = 0
+    \label{partial_variational_shock_capt}
 \end{equation}
-which is integrated by parts and after rearranging terms yields
+
+After integration of Equation (\ref{partial_variational_shock_capt}) by parts and rearranging terms we obtain
 \begin{multline}
     \int_\Omega \omega_k r_i^q d\Omega 
     + \int_\Omega \pder{\omega_k}{x_j}
@@ -333,7 +335,7 @@ which is integrated by parts and after rearranging terms yields
 \end{multline}
 The last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
 
-The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}) and we obtain the following system of equations for both unknowns
+The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}). As a result we obtain the following system of equations for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
 \begin{align}
 \text{Momentum balance:} &&
@@ -347,8 +349,7 @@ The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b
 \end{align}
 \end{subequations}
 
-The above expressions (\ref{fic_shock_capturing}) are equivalent to a classical shock capturing method, which designs artificial diffusivity $k_{art}$ and artificial viscosity $\nu_{art}$
-
+The above expressions (\ref{fic_shock_capturing}) are equivalent to a classical shock capturing method, in which the artificial diffusivity $k_{art}$ and artificial viscosity $\nu_{art}$ can be identified as
 \begin{subequations} \label{k_art}
 \begin{equation}
 \nu_{art} = \frac{1}{2}\alpha l_e \frac{\abs{R(u_i)}}{\abs{\nabla u_i}}
@@ -410,7 +411,7 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
     \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a gh\mathbf{z}_b d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ given by
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ are given by
 
 \begin{subequations}
 \begin{equation}
@@ -455,8 +456,8 @@ The resulting expression from the spatial discretization (\ref{discrete_sw}) can
 \begin{equation} \label{discrete_compact}
 \tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{F}}
 \end{equation}
-where the tilde symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
-We have integrated this equation introducing a time discretization $t^n$ and using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
+where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
+We have integrated this equation introducing a time discretization using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
 \tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\bm{\phi}_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
@@ -509,7 +510,7 @@ where $\varepsilon$ is a threshold which depends on the elements size; usually $
 \mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
 \end{equation}
 where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema.
-Additionally, the expression(\ref{h_inv_kurganov}) tends to $0$ when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.
+Additionally, the expression(\ref{h_inv_kurganov}) tends to zero when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.
 
 
 \paragraph{Partially wet elements}
@@ -555,7 +556,7 @@ In our numerical experiments we have chosen $k=10^3$.
 
 \section{Examples} \label{sec:examples}
 
-This formulation has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++.
+The FIC-FEM formulation presented has been implemented in KratosMultiphysics \cite{dadvand2010, dadvand2013}, an open source framework of numerical methods written in C++.
 In this section we present four different examples. Three of them are oriented to verify a single aspect of the procedure explained in this research, the global stabilization, the shock capturing technique and the dry-wet interface.
 The last one is devoted to test all the capabilities of the formulation in a practical case for which experimental data is available.
 
@@ -676,7 +677,7 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
 
-The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water begins to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
+The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water starts to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
 
 Figure \ref{parabola_results} show the results using the finest mesh. The discretization is not shown for the sake of simplicity. As expected, there is no variation on the results in the transversal section.
 
@@ -841,7 +842,7 @@ The domain is discretized with a mesh with an average element size of $0.05m$. T
 
 Figure \ref{experiment_plots} shows several results of the water depth after the gate release. Figure \ref{experiment_gauges} shows the evolution of the water depth at the gauges. An initial delay is observed in the propagation of the front in the gauges 1 to 5.
 The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
-Regarding the performance of that formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
+Regarding the performance of the FIC-FEM formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
 
 \begin{figure}[H]
 \centering
@@ -903,8 +904,8 @@ The present extension of the FIC-procedure to the shallow water equations uses t
 
 The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have chosen $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing.
 
-The present FIC-FEM procedure has been able to produce accurate results for the examples considered.
-In the first example, the artificial diffusion is evaluated and it has been proved to be small and practically inappreciable. The shock capturing allows to solve supercritical problems with discontinuities and the present procedure is also able to deal with partially wet domains. Finally, a numerical simulation of a dam break flow against an isolated building is performed showing a good agreement with the experimental data.
+The present FIC-FEM procedure has produced accurate results for the examples considered.
+In the first example, the artificial diffusion is evaluated and it has been proved to be small and practically inappreciable. The shock capturing term allows to solve supercritical problems with discontinuities and the present procedure is also able to deal with partially wet domains. Finally, a numerical simulation of a dam break flow against an isolated building is performed showing a good agreement with the experimental data.
 
 
 
