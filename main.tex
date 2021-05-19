@@ -706,7 +706,7 @@ Figure \ref{parabola_results} show the results using the finest mesh. The discre
     \hline
     \end{tabular}
 \end{subfigure}
-\caption{Parabolic basin. Convergence analysis for the parabolic basin benchmark}
+\caption{Parabolic basin. Convergence analysis for the water height.}
 \label{parabola_convergence}
 \end{figure}
 
@@ -789,12 +789,13 @@ where $a_1=0.674202$, $a_2=21.7112$, $a_3=14.492$ and $a_4=1.4305$. The topograp
 
 As in the previous example, several meshes are employed and a convergence analysis is performed (Figure \ref{hydraulic_jump_convergence}). The shock capturing parameter is $\alpha=1.0$ and we will study the accuracy of the hydraulic jump. 
 Given the initial conditions, the hydraulic jump is generated between the first $50$ and $80s$. The overall error is computed at time $t=200s$, in order to ensure the stationary state is achieved.
+The table from Figure \ref{hydraulic_jump_convergence} shows the error of the $x$-discharge over all the domain using the $L_2$ norm.
 
 Results from different meshes are compared in Figures \ref{mac_donald_shock_graph_5} and \ref{mac_donald_shock_graph_2}. The oscillations are reduced with the finer mesh (Figure \ref{mac_donald_shock_graph_2}), but there is a peak on the discharge at the location of the shock. This peak is originated because the momentum balance includes the gradient of the total water depth, and the analytical gradient is a Dirac delta function.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/jump/sketch/sketch.pdf}
-    \caption{Short channel. Geometry of the channel. The vertical line shows the position of the hydraulic jump. The shadowed area correspond to the location where the $L_2$ norm of the error is computed.}
+    \caption{Short channel. Geometry of the channel. The vertical line shows the position of the hydraulic jump.}
     \label{chanel_geometry}
 \end{figure}
 
@@ -813,7 +814,7 @@ Results from different meshes are compared in Figures \ref{mac_donald_shock_grap
     13026       &        0.2 &      0.005 & 0.15  & 0.041 \\ \hline
     \end{tabular}
 \end{subfigure}
-\caption{Short channel. Convergence analysis for the short channel with smooth transition and shock.}
+\caption{Short channel. Convergence analysis for the $x$-discharge.}
 \label{hydraulic_jump_convergence}
 \end{figure}
 
