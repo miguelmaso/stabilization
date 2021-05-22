@@ -1,4 +1,5 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,12pt]{elsarticle}
+
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -6,50 +7,42 @@
 \usepackage{amssymb}       % it also loads amsfonts
 \usepackage{bm}            % bold Greek letters
 \usepackage{xfrac}         % slanted fraction
-\usepackage{bookmark}      % links and bookmarks
-\usepackage{lmodern}       % font
+\usepackage{hyperref}      % requires manual specification of author and title
 \usepackage{fix-cm}        % arbitrary font size
-\usepackage{authblk}       % authors block
 \usepackage{array}         % extending tabular environment
 \usepackage{subcaption}    % sub-figures
 \usepackage{float}         % placing figures
-\usepackage{framed}        % framed environment with right alignment
-\usepackage[toc]{appendix} % changing numbering to capital letters
-\usepackage{cite}          % bibliography style, multiple citations
-\usepackage[normalem]{ulem}% underline (ul) command
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{xcolor}
 
-\usepackage{ifthen}
-\newboolean{show_comments}
-\setboolean{show_comments}{true}
-\newcommand\Ignasi[1]{\ifthenelse{\boolean{show_comments}}{\textcolor{blue}{#1}}{}}
-\newcommand\Miguel[1]{\ifthenelse{\boolean{show_comments}}{\textcolor{red}{#1}}{}}
+\hypersetup{
+    pdftitle={A FIC-FEM procedure for the shallow water equations over partially wet domains},
+    pdfauthor={M. Masó, I. de-Pouplana, E. Oñate}
+}
 
+\newcommand{\Ignasi}[1]{\textcolor{blue}{#1}}
+\newcommand{\Miguel}[1]{\textcolor{red}{#1}}
 \newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
 \newcommand{\ppder}[2]{\frac{\partial^2#1}{\partial#2^2}}
 \newcommand{\abs}[1]{\lvert#1\rvert}
 \newcommand{\norm}[1]{\lVert#1\rVert}
 \newcommand{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex\lineskiplimit0pt\hbox{\scriptsize.}\hbox{\scriptsize.}}}=}
-\newcommand{\keywords}[1]{\textit{Keywords -} #1}
-\renewcommand\Affilfont{\itshape\small}
 
-
-\title{A FIC-FEM procedure for the shallow water equations over partially wet domains}
-
-\author[1,2]{Miguel Masó}
-\author[1,2]{Ignasi de-Pouplana}
-\author[1,2]{Eugenio Oñate}
-\affil[1]{Centre Int. de Mètodes Numèrics a l'Enginyeria (CIMNE), Barcelona, Spain}
-\affil[2]{Universitat Politècnica de Catalunya (UPC), Barcelona, Spain}
 
 \begin{document}
 
 \hyphenation{Uni-ver-sitat Poli-tec-nica Cata-lunya}
 
-\maketitle
+\begin{frontmatter}
+\title{A FIC-FEM procedure for the shallow water equations over partially wet domains}
+\author[1,2]{Miguel Masó \corref{cor1}}
+\ead{mmaso@cimne.upc.edu}
+\author[1,2]{Ignasi de-Pouplana}
+\author[1,2]{Eugenio Oñate}
+\cortext[cor1]{Corresponding author}
+\address[1]{Centre Int. de Mètodes Numèrics a l'Enginyeria (CIMNE), Barcelona, Spain}
+\address[2]{Universitat Politècnica de Catalunya (UPC), Barcelona, Spain}
 
 \begin{abstract}
-\noindent
 We present a stable finite element formulation for the shallow water equations using the finite increment calculus (FIC) procedure.
 This research is focused on the stability properties of the FIC technique and uses linear triangles for the spatial discretization with an equal order of interpolation for all the variables.
 The extension to higher order polynomial interpolation functions and different geometries is straightforward.
@@ -57,12 +50,12 @@ The present FIC-FEM procedure is also able to introduce artificial viscosity for
 An implicit time integration has been used. Special attention has been payed to the dry domain in order to solve the moving boundaries with a fixed mesh eulerian approach.
 Three academic examples are included in order to test the capabilities of the FIC-FEM procedure: the global stabilization, the shock capturing technique and the dry-wet interface.
 An experimental benchmark tests the overall accuracy of the present formulation.
-%In this paper we present a stable finite element formulation for the shallow water equations. The FIC procedure is able to develop a stabilized formulation as well to design an artificial viscosity for an adequate shock capturing. This method is applied to partially wet domains.
-\vspace{1em}
-
-\noindent
-\keywords{shallow water equations, finite element method, continuous Galerkin, FIC stabilization, dry-wetting model}
 \end{abstract}
+
+\begin{keyword}
+shallow water equations \sep finite element method \sep continuous Galerkin \sep FIC stabilization \sep dry-wetting model
+\end{keyword}
+\end{frontmatter}
 
 
 \section{Introduction}
@@ -959,7 +952,8 @@ u_2  & u_1  & -u_1u_2
 \end{subequations}
 
 
+\biboptions{sort&compress}
+\bibliographystyle{elsarticle-num}
 \bibliography{../bibliography/sw}
-\bibliographystyle{ieeetr}
 
 \end{document}
