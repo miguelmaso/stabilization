@@ -14,6 +14,8 @@
 \usepackage{float}         % placing figures
 \usepackage{xcolor}
 
+\usepackage{ulem}          % package for underlying. Remove after the revision.
+
 \hypersetup{
     pdftitle={A FIC-FEM procedure for the shallow water equations over partially wet domains},
     pdfauthor={M. Masó, I. de-Pouplana, E. Oñate}
@@ -145,7 +147,8 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$, with $i=1,3$, while the number of dimensions $n_d$ is equal to 2. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$ \Miguel{\sout{, with $i=1,3$. while the number of dimensions $n_d$ is equal to 2}} \Miguel{. Since this formulation is defined in a two dimansional space ($n_d=2$), in the following we will consider $i=1,2$}. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+
 
 \begin{figure}
     \centering
@@ -165,26 +168,29 @@ where $\bm{\phi}_0$ are the initial water height and specific discharge. Equatio
 \bm{\phi} = \bm{\phi}_D \qquad &\text{in} \ \Gamma_D \\
 \mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \ \Gamma_N
 \end{align}
-where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions ind $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
+where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 
 The bottom friction $\tau^b_{3i}$ is modelled with the Manning formula generalized for two dimensions as
 
 \begin{equation}
 \frac{\tau^b_{3i}}{\rho} = -gn^2\frac{\abs{\mathbf{u}}\mathbf{u}}{h^{\sfrac{4}{3}}}
 \end{equation}
+\Miguel{
+where $n$ is the Manning coefficient. It defines the resistance to flow by the roughness of the bottom or other factors and it is determined empirically. In practice, the Manning coefficient varies from 0.01 for a very smooth bed (concrete) to 0.05 for a rough bed (rocks) \cite{chow1988}
+}
 
 The averaged horizontal stresses are calculated from the combination of the molecular stresses and the Reynolds stresses as follows
-
 \begin{equation} \label{stresses}
 \frac{\tau_{ij}}{\rho} = (\nu + \nu_t)\left(
     \pder{u_i}{x_j} + \pder{u_j}{x_i} -\frac{2}{3}\delta_{ij}\pder{u_k}{x_k} \right)
 \end{equation}
+where $\nu$ is the kinematic viscosity and $\nu_t$ is the turbulent kinematic viscosity. When any model of turbulence is considered, the turbulent stresses can be included in the bottom friction with the Manning formula \cite{blade2005}. In this work, the turbulent stresses will be neglected.
 
 The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
 \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
- - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} = 0
+ - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \Miguel{ \mathbf{b}_i\pder{z}{x_i} } = 0
 \end{equation}
 where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
@@ -208,15 +214,27 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization ma
 \end{subequations}
 and $c=\sqrt{gh}$ is the wave speed. The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.
 
+\Miguel{
+The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography $z$ and later, rearranging terms with the independent vector $\mathbf{Q}$.
+\begin{equation*}
+    \mathbf{b}_i = \left[\begin{matrix}
+        \delta_{i1} c^2 \\
+        \delta_{i2} c^2 \\
+        0
+    \end{matrix}\right]
+\end{equation*}
+CONVÉ AFEGIR AQUESTA EQUACIÓ ENUMERADA?
+}
+
 The bottom friction term is linearized using a reaction matrix $\mathbf{S}$
 \begin{equation}
 \mathbf{S} = \left[\begin{matrix}
-    \frac{g\abs{\mathbf{u}}}{n^2h^{4/3}} & 0 & 0 \\
-    0 & \frac{g\abs{\mathbf{u}}}{n^2h^{4/3}} & 0 \\
+    \frac{gn^2\abs{\mathbf{u}}}{h^{4/3}} & 0 & 0 \\
+    0 & \frac{gn^2\abs{\mathbf{u}}}{h^{4/3}} & 0 \\
     0 & 0 & 0
 \end{matrix}\right]
 \end{equation}
-In the following sections, the rain, the atmospheric pressure gradient and the wind friction will be neglected, retaining the topography gradient in the source vector $\mathbf{T}$.
+In the following sections, the rain, the atmospheric pressure and the wind friction will be neglected.
 
 \section{FIC stabilization}\label{sec:stabilization}
 
@@ -225,7 +243,7 @@ We will consider the quasi-linear balance equations written in residual form as 
 \begin{equation} \label{residual}
 \mathbf{r} \defeq 
   \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
-  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{T} \qquad i,k\in\{1,n_d\}
+  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} \qquad i,k\in\{1,n_d\}
 \end{equation}
 where $n_d=2$ is the number of dimensions. The size of the vector $\mathbf{r}$ is equal to the number of balance equations, $n_b=3$.
 
@@ -257,7 +275,7 @@ In this paper we propose a stabilization term which is oriented along the charac
 r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i} = 0
     \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
 \end{equation}
-For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}. Recovering the vector notation for the residual, the FIC-balance reads
+For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda=\abs{\mathbf{u}} + c$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}. Recovering the vector notation for the residual, the FIC-balance reads
 \begin{equation} \label{fic_sw_beta}
 \mathbf{r} - \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
     \qquad i\in\{1,n_d\}
@@ -267,7 +285,7 @@ The FIC formulation is the result of introducing the residual of the shallow wat
 
 \begin{equation} \label{variational_fic}
 \int_\Omega \left(
-    \omega_k \mathbf{r} + \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
+    \omega_k \mathbf{r} - \omega_k \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\mathbf{r}}{x_i}
 \right) d\Omega = 0
 \end{equation}
 The second term of Equation (\ref{variational_fic}) is integrated by parts. Note that the element length $l^e$, the linearization matrix $\mathbf{A}_i$ and its eigenvalue $\lambda$ are defined constant inside the element. Hence, the boundary integral which appears after integration by parts should be understood as the boundary of all the elements
@@ -275,21 +293,21 @@ The second term of Equation (\ref{variational_fic}) is integrated by parts. Note
 \begin{equation} \label{variational_fic_parts}
 \int_\Omega \omega_k \mathbf{r} d\Omega
 + \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} \mathbf{r} d\Omega
-+ \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_k \mathbf{r} d\Gamma = 0
+- \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_k \mathbf{r} d\Gamma = 0
 \end{equation}
 In this work we neglect the boundary integrals assuming that the residual $\mathbf{r}$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term. The result is
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
     \omega_k \pder{\bm{\phi}}{t} + \omega_k \mathbf{A}_i\pder{\bm{\phi}}{x_i}
-    + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} + \mathbf{S}\bm{\phi} + \mathbf{F}
+    + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} + \omega_k \mathbf{S}\bm{\phi} + \omega_k \mathbf{b}_i\pder{z}{x_i}
 \right) d\Omega\\ +
 \int_\Omega \frac{\beta l^e}{\lambda} \left(
     \pder{\omega_k}{x_j} \mathbf{A}_j \pder{\bm{\phi}}{t}
     + \pder{\omega_k}{x_j} \mathbf{A}_j\mathbf{A}_i\pder{\bm{\phi}}{x_i}
     + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} \right. \\
     \left.
-    + \pder{\omega_k}{x_j} \mathbf{A}_j(\mathbf{S}\bm{\phi} + \mathbf{F})
+    + \pder{\omega_k}{x_j} \mathbf{A}_j(\mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i})
 \right) d\Omega
 =0
 \end{multline}
@@ -404,7 +422,7 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
             \mathbf{C} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}
         \end{matrix}\right] \mathbf{B}_b^T d\Omega &
     \displaystyle \mathbf{R}^{ab} &= \int_{\Omega_e} N_a \mathbf{S} N_b d\Omega \\[5pt]
-    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a gh\mathbf{z}_b d\Omega +
+    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z_b}{x_i}} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
 where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ are given by
@@ -441,7 +459,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i gh\mathbf{x}_b d\Omega
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_i \pder{z_b}{x_i}} d\Omega
 \nonumber
 \end{align}
 
@@ -450,13 +468,13 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
 
 The resulting expression from the spatial discretization (\ref{discrete_sw}) can be written in the following compact form 
 \begin{equation} \label{discrete_compact}
-\tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{F}}
+\tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{f}}
 \end{equation}
-where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices for all the elements.
+where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices and \Miguel{vectors} for all the elements.
 We have integrated this equation introducing a time discretization using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
-\tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\bm{\phi}_h^{n+1} = \tilde{\mathbf{F}}^{n+1} \\
+\tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1} + \tilde{\mathbf{K}}^{n+1}\bm{\phi}_h^{n+1} = \tilde{\mathbf{f}}^{n+1} \\
 \dot{\bm{\phi}}_h^{n+1} = \beta_0 \bm{\phi}_h^{n+1} + \beta_1 \bm{\phi}_h^n + \beta_2 \bm{\phi}_h^{n-1}
 \end{split}
 \end{equation}
@@ -482,7 +500,7 @@ where the superscript $i$ denotes the non linear iteration.
 This notation allows us to rewrite the system of equations (\ref{discrete_bdf2}) defining a left hand side matrix multiplied by the increment $\delta\bm{\phi}_h^i$ and a right hand side vector which depends on the previous non linear iteration as
 \begin{equation}
 [\beta_0\tilde{\mathbf{M}} + \tilde{\mathbf{K}}^{n+1,i}] \delta\bm{\phi}_h^i
-= \tilde{\mathbf{F}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\bm{\phi}_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1,i}
+= \tilde{\mathbf{f}}^{n+1,i} - \tilde{\mathbf{K}}^{n+1,i}\bm{\phi}_h^{n+1,i} - \tilde{\mathbf{M}}\dot{\bm{\phi}}_h^{n+1,i}
 \end{equation}
 The first non linear iteration $\bm{\phi}_h^{n+1,0}$ is initialized using a prediction given from the BDF formula at the last time step:
 \begin{equation}
