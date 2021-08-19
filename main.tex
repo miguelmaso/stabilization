@@ -162,13 +162,38 @@ The problem is closed with an initial boundary condition,
 \begin{equation}
 \bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
-where $\bm{\phi}_0$ are the initial water height and specific discharge. Equation (\ref{general_sw}) satisfy the standard boundary conditions in space
+where $\bm{\phi}_0$ are the initial water height and specific discharge.
+\Miguel{\sout{
+Equation (\ref{general_sw}) satisfy the standard boundary conditions in space
+}}
 
+\Miguel{
 \begin{align}
-\bm{\phi} = \bm{\phi}_D \qquad &\text{in} \ \Gamma_D \\
-\mathbf{F}_i\mathbf{n} = F_N \qquad &\text{in} \ \Gamma_N
+\xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
+\xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
 \end{align}
+\sout{
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
+}}
+
+\Miguel{
+The following boundary conditions are considered covering all the boundary $\Gamma$ of the domain $\Omega$:
+\begin{itemize}
+    \item Inflow boundary: the flow rate is known (¿¿¿¿also the depth if super-critic????)
+    \begin{equation*}
+        \mathbf{q} = \mathbf{q}_{in} \quad \text{in} \quad \Gamma_{in}
+    \end{equation*}
+    \item Outflow boundary: the water depth is known
+    \begin{equation*}
+        h = h_{out} \quad \text{in} \quad \Gamma_{out}
+    \end{equation*}
+    if the outflow is supercritical, no conditions have to be imposed.
+    \item Solid boundary: slip or no slip condition can be imposed
+    \begin{equation*}
+        \mathbf{u} \cdot \mathbf{n} = 0 \quad \text{or} \quad \mathbf{u} = \mathbf{0} \quad \text{in} \quad \Gamma_{solid}
+    \end{equation*}
+\end{itemize}
+}
 
 The bottom friction $\tau^b_{3i}$ is modelled with the Manning formula generalized for two dimensions as
 
