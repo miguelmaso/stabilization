@@ -168,10 +168,10 @@ Equation (\ref{general_sw}) satisfy the standard boundary conditions in space
 }}
 
 \Miguel{
-\begin{align}
+\begin{align*}
 \xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
 \xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
-\end{align}
+\end{align*}
 \sout{
 where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
 }}
@@ -237,7 +237,14 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization ma
     \end{matrix} \right]
 \end{equation}
 \end{subequations}
-and $c=\sqrt{gh}$ is the wave speed. The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.
+and $c=\sqrt{gh}$ is the wave speed.
+\Miguel{\sout{The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.}}
+\Miguel{
+For the unidimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
+In two dimensions, given the unit vector $\mathbf{e}$, the eigenvalues of the matrix $e_i \mathbf{A}_i$ are $\lambda_{1,3} = \mathbf{e}\cdot\mathbf{u} \pm c$ and $\lambda_2 = \mathbf{e}\cdot\mathbf{u}$.
+%In two dimensions, the eigenvalues of the matrix $\alpha_1\mathbf{A}_1 + \alpha_2\mathbf{A}_2$ are $\lambda_{1,3} = \alpha_1u_1 + \alpha_2u_2 \pm c$ and $\lambda_2 = \alpha_1u_1 + \alpha_2u_2$.
+The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$), this property is called strictly hyperbolicity \cite{raviart1996}. The eigenvalues are velocities, namely the ones of surface waves on the fluid. Note that in the dry zones, where $h=0$, the eigenvalues coincide and the system is no longer hyperbolic. This introduces difficulties at theoretical and numerical level.
+}
 
 \Miguel{
 The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as $\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}) and is explained in more detail in section \ref{sec:fem}.
