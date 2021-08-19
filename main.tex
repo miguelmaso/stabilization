@@ -190,9 +190,9 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
 \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
- - \pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \Miguel{ \mathbf{b}_i\pder{z}{x_i} } = 0
+ - \pder{}{x_{\Miguel{i}}}\left(\mathbf{K}_{\Miguel{ij}}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \Miguel{ \mathbf{b}_i\pder{z}{x_i} } = 0
 \end{equation}
-where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
+where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
 \begin{align}
 \pder{\mathbf{F}_i}{x_i} &= \pder{\mathbf{F}_i}{\bm{\phi}}\pder{\bm{\phi}}{x_i} \\
@@ -215,18 +215,21 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ik}$ are the linearization ma
 and $c=\sqrt{gh}$ is the wave speed. The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.
 
 \Miguel{
+The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as $\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}) and is explained in more detail in section \ref{sec:fem}.
+}
+
+\Miguel{
 The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography $z$ and later, rearranging terms with the independent vector $\mathbf{Q}$.
-\begin{equation*}
+\begin{equation}
     \mathbf{b}_i = \left[\begin{matrix}
         \delta_{i1} c^2 \\
         \delta_{i2} c^2 \\
         0
     \end{matrix}\right]
-\end{equation*}
-CONVÉ AFEGIR AQUESTA EQUACIÓ ENUMERADA?
+\end{equation}
 }
 
-The bottom friction term is linearized using a reaction matrix $\mathbf{S}$
+The bottom friction term \Miguel{acting in the source term vector} is linearized using a reaction matrix $\mathbf{S}$
 \begin{equation}
 \mathbf{S} = \left[\begin{matrix}
     \frac{gn^2\abs{\mathbf{u}}}{h^{4/3}} & 0 & 0 \\
@@ -243,7 +246,7 @@ We will consider the quasi-linear balance equations written in residual form as 
 \begin{equation} \label{residual}
 \mathbf{r} \defeq 
   \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
-  -\pder{}{x_k}\left(\mathbf{K}_{ik}\pder{\bm{\phi}}{x_i}\right) + \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} \qquad i,k\in\{1,n_d\}
+  -\pder{}{x_i}\left(\mathbf{K}_{ij}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} \qquad i,k\in\{1,n_d\}
 \end{equation}
 where $n_d=2$ is the number of dimensions. The size of the vector $\mathbf{r}$ is equal to the number of balance equations, $n_b=3$.
 
@@ -259,12 +262,12 @@ For the stabilization of the Navier-Stokes equations different projections of th
 
 \begin{subequations}
 \begin{align}
-r_j - \frac{1}{2}l^e_i\pder{r_j}{x_i} &= 0
-    \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}\\[5pt]
-r_j - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_j}{x_i} &= 0
-    \qquad i,j\in\{1,n_d\}\\[5pt]
-r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_j}{x_i} &= 0
-    \qquad i,j\in\{1,n_d\}
+r_{\Miguel{k}} - \frac{1}{2}l^e_i\pder{r_k}{x_i} &= 0
+    \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}\\[5pt]
+r_{\Miguel{k}} - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_k}{x_i} &= 0
+    \qquad i,k\in\{1,n_d\}\\[5pt]
+r_{\Miguel{k}} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_k}{x_i} &= 0
+    \qquad i,k\in\{1,n_d\}
 \end{align}
 \end{subequations}
 
@@ -272,8 +275,8 @@ r_j - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{
 In this paper we propose a stabilization term which is oriented along the characteristics of the hyperbolic equations, as
 
 \begin{equation} \label{fic_sw}
-r_j - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_j}{x_i} = 0
-    \qquad i\in\{1,n_d\} \ ,\ j\in\{1,n_b\}
+r_{\Miguel{k}} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_k}{x_i} = 0
+    \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}
 \end{equation}
 For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda=\abs{\mathbf{u}} + c$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}. Recovering the vector notation for the residual, the FIC-balance reads
 \begin{equation} \label{fic_sw_beta}
@@ -300,14 +303,14 @@ In this work we neglect the boundary integrals assuming that the residual $\math
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
     \omega_k \pder{\bm{\phi}}{t} + \omega_k \mathbf{A}_i\pder{\bm{\phi}}{x_i}
-    + \pder{\omega_k}{x_j} \mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} + \omega_k \mathbf{S}\bm{\phi} + \omega_k \mathbf{b}_i\pder{z}{x_i}
+    + \pder{\omega_k}{x_i} \mathbf{K}_{ij} \pder{\bm{\phi}}{x_j} + \omega_k \mathbf{S}\bm{\phi} + \omega_k \mathbf{b}_i\pder{z}{x_i}
 \right) d\Omega\\ +
 \int_\Omega \frac{\beta l^e}{\lambda} \left(
     \pder{\omega_k}{x_j} \mathbf{A}_j \pder{\bm{\phi}}{t}
     + \pder{\omega_k}{x_j} \mathbf{A}_j\mathbf{A}_i\pder{\bm{\phi}}{x_i}
-    + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{jk} \pder{\bm{\phi}}{x_i} \right. \\
+    + \ppder{\omega_k}{x_j} \mathbf{A}_j\mathbf{K}_{ij} \pder{\bm{\phi}}{x_i} \right. \\
     \left.
-    + \pder{\omega_k}{x_j} \mathbf{A}_j(\mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i})
+    + \pder{\omega_k}{x_j} \mathbf{A}_j \left( \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} \right)
 \right) d\Omega
 =0
 \end{multline}
@@ -459,7 +462,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_i \pder{z_b}{x_i}} d\Omega
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_j \pder{z_b}{x_j}} d\Omega
 \nonumber
 \end{align}
 
