@@ -613,12 +613,23 @@ The last one is devoted to test all the capabilities of the formulation in a pra
 \subsection{Wave in a channel with a backward step}
 
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. A calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
-We study the propagation of a wave in a channel with a backward step. The wave is reflected at the end and faces the step in the opposite direction. Figure \ref{waves_propagation} shows the propagation of the wave along the channel.
+\Miguel{
+We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh})and 1m depth. An initial perturbation in the free surface at the left wall generates a wave which travel from 0 to 6s. The initial perturbation reads
+\begin{equation}
+\eta = 0.05\cos(\pi x) \quad \text{if} \quad x<1, \quad \eta=0 \quad \text{otherwise}
+\end{equation}
+}
+
+\Miguel{
+Te wave is reflected at the right wall and faces the step in the opposite direction. 
+All the boundary conditions are set slip.
+}
+Figure \ref{waves_propagation} shows the propagation of the wave along the channel.
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (Figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
-The time step is set automatically to keep a Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In this example, the shock capturing term is disabled.
+The time step is set automatically to keep a maximum Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In this example, the shock capturing term is disabled.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{img/step/mesh.pdf}
+    \includegraphics[width=\textwidth]{img/step/geometry.pdf}
     \caption{Channel with a backward step. Domain and mesh used in the simulation. The average element size is $0.06m$. Near the obstacle the mesh size is $0.02m$. There are $3.125$ nodes and $5.826$ elements.}
     \label{step_mesh}
 \end{figure}
