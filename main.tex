@@ -355,13 +355,13 @@ In this section we explore other possibilities of the characteristic length defi
 \begin{subequations} \label{eq:shock_capt}
 \begin{align}
 \text{Momentum balance:} &&
-    r_i^q + \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \label{eq:shock_capt_a} && \\ 
+    r_i^q - \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j} &= 0 \label{eq:shock_capt_a} && \\ 
 \text{Mass balance:} &&
-    r^h + \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:shock_capt_b}
+    r^h - \frac{l^e}{2\norm{\nabla h}} \pder{h}{x_j} \pder{r^h}{x_j} &=0 \label{eq:shock_capt_b}
 \end{align}
 \end{subequations}
 
-Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in Equation (\ref{variational_fic}), and then integrating by parts, one obtains the following variational form:
+Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in Equation (\ref{variational_fic}), \Miguel{\sout{and then integrating by parts,}} one obtains the following variational form:
 \begin{equation}
     \int_\Omega \omega_k r_i^q d\Omega
      - \int_\Omega \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j}
@@ -401,10 +401,10 @@ The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b
 The above expressions (\ref{fic_shock_capturing}) are equivalent to a classical shock capturing method, in which the artificial diffusivity $k_{art}$ and artificial viscosity $\nu_{art}$ can be identified as
 \begin{subequations} \label{k_art}
 \begin{equation}
-\nu_{art} = \frac{1}{2}\alpha l_e \frac{\abs{R(u_i)}}{\abs{\nabla u_i}}
+\nu_{art} = \frac{1}{2}\alpha l_e \frac{\abs{r_i^q}}{\norm{\nabla u_i}}
 \end{equation}
 \begin{equation}
-k_{art} = \frac{1}{2}\alpha l_e \frac{\abs{R(h)}}{\abs{\nabla h}}
+k_{art} = \frac{1}{2}\alpha l_e \frac{\abs{r^h}}{\norm{\nabla h}}
 \end{equation}
 \end{subequations}
 where $\alpha$ is an algorithmic constant.
@@ -460,7 +460,7 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
     \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z_b}{x_i}} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ are given by
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity} are given by
 
 \begin{subequations}
 \begin{equation}
@@ -490,7 +490,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
 \begin{align}
 \displaystyle\mathbf{M}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i N_b d\Omega &
 \displaystyle\mathbf{G}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i\mathbf{A}_j \pder{N_b}{x_j} d\Omega \nonumber\\
-\displaystyle\mathbf{L}_{SC}^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \mathbf{B}_a \left[\begin{matrix}
+\displaystyle\mathbf{L}_{SC}^{ab} &= \int_{\Omega_e} \mathbf{B}_a \left[\begin{matrix}
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
