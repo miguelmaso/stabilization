@@ -832,9 +832,20 @@ For this benchmark we have considered the domain defined by the spatial domain $
     q_y = 0 \qquad &\text{in} \ \Gamma_{walls}
 \end{split}
 \end{equation}
-The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3\ m$ and defines the hydraulic jump. The expression of the exact water depth is:
+
+\Miguel{
+The problem is initialized with the following values:
+\begin{equation}
+\begin{split}
+    h(x,0) &= \max(h_{ex}(100) - z(x), h_{ex}(0)) \\
+    \mathbf{q}(x,0) &= \mathbf{0}
+\end{split}
+\end{equation}
+}
+
+The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3m$ and defines the hydraulic jump. The expression of the \Miguel{stationary} exact water depth is:
 \begin{equation} \label{jump_height_definition}
-    h = \begin{cases}
+    h_{ex} = \begin{cases}
         \left(\frac{4}{g}\right)^\frac{1}{3} \left(\frac{4}{3} - \frac{x}{L}\right) - \frac{9x}{10L}
             \left(\frac{x}{L} - \frac{2}{3}\right) \, ,\ \text{for} \ x < \frac{2L}{3}\\
         \left(\frac{4}{g}\right)^\frac{1}{3} \left(
@@ -846,7 +857,7 @@ The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water heigh
         \right) \, ,\ \text{for} \ x \geq \frac{2L}{3}
     \end{cases}
 \end{equation}
-where $a_1=0.674202$, $a_2=21.7112$, $a_3=14.492$ and $a_4=1.4305$. The topography is obtained by a numerical integration using the fourth order Runge Kutta method.
+where $a_1=0.674202m$, $a_2=21.7112m$, $a_3=14.492m$, $a_4=1.4305m$ and $L=100m$. The topography is obtained by a numerical integration using the fourth order Runge Kutta method.
 
 As in the previous example, several meshes are employed and a convergence analysis is performed (Figure \ref{hydraulic_jump_convergence}). The shock capturing parameter is $\alpha=1.0$ and we will study the accuracy of the hydraulic jump. 
 Given the initial conditions, the hydraulic jump is generated between the first $50$ and $80s$. The overall error is computed at time $t=200s$, in order to ensure the stationary state is achieved.
