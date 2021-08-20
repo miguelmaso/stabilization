@@ -614,9 +614,9 @@ The last one is devoted to test all the capabilities of the formulation in a pra
 
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. A calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
 \Miguel{
-We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh})and 1m depth. An initial perturbation in the free surface at the left wall generates a wave which travel from 0 to 6s. The initial perturbation reads
+We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh}) and 1m depth. An initial perturbation in the free surface at the left wall generates a wave which travel from 0 to 6s. The initial perturbation reads
 \begin{equation}
-\eta = 0.05\cos(\pi x) \quad \text{if} \quad x<1, \quad \eta=0 \quad \text{otherwise}
+\eta(t=0) = 0.05\cos(\pi x) \quad \text{if} \quad x<1, \quad \eta=0 \quad \text{otherwise}
 \end{equation}
 }
 
@@ -736,6 +736,10 @@ x_1(t) = -\frac{1}{2}\cos(2Bt) - a + \frac{L}{2} \\
 x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
+
+\Miguel{
+In that example the selected parameters are $h_0=1m$ and $a=1m$.
+}
 
 The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water starts to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
 
