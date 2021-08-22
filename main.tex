@@ -457,7 +457,7 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
             \mathbf{C} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}
         \end{matrix}\right] \mathbf{B}_b^T d\Omega &
     \displaystyle \mathbf{R}^{ab} &= \int_{\Omega_e} N_a \mathbf{S} N_b d\Omega \\[5pt]
-    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z_b}{x_i}} d\Omega +
+    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z}{x_i}} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
 where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity} are given by
@@ -494,7 +494,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_j \pder{z_b}{x_j}} d\Omega
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_j \pder{z}{x_j}} d\Omega
 \nonumber
 \end{align}
 
@@ -549,13 +549,12 @@ When small or quasi zero water depths are involved in simulations, some instabil
 
 \paragraph{Recovery of the velocity field}
 \Miguel{
-The construction of the tangent matrix $\tilde{\mathbf{K}}$ involves the velocity, which will be recovered given the primary variables $\bm{\phi}$ from the previous iteration.
-}
-%The first issue is the computation of the velocity field,
+The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the velocity, which will be recovered given the primary variables $\bm{\phi}$ from the previous iteration.
+}%The first issue is the computation of the velocity field,
 \Miguel{
-Since the computation of the velocity
+Since the computation of the velocity is the result of dividing
 }
-involves the division of the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{\sout{velocity} inverse of the water depth} is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{\sout{velocity} inverse of the water depth} is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
 \hat{h}^{-1} \defeq \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
@@ -592,6 +591,12 @@ We chose to include all the elements in the computation and to modify the balanc
     \label{partially_dry}
 \end{figure}
 
+Following the idea of \cite{defina2000}, the identification of partially wet elements is done across the definition of a wet fraction. But in this research, instead of modify the vertical integration of the Navier-Stokes equations, the wet fraction is just a numerical definition making use of the pseudo inverse $\hat{h}^{-1}$. The wet fraction $w$ reads:
+\begin{equation}
+w = h\hat{h}^{-1}
+\end{equation}
+This function makes possible to construct the source system vector $\mathbf{T}$ with a linear combination between $z$ and $z'$.
+
 \paragraph{Avoiding the singularity of the system matrix}
 Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
 
@@ -599,13 +604,15 @@ Since all the elements are included in the computational domain, the last issue 
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
+\Miguel{\sout{
 The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in Figure \ref{inverse_heihgt}. Expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
-\begin{equation}
-\omega = hh^{-1}_k
-\end{equation}
+}}%
+\begin{equation*}
+\Miguel{\xout{\omega = hh^{-1}_k}}
+\end{equation*}
 and so $\xi$ is defined as
 \begin{equation}
-\xi = k(1-\omega)
+\xi = k(1-w)
 \end{equation}
 In our numerical experiments we have chosen $k=10^3$.
 
