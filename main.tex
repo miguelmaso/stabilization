@@ -548,18 +548,33 @@ The first non linear iteration $\bm{\phi}_h^{n+1,0}$ is initialized using a pred
 When small or quasi zero water depths are involved in simulations, some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. In this section we review the challenges associated to such a problem, and the way we have circumvented them.
 
 \paragraph{Recovery of the velocity field}
-The first issue is the computation of the velocity field, since it involves the division of the discharge by the water height and this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the velocity is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+\Miguel{
+The construction of the tangent matrix $\tilde{\mathbf{K}}$ involves the velocity, which will be recovered given the primary variables $\bm{\phi}$ from the previous iteration.
+}
+%The first issue is the computation of the velocity field,
+\Miguel{
+Since the computation of the velocity
+}
+involves the division of the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{\sout{velocity} inverse of the water depth} is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
-h^{-1}_k = \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
+\hat{h}^{-1} \defeq \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
 \end{equation}
-where $\varepsilon$ is a threshold which depends on the elements size; usually $\varepsilon = 0.1 l_e$ is chosen. Figure \ref{inverse_heihgt} shows a dimensionless representation of equation (\ref{h_inv_kurganov}). The second step in the velocity computation is a diffusive projection on the nodes:
+where $\varepsilon$ is a threshold which depends on the element size; usually $\varepsilon = 0.1 l_e$ is chosen. Figure \ref{inverse_heihgt} shows a dimensionless representation of equation (\ref{h_inv_kurganov}). The second step in the velocity computation is a diffusive projection on the nodes:
 
 \begin{equation}
-\mathbf{M}_L \mathbf{u} = h^{-1}_k \mathbf{M} (h\mathbf{u})
+\mathbf{M}_L \mathbf{u} = \hat{h}^{-1}_k \mathbf{M} (\mathbf{q})
 \end{equation}
 where $\mathbf{M}$ is the consistent mass matrix and $\mathbf{M}_L$ is the lumped mass matrix. This projection will introduce some artificial diffusion in the velocity field near the dry-wet interface reducing the possible maxima extrema.
-Additionally, the expression(\ref{h_inv_kurganov}) tends to zero when the water height becomes small, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.
+
+The expression(\ref{h_inv_kurganov}) tends to zero in dry or partially dry regions, while the analytical expression of the height inverse is recovered when $h>\varepsilon$.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/fig/inverse_height.pdf}
+    \caption{Dimensionless functions to compute the  inverse height and the wet fraction.}
+    \label{inverse_heihgt}
+\end{figure}
 
 
 \paragraph{Partially wet elements}
@@ -594,13 +609,6 @@ and so $\xi$ is defined as
 \end{equation}
 In our numerical experiments we have chosen $k=10^3$.
 
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{img/fig/inverse_height.pdf}
-    \caption{Dimensionless functions to compute the  inverse height and the wet fraction.}
-    \label{inverse_heihgt}
-\end{figure}
 
 
 \section{Examples} \label{sec:examples}
