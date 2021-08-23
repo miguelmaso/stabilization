@@ -579,7 +579,8 @@ The expression(\ref{h_inv_kurganov}) tends to zero in dry or partially dry regio
 \paragraph{Partially wet elements}
 At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface.
 Therefore, those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water.
-We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (Figure \ref{partially_dry}). This is achieved by introducing a modified topography and imposing equilibrium as
+We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (Figure \ref{partially_dry}). This is achieved by introducing a modified topography
+\Miguel{$z'$ which is obtained imposing the equilibrium}%
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -595,7 +596,9 @@ Following the idea of \cite{defina2000}, the identification of partially wet ele
 \begin{equation}
 w = h\hat{h}^{-1}
 \end{equation}
+
 This function makes possible to construct the source system vector $\mathbf{T}$ with a linear combination between $z$ and $z'$.
+
 
 \paragraph{Avoiding the singularity of the system matrix}
 Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
