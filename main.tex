@@ -151,7 +151,10 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$ \Miguel{\sout{, with $i=1,3$. while the number of dimensions $n_d$ is equal to 2}} \Miguel{. Since this formulation is defined in a two dimansional space ($n_d=2$), in the following we will consider $i=1,2$}. $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$%
+% \Miguel{\sout{, with $i=1,3$. while the number of dimensions $n_d$ is equal to 2}}
+\Miguel{. Since this formulation is defined in a two dimansional space ($n_d=2$), in the following we will consider $i=1,2$}.
+$\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 
 \begin{figure}
@@ -167,25 +170,32 @@ The problem is closed with an initial boundary condition,
 \bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
 where $\bm{\phi}_0$ are the initial water height and specific discharge.
-\Miguel{\sout{
-Equation (\ref{general_sw}) satisfy the standard boundary conditions in space
-}}
+% \Miguel{\sout{
+% Equation (\ref{general_sw}) satisfies the standard boundary conditions in space
+% }}
+% \Miguel{
+% \begin{align*}
+% \xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
+% \xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
+% \end{align*}
+% \sout{
+% where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
+% }}
 
 \Miguel{
-\begin{align*}
-\xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
-\xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
-\end{align*}
-\sout{
-where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
-}}
-
-\Miguel{
-The following boundary conditions are considered covering all the boundary $\Gamma$ of the domain $\Omega$:
+The following Dirichlet boundary conditions are considered covering all the boundary $\Gamma$ of the domain $\Omega$:
 \begin{itemize}
-    \item Inflow boundary: the flow rate is known (¿¿¿¿also the depth if super-critic????)
+    \item Inflow boundary: the flow rate is known
     \begin{equation*}
         \mathbf{q} = \mathbf{q}_{in} \quad \text{in} \quad \Gamma_{in}
+    \end{equation*}
+    If the inflow is supercritical, the water depth is also specified
+    \begin{equation*}
+        \left.\begin{matrix}
+        \mathbf{q} = \mathbf{q}_{in} \\
+        h = h_{in}
+        \end{matrix}\right\}
+        \quad \text{in} \quad \Gamma_{in}
     \end{equation*}
     \item Outflow boundary: the water depth is known
     \begin{equation*}
@@ -194,7 +204,7 @@ The following boundary conditions are considered covering all the boundary $\Gam
     if the outflow is supercritical, no conditions have to be imposed.
     \item Solid boundary: slip or no slip condition can be imposed
     \begin{equation*}
-        \mathbf{u} \cdot \mathbf{n} = 0 \quad \text{or} \quad \mathbf{u} = \mathbf{0} \quad \text{in} \quad \Gamma_{solid}
+        \mathbf{q} \cdot \mathbf{n} = 0 \quad \text{or} \quad \mathbf{q} = \mathbf{0} \quad \text{in} \quad \Gamma_{solid}
     \end{equation*}
 \end{itemize}
 }
@@ -210,7 +220,7 @@ where $n$ is the Manning coefficient. It defines the resistance to flow by the r
 
 The averaged horizontal stresses are calculated from the combination of the molecular stresses and the Reynolds stresses as follows
 \begin{equation} \label{stresses}
-\frac{\tau_{ij}}{\rho} = (\nu + \nu_t)\left(
+\frac{\bar{\tau}_{ij}}{\rho} = (\nu + \nu_t)\left(
     \pder{u_i}{x_j} + \pder{u_j}{x_i} -\frac{2}{3}\delta_{ij}\pder{u_k}{x_k} \right)
 \end{equation}
 where $\nu$ is the kinematic viscosity and $\nu_t$ is the turbulent kinematic viscosity. When any model of turbulence is considered, the turbulent stresses can be included in the bottom friction with the Manning formula \cite{blade2005}. In this work, the turbulent stresses will be neglected.
@@ -242,16 +252,16 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization ma
 \end{equation}
 \end{subequations}
 and $c=\sqrt{gh}$ is the wave speed.
-\Miguel{\sout{The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.}}
+% \Miguel{\sout{The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.}}
 \Miguel{
 For the unidimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
 In two dimensions, given the unit vector $\mathbf{e}$, the eigenvalues of the matrix $e_i \mathbf{A}_i$ are $\lambda_{1,3} = \mathbf{e}\cdot\mathbf{u} \pm c$ and $\lambda_2 = \mathbf{e}\cdot\mathbf{u}$.
 %In two dimensions, the eigenvalues of the matrix $\alpha_1\mathbf{A}_1 + \alpha_2\mathbf{A}_2$ are $\lambda_{1,3} = \alpha_1u_1 + \alpha_2u_2 \pm c$ and $\lambda_2 = \alpha_1u_1 + \alpha_2u_2$.
-The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$), this property is called strictly hyperbolicity \cite{raviart1996}. The eigenvalues are velocities, namely the ones of surface waves on the fluid. Note that in the dry zones, where $h=0$, the eigenvalues coincide and the system is no longer hyperbolic. This introduces difficulties at theoretical and numerical level.
+The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$), this property is called strictly hyperbolicity \cite{raviart1996}. The eigenvalues are velocities, namely the ones of surface waves on the fluid. Note that in the dry zones, where ${h=0}$, the eigenvalues coincide and the system is no longer hyperbolic. This introduces difficulties at theoretical and numerical level.
 }
 
 \Miguel{
-The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as $\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}) and is explained in more detail in section \ref{sec:fem}.
+The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}) and is explained in more detail in section \ref{sec:fem}.
 }
 
 \Miguel{
@@ -369,7 +379,9 @@ In this section we explore other possibilities of the characteristic length defi
 \end{align}
 \end{subequations}
 
-Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$ , integrating over the domain in the same way as in Equation (\ref{variational_fic}), \Miguel{\sout{and then integrating by parts,}} one obtains the following variational form:
+Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$, integrating over the domain in the same way as in Equation (\ref{variational_fic}),
+%\Miguel{\sout{and then integrating by parts,}}
+one obtains the following variational form:
 \begin{equation}
     \int_\Omega \omega_k r_i^q d\Omega
      - \int_\Omega \omega_k \frac{l^e}{2\norm{\nabla q_i}}\pder{q_i}{x_j}\pder{r_i^q}{x_j}
@@ -460,7 +472,7 @@ where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$
 \end{equation}
 where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{discrete_sw}) without subscript are related to the original problem (\ref{residual}); the matrices with subscript F correspond to the terms added by the FIC procedure to ensure stability, and those with the subscript SC are the terms added by the shock capturing technique. Using $a$, $b$ to denote the nodes, $i$, $j$ to denote the space dimension index and $k$, $l$ to denote the balance equation number, the matrices in Eq. (\ref{discrete_sw}) are defined as
 
-\begin{align}
+\begin{align} \label{discrete_sw_matrices}
     \displaystyle \mathbf{M}^{ab} &= \int_{\Omega_e}N_a \mathbf{I} N_b d\Omega &
     \displaystyle \mathbf{G}^{ab} &= \int_{\Omega_e}
         N_a \mathbf{A}_i \pder{N_b}{x_i} d\Omega \nonumber\\[5pt]
@@ -566,7 +578,7 @@ The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the veloci
 \Miguel{
 Since the computation of the velocity is the result of dividing
 }
-the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{\sout{velocity} inverse of the water depth} is computed at each element following the next expression, initially proposed by Kurganov \cite{kurganov2007}:
+the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{inverse of the water depth} is computed at each element following the next expression, initially proposed in \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
 \hat{h}^{-1} \defeq \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
@@ -592,7 +604,7 @@ The expression(\ref{h_inv_kurganov}) tends to zero in dry or partially dry regio
 At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface.
 Therefore, those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water.
 We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (Figure \ref{partially_dry}). This is achieved by introducing a modified topography
-\Miguel{$z'$ which is obtained imposing the equilibrium}%
+\Miguel{$z'$ which is obtained imposing the following equilibrium:}
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -609,12 +621,13 @@ Following the idea of \cite{defina2000}, the identification of partially wet ele
 w = h\hat{h}^{-1}
 \end{equation}
 
-This function makes possible to construct the source system vector $\mathbf{T}$ with a linear combination between $z$ and $z'$.
+The wet fraction function is defined in all the elements -wet, dry and partially dry- and its value goes from $0$ for dry elements to $1$ for wet elements (see Figure \ref{h_inv_kurganov})
+This function makes possible to construct the source system vector $\mathbf{T}$ (see equations (\ref{discrete_sw}) and (\ref{discrete_sw_matrices})) with a linear combination between the two topographies as $wz + (1-w)z'$.
 
-\vspace{10pt}
-\noindent\Miguel{\fbox{\parbox{.97\textwidth}{
-Nota: a la pràctica, això és irrellevant, pel fet de que no és un esquema monotònic. És a dir, si hi ha una discontinuitat, hi hauran oscilacions i aquest petit truc no ho pot solucionar. En canvi, el \emph{shock capturing} és molt efectiu en aquesta regió. Hauria sigut molt millor eliminar aquest paràgraf abans d'enviar-ho a la revista, però ja que un revisor pregunta sobre això, no vull eliminar-lo.}
-}}
+% \vspace{10pt}
+% \noindent\Miguel{\fbox{\parbox{.97\textwidth}{
+% Nota: a la pràctica, això és irrellevant, pel fet de que no és un esquema monotònic. És a dir, si hi ha una discontinuitat, hi hauran oscilacions i aquest petit truc no ho pot solucionar. En canvi, el \emph{shock capturing} és molt efectiu en aquesta regió. Hauria sigut molt millor eliminar aquest paràgraf abans d'enviar-ho a la revista, però ja que un revisor pregunta sobre això, no vull eliminar-lo.}
+% }}
 
 \paragraph{Avoiding the singularity of the system matrix}
 \Miguel{%
@@ -622,21 +635,20 @@ Since all the elements are included in the computational domain, the last issue 
 When there is a null water depth, the theoretical flow rate and velocity are zero. In that point the matrices $\mathbf{A}_i$ are not invertible and the eigenvalues are all equal to zero. In that case, the hyperbolicity property of the system is lost.
 In practice, due to spurious oscillations, the flow rate and velocity may be different to zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
 }
-
-\Miguel{\sout{
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
-}}
+% \Miguel{\sout{
+% Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
+% }}
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
-\Miguel{\sout{
-The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in Figure \ref{inverse_heihgt}. Expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
-}}%
-\begin{equation*}
-\Miguel{\xout{\omega = hh^{-1}_k}}
-\end{equation*}
+% \Miguel{\sout{
+% The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in Figure \ref{inverse_heihgt}. Expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
+% }}%
+% \begin{equation*}
+% \Miguel{\xout{\omega = hh^{-1}_k}}
+% \end{equation*}
 
 The selection of the areas where there is a dry domain is controlled with the wet fraction function and $\xi$ is defined as
 \begin{equation}
@@ -649,11 +661,11 @@ The addition of this diagonal matrix remembers to the artificial Manning frictio
 
 \Miguel{%
 \paragraph{Mass conservation properties}
-The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it is not providing monotonicity. It is important to note the all the modifications have been done at the momentum balance, so that the mass conservation is done by the weak principle, but mass sign preservation is not guaranteed.
+The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it is not providing monotonicity. It is important to note the all the modifications have been done at the momentum balance, it means that the mass is conserved globally by the weak formulation, but mass sign preservation is not guaranteed.
 }
 
 \Miguel{
-Both primary unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Here the shock capturing will mitigate the spurious oscillations, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
+Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Here the shock capturing will mitigate the spurious oscillations, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
 }
 
 
@@ -669,23 +681,22 @@ The last one is devoted to test all the capabilities of the formulation in a pra
 
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. A calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
 \Miguel{
-We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh}) and 1m depth. An initial perturbation in the free surface at the left wall generates a wave which travel from 0 to 6s. The initial perturbation reads
+We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh}) where all the boundaries are slip. The channel depth is 1m. An initial perturbation in the free surface at the left wall generates a wave which travels from 0 to 6s. The initial perturbation reads
 \begin{equation}
 \eta(t=0) = 0.05\cos(\pi x) \quad \text{if} \quad x<1, \quad \eta=0 \quad \text{otherwise}
 \end{equation}
 }
 
 \Miguel{
-Te wave is reflected at the right wall and faces the step in the opposite direction. 
-All the boundary conditions are set slip.
-}
+The wave is reflected at the right wall and then faces the step in the opposite direction.
+}%
 Figure \ref{waves_propagation} shows the propagation of the wave along the channel.
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (Figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
 The time step is set automatically to keep a maximum Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In this example, the shock capturing term is disabled.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/step/geometry.pdf}
-    \caption{Channel with a backward step. Domain and mesh used in the simulation. The average element size is $0.06m$. Near the obstacle the mesh size is $0.02m$. There are $3.125$ nodes and $5.826$ elements.}
+    \caption{Channel with a backward step. Domain and mesh used in the simulation. All the boundary conditions are slip. The average element size is $0.06m$. Near the obstacle the mesh size is $0.02m$. There are $3.125$ nodes and $5.826$ elements.}
     \label{step_mesh}
 \end{figure}
 
