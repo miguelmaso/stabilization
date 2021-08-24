@@ -261,7 +261,7 @@ The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$),
 }
 
 \Miguel{
-The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}) and is explained in more detail in section \ref{sec:fem}.
+The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}). It is an auxiliary variable to write the linearized tensor in Voigt's notation and it is explained in more detail in section \ref{sec:fem}.
 }
 
 \Miguel{
@@ -402,7 +402,10 @@ After integration of Equation (\ref{partial_variational_shock_capt}) by parts an
         = 0
         \label{variational_shock_capturing}
 \end{multline}
-The last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
+\Miguel{
+Since we will use linear triangles (see section \ref{sec:fem}),
+}%
+the last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
 
 The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}). As a result we obtain the following system of equations for both unknowns
 \begin{subequations} \label{fic_shock_capturing}
@@ -462,9 +465,11 @@ It is conventional to use higher order of interpolation for the momentum or velo
 A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ and the problem variables can be interpolated with the basis functions of the finite elements space as
 
 \begin{equation}
-\phi_i = \sum_a^{N_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
+\phi_i = \sum_a^{n_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
 \end{equation}
-where $N_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}). Here we introduce the notation $\bm{\phi}_h$ for the vectors of nodal unknowns -momentum and water height- on the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
+where $n_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}).
+\Miguel{Note that the shape functions are the same for all the variables, $h$ and $q_i$.}
+Here we introduce the notation $\bm{\phi}_h$ for the vectors of nodal unknowns -momentum and water height- on the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
 [\mathbf{M} + \mathbf{M}_F] \dot{\bm{\phi}}_h
 + [\mathbf{G} + \mathbf{G}_F + \mathbf{L} + \mathbf{L}_{SC} + \mathbf{R} + \mathbf{R}_F] \bm{\phi}_h
@@ -484,7 +489,8 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
     \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z}{x_i}} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity} are given by
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity. Note that the diffusivity is zero, but the matrix structure will be reused for the stabilization. The viscosity tensor in Voigt's notation is constructed using the linearization matrices $\mathbf{K}_{ij}$.}
+The matrix and the tensors are given by
 
 \begin{subequations}
 \begin{equation}
@@ -775,7 +781,7 @@ Figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} show that th
 
 The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to water at rest but the free surface is in a non horizontal plane. The solution of the problem is an oscillation where the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
 
-The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10$ and all the boundaries are reflective ($\mathbf{u}\cdot\mathbf{n} = 0$). The topography is given by the following expression
+The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10m$ and all the boundaries are reflective ($\mathbf{u}\cdot\mathbf{n} = 0$). The topography is given by the following expression
 \begin{equation}
 z(x,y) = h_0 \left(\frac{1}{a^2}\left(x - \frac{L}{2}\right)^2 - 1\right)
 \end{equation}
@@ -893,9 +899,9 @@ This relation allows to integrate the topography given an analytical expression 
 For this benchmark we have considered the domain defined by the spatial domain $[0,100]\times[0,5]$ which is a channel of $100m$ length and $5m$ width (Figure \ref{chanel_geometry}), and the following boundary conditions:
 \begin{equation}
 \begin{split}
-    q_x = 2\ \text{m/s} \qquad &\text{in} \ \Gamma_{upstream} \\
-    h = h_{ex}(100) \qquad &\text{in} \ \Gamma_{downstream} \\
-    q_y = 0 \qquad &\text{in} \ \Gamma_{walls}
+    q_x = 2\ \text{m/s} \quad &\text{in} \quad \Gamma_{upstream} \\
+    h = h_{ex}(100) \quad &\text{in} \quad \Gamma_{downstream} \\
+    q_y = 0 \quad &\text{in} \quad \Gamma_{walls}
 \end{split}
 \end{equation}
 
