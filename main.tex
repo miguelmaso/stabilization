@@ -813,9 +813,7 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 In that example the selected parameters are $h_0=1m$ and $a=1m$.
 }
 
-The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water starts to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, the shock capturing is not required, since it is not a degree of freedom.
-
-Figure \ref{parabola_results} show the results using the finest mesh. The discretization is not shown for the sake of simplicity. As expected, there is no variation on the results in the transversal section.
+The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water starts to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect the time. Figure \ref{parabola_graphic} shows a cut along the mesh. The most challenging problem is to capture the discontinuity of the velocity. Even though the velocity presents a discontinuity, it isn't the origin of the oscillatory behavior since the velocity is not a degree of freedom.
 
 \begin{figure}
     \includegraphics[width=\textwidth]{img/par/mesh_0.1.pdf}
@@ -858,6 +856,17 @@ Figure \ref{parabola_results} show the results using the finest mesh. The discre
 \caption{Parabolic basin. Cuts along the mesh of size $0.03m$ at different times. There are 333 nodes on the cut.}
 \label{parabola_graphic}
 \end{figure}
+
+A mass conservation test is performed with the mesh of size $0.005m$ in a simulation of $5s$. The results are presented in Figure \ref{parabola_mass}. The integration of the mass is performed over all the domain and over the wet domain. The wet domain is identified with the wet fraction, requiring it to be equal to $1$. Since the presented scheme is not mass sign preserving, the wet mass can not be equal to the total mass and a small fraction is lost from the wet domain. The loss depends on the size of the elements and presents an oscillatory behavior inherent of the method. Figure \ref{parabola_mass} shows that the loss is bounded and the mean does not increase with time.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.95\textwidth]{img/par/mass_conservation}
+    \caption{Parabolic basin. Mass conservation error. The total mass is integrated over all the domain (black) and over the wet domain (blue). The mesh used in this simulation is the intermediate one, with element size of $0.05m$.}
+    \label{parabola_mass}
+\end{figure}
+
+Figure \ref{parabola_results} shows the results using the finest mesh. The discretization is not shown for the seek of simplicity. As expected, there is no variation on the results in the transversal section.
 
 \begin{figure}[H]
     \begin{subfigure}{.05\textwidth}
