@@ -1045,9 +1045,13 @@ To get a general idea of the flow, Figure \ref{experiment_plots} shows several r
 % The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
 % }}
 
-The gauge 1 is located upstream of the building and close to the left wall of the channel. In gauge 1 there are the main discrepancies between the numerical and experimental results. The vicinity of the wall is the responsible the rapid variations in the water level. After the arrival of the front wave, it is reflected in the wall and a second raise of the water level is observed. About $t=6s$, an oblique hydraulic jump is formed and registered in gauge 1. The two first shocks are well captured by the numerical results, but the oblique hydraulic jump is registered latter, at $t=10s$ and there is a general overestimation of the water depth.
+\Miguel{
+The gauge 1 is located upstream of the building and close to the left wall of the channel. In gauge 1 there are the main discrepancies between the numerical and experimental results. The vicinity of the wall is the responsible the rapid variations in the water level. After the arrival of the front wave, it is reflected in the wall and a second raise of the water level is observed. About $t=6s$, an oblique hydraulic jump is formed and registered in gauge 1. The two first shocks are well captured by the numerical results, but the oblique hydraulic jump is registered latter, at $t=10s$ and there is a general overestimation of the ones for the water depth.
+}
 
+\Miguel{
 The main hydraulic jump in gauge 2 formed by the reflection against the building is registered at $t=15s$, but in the numerical simulation is it formed very rapidly, presenting a discontinuity in time.
+}
 
 \begin{figure}
 \centering
@@ -1056,11 +1060,50 @@ The main hydraulic jump in gauge 2 formed by the reflection against the building
 \label{experiment_gauges}
 \end{figure}
 
+\Miguel{
 The gauge 3 is located at the left hand side of the building, multiple waves are reflected and practically always it is in subcritical regime. There is a good correlation between numerical and experimental results. Gauge 4 is at the opposite side of the building but the superposition of the reflected waves is more clearly identified. The main discrepancies in the results are concentrated in the first seconds, where the flow is more dynamic.
+}
 
+\Miguel{
+Gauge 6 is located at the reservoir and registers the superposition of smooth waves during the emptying of the tank.
+}
 
+\Miguel{
+As stated in \cite{soares2007} there are some difficulties in the recording of the velocity and its validity is discussed. Here are compared only the most representative gauges. Gauge 2 is not fully submerged and the validity of the measurements is good after $t=14.5s$. It illustrates the change from supercritical flow to subcritical (Figure \ref{experiment_gauge2_vel}). The considerations are similar to the water depth.
+}
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{img/exp/gauge2_vel.pdf}
+\caption{Experimental dam break flow. Comparison of velocity at gauge 2.}
+\label{experiment_gauge2_vel}
+\end{figure}
 
+\Miguel{
+The experimental measurements in gauge 4 (Figure \ref{experiment_gauge4_vel}) show a change in the velocity direction around $t=15s$ due to the rise of water level. The numerical results do not capture the this change but the mean and the stationary values are correctly simulated.
+}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{img/exp/gauge4_vel.pdf}
+\caption{Experimental dam break flow. Comparison of velocity at gauge 4.}
+\label{experiment_gauge4_vel}
+\end{figure}
+
+\Miguel{
+In gauge 5 the formation of eddies behind the building can be appreciated from $t=20$ (Figure \ref{experiment_gauge5_vel}). In that case, the experimental results have difficulties to capture the eddies. It could be explored extending the refined region of the mesh. The authors have observed the formation of eddies, but they are not fully developed and its area of influence is not enough to arrive to gauge 5.
+}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{img/exp/gauge5_vel.pdf}
+\caption{Experimental dam break flow. Comparison of velocity at gauge 5.}
+\label{experiment_gauge5_vel}
+\end{figure}
+
+\Miguel{
+In fluid-structure interaction studies pressure is needed to compute to forces over the structure. The shallow water assumptions drop the dynamic pressures retaining only the hydrostatic ones. In the present case, the pressures would be recovered integrating the hydrostatic pressures given the water depth around the building. However, there is no experimental data about the forces applied to the building and thus, the importance of the dynamic pressures can not be evaluated.
+}
 
 
 Regarding the performance of the FIC-FEM formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
