@@ -103,7 +103,7 @@ In Section \ref{sec:stabilization} the FIC stabilization procedure is applied to
 In Section \ref{sec:fem} the spatial (FEM) and temporal discretizations are described.
 The dry domain model is presented in the same section because it mainly depends on the discretization.
 Section \ref{sec:examples} presents some numerical examples.
-The first simple example tests the stability, the second one tests the shock capturing and the third one tests the dry-wet interface.
+The first simple example tests the stability, the second one tests the dry-wet interface and the third one tests the shock capturing.
 The last example is a simulation of an experiment and the results are compared with the reference.
 The conclusions are given in Section \ref{sec:conclusions}.
 
@@ -630,10 +630,6 @@ w = h\hat{h}^{-1}
 The wet fraction function is defined in all the elements -wet, dry and partially dry- and its value goes from $0$ for dry elements to $1$ for wet elements (see Figure \ref{h_inv_kurganov})
 This function makes possible to construct the source system vector $\mathbf{T}$ (see equations (\ref{discrete_sw}) and (\ref{discrete_sw_matrices})) with a linear combination between the two topographies as $wz + (1-w)z'$.
 
-% \vspace{10pt}
-% \noindent\Miguel{\fbox{\parbox{.97\textwidth}{
-% Nota: a la pràctica, això és irrellevant, pel fet de que no és un esquema monotònic. És a dir, si hi ha una discontinuitat, hi hauran oscilacions i aquest petit truc no ho pot solucionar. En canvi, el \emph{shock capturing} és molt efectiu en aquesta regió. Hauria sigut molt millor eliminar aquest paràgraf abans d'enviar-ho a la revista, però ja que un revisor pregunta sobre això, no vull eliminar-lo.}
-% }}
 
 \paragraph{Avoiding the singularity of the system matrix}
 \Miguel{%
@@ -641,20 +637,11 @@ Since all the elements are included in the computational domain, the last issue 
 When there is a null water depth, the theoretical flow rate and velocity are zero. In that point the matrices $\mathbf{A}_i$ are not invertible and the eigenvalues are all equal to zero. In that case, the hyperbolicity property of the system is lost.
 In practice, due to spurious oscillations, the flow rate and velocity may be different to zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
 }
-% \Miguel{\sout{
-% Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
-% }}
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
-% \Miguel{\sout{
-% The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in Figure \ref{inverse_heihgt}. Expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
-% }}%
-% \begin{equation*}
-% \Miguel{\xout{\omega = hh^{-1}_k}}
-% \end{equation*}
 
 The selection of the areas where there is a dry domain is controlled with the wet fraction function and $\xi$ is defined as
 \begin{equation}
@@ -671,7 +658,7 @@ The stabilized method proposed is not monotonic and the dry domain model is acti
 }
 
 \Miguel{
-Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Here the shock capturing will mitigate the spurious oscillations, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
+Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Even thoug the shock capturing can not avoid this kind of oscilations, it will mitigate them, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
 }
 
 
@@ -779,7 +766,7 @@ Figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} show that th
 
 \subsection{Oscillation in a parabolic basin}
 
-The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to water at rest but the free surface is in a non horizontal plane. The solution of the problem is an oscillation where the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
+The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to zero velocity but the free surface is in a non horizontal plane. The solution of the problem is oscillatory and the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
 
 The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10m$ and all the boundaries are reflective ($\mathbf{u}\cdot\mathbf{n} = 0$). The topography is given by the following expression
 \begin{equation}
