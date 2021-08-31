@@ -289,11 +289,11 @@ For the stabilization of the Navier-Stokes equations different projections of th
 
 \begin{subequations}
 \begin{align}
-r_{\Miguel{k}} - \frac{1}{2}l^e_i\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_i\pder{r_k}{x_i} &= 0
     \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}\\[5pt]
-r_{\Miguel{k}} - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_k}{x_i} &= 0
     \qquad i,k\in\{1,n_d\}\\[5pt]
-r_{\Miguel{k}} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_k}{x_i} &= 0
     \qquad i,k\in\{1,n_d\}
 \end{align}
 \end{subequations}
@@ -302,7 +302,7 @@ r_{\Miguel{k}} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x
 In this paper we propose a stabilization term which is oriented along the characteristics of the hyperbolic equations, as
 
 \begin{equation} \label{fic_sw}
-r_{\Miguel{k}} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_k}{x_i} = 0
+r_{k} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_k}{x_i} = 0
     \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}
 \end{equation}
 For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda=\abs{\mathbf{u}} + c$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}. Recovering the vector notation for the residual, the FIC-balance reads
@@ -358,7 +358,6 @@ In this section we explore other possibilities of the characteristic length defi
 \end{subequations}
 
 Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$, integrating over the domain in the same way as in Equation (\ref{variational_fic}),
-%\Miguel{\sout{and then integrating by parts,}}
 one obtains the following variational form:
 \begin{equation}
     \int_\Omega \omega_k r_i^q d\Omega
@@ -380,9 +379,7 @@ After integration of Equation (\ref{partial_variational_shock_capt}) by parts an
         = 0
         \label{variational_shock_capturing}
 \end{multline}
-\Miguel{
-Since we will use linear triangles (see section \ref{sec:fem}),
-}%
+Since we will use linear triangles (see Section \ref{sec:fem}),
 the last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
 
 The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}). As a result we obtain the following system of equations for both unknowns
@@ -446,7 +443,7 @@ A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ 
 \phi_i = \sum_a^{n_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
 \end{equation}
 where $n_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}).
-\Miguel{Note that the shape functions are the same for all the variables, $h$ and $q_i$.}
+Note that the shape functions are the same for all the variables, $h$ and $q_i$.
 Here we introduce the notation $\bm{\phi}_h$ for the vectors of nodal unknowns -momentum and water height- on the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
 [\mathbf{M} + \mathbf{M}_F] \dot{\bm{\phi}}_h
@@ -464,10 +461,10 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
             \mathbf{C} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}
         \end{matrix}\right] \mathbf{B}_b^T d\Omega &
     \displaystyle \mathbf{R}^{ab} &= \int_{\Omega_e} N_a \mathbf{S} N_b d\Omega \\[5pt]
-    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z}{x_i}} d\Omega +
+    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \mathbf{b}_i \pder{z}{x_i} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity. Note that the diffusivity is zero, but the matrix structure will be reused for the stabilization. The viscosity tensor in Voigt's notation is constructed using the linearization matrices $\mathbf{K}_{ij}$.}
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ of viscosity and diffusivity. Note that the diffusivity is zero, but the matrix structure will be reused for the stabilization. The viscosity tensor in Voigt's notation is constructed using the linearization matrices $\mathbf{K}_{ij}$.
 The matrix and the tensors are given by
 
 \begin{subequations}
@@ -502,7 +499,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_j \pder{z}{x_j}} d\Omega
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{b}_j \pder{z}{x_j} d\Omega
 \nonumber
 \end{align}
 
@@ -513,7 +510,7 @@ The resulting expression from the spatial discretization (\ref{discrete_sw}) can
 \begin{equation} \label{discrete_compact}
 \tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{f}}
 \end{equation}
-where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices and \Miguel{vectors} for all the elements.
+where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices and vectors for all the elements.
 We have integrated this equation introducing a time discretization using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
@@ -556,13 +553,9 @@ The first non linear iteration $\bm{\phi}_h^{n+1,0}$ is initialized using a pred
 When small or quasi zero water depths are involved in simulations, some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. In this section we review the challenges associated to such a problem, and the way we have circumvented them.
 
 \paragraph{Recovery of the velocity field}
-\Miguel{
-The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the velocity, which will be recovered given the primary variables $\bm{\phi}$ from the previous iteration.
-}%The first issue is the computation of the velocity field,
-\Miguel{
+The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the velocities, which are recovered given the primary variables $\bm{\phi}$ from the previous iteration.
 Since the computation of the velocity is the result of dividing
-}
-the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{inverse of the water depth} is computed at each element following the next expression, initially proposed in \cite{kurganov2007}:
+the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the inverse of the water depth is computed at each element following the next expression, initially proposed in \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
 \hat{h}^{-1} \defeq \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
@@ -588,7 +581,7 @@ The expression(\ref{h_inv_kurganov}) tends to zero in dry or partially dry regio
 At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface.
 Therefore, those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water.
 We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (Figure \ref{partially_dry}). This is achieved by introducing a modified topography
-\Miguel{$z'$ which is obtained imposing the following equilibrium:}
+$z'$ which is obtained imposing the following equilibrium condition:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -610,25 +603,15 @@ This function makes possible to construct the source system vector $\mathbf{T}$ 
 
 
 \paragraph{Avoiding the singularity of the system matrix}
-\Miguel{%
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths are the numerical difficulties stated in section \ref{sec:equations}.
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths are the numerical difficulties stated in Section \ref{sec:equations}.
 When there is a null water depth, the theoretical flow rate and velocity are zero. In that point the matrices $\mathbf{A}_i$ are not invertible and the eigenvalues are all equal to zero. In that case, the hyperbolicity property of the system is lost.
-In practice, due to spurious oscillations, the flow rate and velocity may be different to zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
-}
-% \Miguel{\sout{
-% Since all the elements are included in the computational domain, the last issue to overcome with small water depths is the singularity of the system matrix. The mass balance is satisfied in the dry state, but the momentum equation will become unstable. The easiest (although not the most accurate) way to develop a stable scheme is to add a diagonal of non zero terms to the momentum equation, i. e.,
-% }}
+In practice, due to spurious oscillations, the flow rate and the velocity may be different from zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
+
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
 \end{equation}
 
-% \Miguel{\sout{
-% The selection of the areas where there is a dry domain is controlled with a wet fraction function, depicted in Figure \ref{inverse_heihgt}. Expression (\ref{h_inv_kurganov}) allows us to define a wet fraction $\omega$ as
-% }}%
-% \begin{equation*}
-% \Miguel{\xout{\omega = hh^{-1}_k}}
-% \end{equation*}
 
 The selection of the areas where there is a dry domain is controlled with the wet fraction function and $\xi$ is defined as
 \begin{equation}
@@ -639,14 +622,10 @@ In our numerical experiments we have chosen $k=10^3$.
 The addition of this diagonal matrix remembers to the artificial Manning friction proposed in \cite{heniche2000} in order to freeze the flow in dry areas.
 
 
-\Miguel{%
 \paragraph{Mass conservation properties}
-The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it is not providing monotonicity. It is important to note the all the modifications have been done at the momentum balance, it means that the mass is conserved globally by the weak formulation, but mass sign preservation is not guaranteed.
-}
+The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it does not provide monotonicity. We note that all the modifications have been done at the momentum balance level. This means that mass is conserved globally by the weak formulation, but the mass sign preservation is not guaranteed.
 
-\Miguel{
-Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Here the shock capturing will mitigate the spurious oscillations, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
-}
+Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Even though the shock capturing scheme can not avoid this kind of oscillations, it will mitigate them, and the order of accuracy will be lost due to the introduction of the non-linear artificial diffusion \cite{badia2014}.
 
 
 \section{Examples}
