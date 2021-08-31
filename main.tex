@@ -71,9 +71,6 @@ Due to the complexity of the geometry and the source terms is not possible to fi
 In those physical phenomena, flooding or moving shoreline may occur, which is numerically defined by a null water depth.
 
 The shallow water equations have traditionally been modelled using finite volumes (FV) because of its advantages of stability and monotonicity. Given its geometric flexibility and its natural way to introduce high order schemes, the finite element method (FEM) has been applied too \cite{zien3,navon1979,navon1988}.
-% However, since the FEM can exhibit spurious oscillations, different strategies have been proposed; such as the discontinuous Galerkin (DG) technique has been introduced \cite{ambati2007,khan2014,lee2019}.
-% DG method has the advantages of the geometrical flexibility of the finite elements and the stability of finite volumes, but the introduction of high order DG schemes is not straightforward.
-% In order to prevent numerical instabilities in finite elements, stabilization, monotonic schemes or different order of polynomial interpolation can be explored \cite{hood1974,zien3,ortiz2012}.
 However, since the FEM can exhibit spurious oscillations, different strategies such as stabilization, monotonic schemes or different order of polynomial interpolation can be explored \cite{hood1974,zien3,ortiz2012}.
 As an alternative to the continuous FEM, more recently the discontinuous Galerkin (DG) technique has been introduced \cite{ambati2007,khan2014,lee2019}.
 DG method has the advantages of the geometrical flexibility of the FEM and the stability of FV, but the introduction of high order DG schemes is not straightforward.
@@ -151,9 +148,7 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$%
-% \Miguel{\sout{, with $i=1,3$. while the number of dimensions $n_d$ is equal to 2}}
-\Miguel{. Since this formulation is defined in a two dimansional space ($n_d=2$), in the following we will consider $i=1,2$}.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$. Since this formulation is defined in a two dimensional space ($n_d=2$), in the following we will consider $i=1,2$.
 $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 
@@ -170,19 +165,8 @@ The problem is closed with an initial boundary condition,
 \bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
 where $\bm{\phi}_0$ are the initial water height and specific discharge.
-% \Miguel{\sout{
-% Equation (\ref{general_sw}) satisfies the standard boundary conditions in space
-% }}
-% \Miguel{
-% \begin{align*}
-% \xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
-% \xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
-% \end{align*}
-% \sout{
-% where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
-% }}
 
-\Miguel{
+
 The following Dirichlet boundary conditions are considered covering all the boundary $\Gamma$ of the domain $\Omega$:
 \begin{itemize}
     \item Inflow boundary: the flow rate is known
@@ -207,16 +191,15 @@ The following Dirichlet boundary conditions are considered covering all the boun
         \mathbf{q} \cdot \mathbf{n} = 0 \quad \text{or} \quad \mathbf{q} = \mathbf{0} \quad \text{in} \quad \Gamma_{solid}
     \end{equation*}
 \end{itemize}
-}
+
 
 The bottom friction $\tau^b_{3i}$ is modelled with the Manning formula generalized for two dimensions as
 
 \begin{equation}
 \frac{\tau^b_{3i}}{\rho} = -gn^2\frac{\abs{\mathbf{q}}\mathbf{q}}{h^{\sfrac{7}{3}}}
 \end{equation}
-\Miguel{
 where $n$ is the Manning coefficient. It defines the resistance to flow by the roughness of the bottom or other macroscopic factors and it is determined empirically. In practice, the Manning coefficient varies from 0.01 for a very smooth bed (concrete) to 0.05 for a rough bed (rocks) \cite{chow1988}
-}
+
 
 The averaged horizontal stresses are calculated from the combination of the molecular stresses and the Reynolds stresses as follows
 \begin{equation} \label{stresses}
@@ -229,7 +212,7 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
 \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
- - \pder{}{x_{\Miguel{i}}}\left(\mathbf{K}_{\Miguel{ij}}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \Miguel{ \mathbf{b}_i\pder{z}{x_i} } = 0
+ - \pder{}{x_{i}}\left(\mathbf{K}_{ij}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} = 0
 \end{equation}
 where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
@@ -252,20 +235,15 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization ma
 \end{equation}
 \end{subequations}
 and $c=\sqrt{gh}$ is the wave speed.
-% \Miguel{\sout{The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.}}
-\Miguel{
-For the unidimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
+For the one dimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
 In two dimensions, given the unit vector $\mathbf{e}$, the eigenvalues of the matrix $e_i \mathbf{A}_i$ are $\lambda_{1,3} = \mathbf{e}\cdot\mathbf{u} \pm c$ and $\lambda_2 = \mathbf{e}\cdot\mathbf{u}$.
-%In two dimensions, the eigenvalues of the matrix $\alpha_1\mathbf{A}_1 + \alpha_2\mathbf{A}_2$ are $\lambda_{1,3} = \alpha_1u_1 + \alpha_2u_2 \pm c$ and $\lambda_2 = \alpha_1u_1 + \alpha_2u_2$.
 The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$), this property is called strictly hyperbolicity \cite{raviart1996}. The eigenvalues are velocities, namely the ones of surface waves on the fluid. Note that in the dry zones, where ${h=0}$, the eigenvalues coincide and the system is no longer hyperbolic. This introduces difficulties at theoretical and numerical level.
-}
 
-\Miguel{
-The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}). It is an auxiliary variable to write the linearized tensor in Voigt's notation and it is explained in more detail in section \ref{sec:fem}.
-}
 
-\Miguel{
-The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography $z$ and later, rearranging terms with the independent vector $\mathbf{Q}$.
+The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}). It is an auxiliary variable to write the linearized tensor in Voigt's notation and it is explained in more detail in Section \ref{sec:fem}.
+
+
+The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography coordinate $z$. Rearranging terms with the independent vector $\mathbf{Q}$ yields
 \begin{equation}
     \mathbf{b}_i = \left[\begin{matrix}
         \delta_{i1} c^2 \\
@@ -273,9 +251,9 @@ The vectors $\mathbf{b}_i$ are the result of the linearization of the topography
         0
     \end{matrix}\right]
 \end{equation}
-}
 
-The bottom friction term \Miguel{acting in the source term vector} is linearized using a reaction matrix $\mathbf{S}$
+
+The bottom friction term acting on the source term vector is linearized using a reaction matrix $\mathbf{S}$
 \begin{equation}
 \mathbf{S} = \left[\begin{matrix}
     \frac{gn^2\abs{\mathbf{u}}}{h^{4/3}} & 0 & 0 \\
@@ -630,10 +608,6 @@ w = h\hat{h}^{-1}
 The wet fraction function is defined in all the elements -wet, dry and partially dry- and its value goes from $0$ for dry elements to $1$ for wet elements (see Figure \ref{h_inv_kurganov})
 This function makes possible to construct the source system vector $\mathbf{T}$ (see equations (\ref{discrete_sw}) and (\ref{discrete_sw_matrices})) with a linear combination between the two topographies as $wz + (1-w)z'$.
 
-% \vspace{10pt}
-% \noindent\Miguel{\fbox{\parbox{.97\textwidth}{
-% Nota: a la pràctica, això és irrellevant, pel fet de que no és un esquema monotònic. És a dir, si hi ha una discontinuitat, hi hauran oscilacions i aquest petit truc no ho pot solucionar. En canvi, el \emph{shock capturing} és molt efectiu en aquesta regió. Hauria sigut molt millor eliminar aquest paràgraf abans d'enviar-ho a la revista, però ja que un revisor pregunta sobre això, no vull eliminar-lo.}
-% }}
 
 \paragraph{Avoiding the singularity of the system matrix}
 \Miguel{%
