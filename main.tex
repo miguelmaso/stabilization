@@ -14,7 +14,6 @@
 \usepackage{float}         % placing figures
 \usepackage{xcolor}
 
-\usepackage[normalem]{ulem} % package for underlying. Remove after the revision.
 
 \hypersetup{
     pdftitle={A FIC-FEM procedure for the shallow water equations over partially wet domains},
@@ -71,9 +70,6 @@ Due to the complexity of the geometry and the source terms is not possible to fi
 In those physical phenomena, flooding or moving shoreline may occur, which is numerically defined by a null water depth.
 
 The shallow water equations have traditionally been modelled using finite volumes (FV) because of its advantages of stability and monotonicity. Given its geometric flexibility and its natural way to introduce high order schemes, the finite element method (FEM) has been applied too \cite{zien3,navon1979,navon1988}.
-% However, since the FEM can exhibit spurious oscillations, different strategies have been proposed; such as the discontinuous Galerkin (DG) technique has been introduced \cite{ambati2007,khan2014,lee2019}.
-% DG method has the advantages of the geometrical flexibility of the finite elements and the stability of finite volumes, but the introduction of high order DG schemes is not straightforward.
-% In order to prevent numerical instabilities in finite elements, stabilization, monotonic schemes or different order of polynomial interpolation can be explored \cite{hood1974,zien3,ortiz2012}.
 However, since the FEM can exhibit spurious oscillations, different strategies such as stabilization, monotonic schemes or different order of polynomial interpolation can be explored \cite{hood1974,zien3,ortiz2012}.
 As an alternative to the continuous FEM, more recently the discontinuous Galerkin (DG) technique has been introduced \cite{ambati2007,khan2014,lee2019}.
 DG method has the advantages of the geometrical flexibility of the FEM and the stability of FV, but the introduction of high order DG schemes is not straightforward.
@@ -151,9 +147,7 @@ with
     \end{array}\right\}
 \end{align}
 \end{subequations}
-where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$%
-% \Miguel{\sout{, with $i=1,3$. while the number of dimensions $n_d$ is equal to 2}}
-\Miguel{. Since this formulation is defined in a two dimansional space ($n_d=2$), in the following we will consider $i=1,2$}.
+where $\bm{\phi}$ is the vector of conserved variables, $\mathbf{F}_i$ is the vector of convective fluxes, $\mathbf{G}_i$ is the vector of viscous fluxes and $\mathbf{Q}$ is the vector source terms. In Figure \ref{diagram} there is a representation of the variables and the notation. The coordinates are denoted with the index notation $x_i$. Since this formulation is defined in a two dimensional space ($n_d=2$), in the following we will consider $i=1,2$.
 $\delta_{ij}$ is the Kronecker delta. The topography is expressed with the variable $z$ and the free surface elevation is expressed in terms of the topography and the total depth, $\eta = z + h$. $\bar{\tau}_{ij}$ are the averaged horizontal stresses, and $\tau^b_{3i}$ and $\tau^s_{3i}$ denote the bottom and surface friction stresses respectively. Finally, $r$ is the rain source term and $p_a$ is the atmospheric pressure.
 
 
@@ -170,19 +164,8 @@ The problem is closed with an initial boundary condition,
 \bm{\phi}(t=t_0) = \bm{\phi}_0
 \end{equation}
 where $\bm{\phi}_0$ are the initial water height and specific discharge.
-% \Miguel{\sout{
-% Equation (\ref{general_sw}) satisfies the standard boundary conditions in space
-% }}
-% \Miguel{
-% \begin{align*}
-% \xout{\bm{\phi} = \bm{\phi}_D \qquad }&\text{\xout{in}}\xout{ \ \Gamma_D} \\
-% \xout{\mathbf{F}_i\mathbf{n} = F_N \qquad }&\text{\xout{in}}\xout{ \ \Gamma_N}
-% \end{align*}
-% \sout{
-% where $\Gamma_D$ represents the part of the Dirichlet boundary conditions and $\Gamma_N$ represents the part of the Neumann boundary conditions. We will consider absorbing boundary conditions in $\Gamma_A$, such that $\Gamma_D \cap \Gamma_N \cap \Gamma_A = \delta\bm{\Omega}$.
-% }}
 
-\Miguel{
+
 The following Dirichlet boundary conditions are considered covering all the boundary $\Gamma$ of the domain $\Omega$:
 \begin{itemize}
     \item Inflow boundary: the flow rate is known
@@ -207,16 +190,15 @@ The following Dirichlet boundary conditions are considered covering all the boun
         \mathbf{q} \cdot \mathbf{n} = 0 \quad \text{or} \quad \mathbf{q} = \mathbf{0} \quad \text{in} \quad \Gamma_{solid}
     \end{equation*}
 \end{itemize}
-}
+
 
 The bottom friction $\tau^b_{3i}$ is modelled with the Manning formula generalized for two dimensions as
 
 \begin{equation}
 \frac{\tau^b_{3i}}{\rho} = -gn^2\frac{\abs{\mathbf{q}}\mathbf{q}}{h^{\sfrac{7}{3}}}
 \end{equation}
-\Miguel{
 where $n$ is the Manning coefficient. It defines the resistance to flow by the roughness of the bottom or other macroscopic factors and it is determined empirically. In practice, the Manning coefficient varies from 0.01 for a very smooth bed (concrete) to 0.05 for a rough bed (rocks) \cite{chow1988}
-}
+
 
 The averaged horizontal stresses are calculated from the combination of the molecular stresses and the Reynolds stresses as follows
 \begin{equation} \label{stresses}
@@ -229,7 +211,7 @@ The balance equation (\ref{general_sw}) is linearized in the following form
 
 \begin{equation}
 \pder{\bm{\phi}}{t} + \mathbf{A}_i\pder{\bm{\phi}}{x_i}
- - \pder{}{x_{\Miguel{i}}}\left(\mathbf{K}_{\Miguel{ij}}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \Miguel{ \mathbf{b}_i\pder{z}{x_i} } = 0
+ - \pder{}{x_{i}}\left(\mathbf{K}_{ij}\pder{\bm{\phi}}{x_j}\right) + \mathbf{S}\bm{\phi} + \mathbf{b}_i\pder{z}{x_i} = 0
 \end{equation}
 where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization matrices of the convective fluxes and the diffusive fluxes respectively. The convective matrices $\mathbf{A}_i$ are obtained after applying the chain rule to the vector of fluxes $\mathbf{F}_i$,
 \begin{subequations}
@@ -252,20 +234,15 @@ where the matrices $\mathbf{A}_i$ and $\mathbf{K}_{ij}$ are the linearization ma
 \end{equation}
 \end{subequations}
 and $c=\sqrt{gh}$ is the wave speed.
-% \Miguel{\sout{The matrices $\mathbf{A}_i$ define an hyperbolic ODE and its eigenvalues are $u+c$, $u$ and $u-c$, which requires positivity of the water column depth $h$.}}
-\Miguel{
-For the unidimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
+For the one dimensional case, the eigenvalues of $\mathbf{A}$ are $\lambda_{1,2}=u\pm c$.
 In two dimensions, given the unit vector $\mathbf{e}$, the eigenvalues of the matrix $e_i \mathbf{A}_i$ are $\lambda_{1,3} = \mathbf{e}\cdot\mathbf{u} \pm c$ and $\lambda_2 = \mathbf{e}\cdot\mathbf{u}$.
-%In two dimensions, the eigenvalues of the matrix $\alpha_1\mathbf{A}_1 + \alpha_2\mathbf{A}_2$ are $\lambda_{1,3} = \alpha_1u_1 + \alpha_2u_2 \pm c$ and $\lambda_2 = \alpha_1u_1 + \alpha_2u_2$.
 The eigenvalues are real and always different ($\lambda_1<\lambda_2<\lambda_3$), this property is called strictly hyperbolicity \cite{raviart1996}. The eigenvalues are velocities, namely the ones of surface waves on the fluid. Note that in the dry zones, where ${h=0}$, the eigenvalues coincide and the system is no longer hyperbolic. This introduces difficulties at theoretical and numerical level.
-}
 
-\Miguel{
-The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}). It is an auxiliary variable to write the linearized tensor in Voigt's notation and it is explained in more detail in section \ref{sec:fem}.
-}
 
-\Miguel{
-The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography $z$ and later, rearranging terms with the independent vector $\mathbf{Q}$.
+The viscous fluxes $\mathbf{G}_i$ are rewritten in a more convenient manner as ${\mathbf{G}_i = \mathbf{K}_{ij} \partial\bm{\phi}\partial x_j}$. The fourth order tensor $\mathbf{K}_{ij}$ is obtained making use of equation (\ref{stresses}). It is an auxiliary variable to write the linearized tensor in Voigt's notation and it is explained in more detail in Section \ref{sec:fem}.
+
+
+The vectors $\mathbf{b}_i$ are the result of the linearization of the topography. They are obtained by the linearization of the fluxes $\mathbf{F}_i$ respect to the topography coordinate $z$. Rearranging terms with the independent vector $\mathbf{Q}$ yields
 \begin{equation}
     \mathbf{b}_i = \left[\begin{matrix}
         \delta_{i1} c^2 \\
@@ -273,9 +250,9 @@ The vectors $\mathbf{b}_i$ are the result of the linearization of the topography
         0
     \end{matrix}\right]
 \end{equation}
-}
 
-The bottom friction term \Miguel{acting in the source term vector} is linearized using a reaction matrix $\mathbf{S}$
+
+The bottom friction term acting on the source term vector is linearized using a reaction matrix $\mathbf{S}$
 \begin{equation}
 \mathbf{S} = \left[\begin{matrix}
     \frac{gn^2\abs{\mathbf{u}}}{h^{4/3}} & 0 & 0 \\
@@ -311,11 +288,11 @@ For the stabilization of the Navier-Stokes equations different projections of th
 
 \begin{subequations}
 \begin{align}
-r_{\Miguel{k}} - \frac{1}{2}l^e_i\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_i\pder{r_k}{x_i} &= 0
     \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}\\[5pt]
-r_{\Miguel{k}} - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_u\frac{u_i}{\norm{\mathbf{u}}}\pder{r_k}{x_i} &= 0
     \qquad i,k\in\{1,n_d\}\\[5pt]
-r_{\Miguel{k}} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_k}{x_i} &= 0
+r_{k} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x_i}}{\norm{\nabla u_i}}\pder{r_k}{x_i} &= 0
     \qquad i,k\in\{1,n_d\}
 \end{align}
 \end{subequations}
@@ -324,7 +301,7 @@ r_{\Miguel{k}} - \frac{1}{2}l^e_{g_i}\frac{\sfrac{\partial\mathbf{u}}{\partial x
 In this paper we propose a stabilization term which is oriented along the characteristics of the hyperbolic equations, as
 
 \begin{equation} \label{fic_sw}
-r_{\Miguel{k}} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_k}{x_i} = 0
+r_{k} - \frac{1}{2}l^e\frac{\mathbf{A}_i}{\lambda}\pder{r_k}{x_i} = 0
     \qquad i\in\{1,n_d\} \ ,\ k\in\{1,n_b\}
 \end{equation}
 For consistency the linearization matrix $\mathbf{A}_i$ is normalized with the maximum eigenvalue $\lambda=\abs{\mathbf{u}} + c$. This stabilization is analogue to the virtual multi-scale stabilization proposed in \cite{codina2008b}. The linearization matrix $\mathbf{A}_i$ provides a weighting procedure between the stabilization of the convective and the mixed wave equation terms. In practice the element size is multiplied by an algorithmic constant in order to control the amount of diffusion added by the stabilization and it will be studied in the examples of Section \ref{sec:examples}. Recovering the vector notation for the residual, the FIC-balance reads
@@ -380,7 +357,6 @@ In this section we explore other possibilities of the characteristic length defi
 \end{subequations}
 
 Multiplying the momentum balance Equation (\ref{eq:shock_capt_a}) by a proper test function $\omega_k$, integrating over the domain in the same way as in Equation (\ref{variational_fic}),
-%\Miguel{\sout{and then integrating by parts,}}
 one obtains the following variational form:
 \begin{equation}
     \int_\Omega \omega_k r_i^q d\Omega
@@ -402,9 +378,7 @@ After integration of Equation (\ref{partial_variational_shock_capt}) by parts an
         = 0
         \label{variational_shock_capturing}
 \end{multline}
-\Miguel{
-Since we will use linear triangles (see section \ref{sec:fem}),
-}%
+Since we will use linear triangles (see Section \ref{sec:fem}),
 the last two terms of Equation (\ref{variational_shock_capturing}) are dropped because they involve derivatives of the characteristic length and can be transformed into a boundary integral.
 
 The same procedure is applied to the mass balance equation (\ref{eq:shock_capt_b}). As a result we obtain the following system of equations for both unknowns
@@ -468,7 +442,7 @@ A finite element discretization $\Omega_h$ is introduced in the domain $\Omega$ 
 \phi_i = \sum_a^{n_\Omega} N_a(\mathbf{x})\phi_{ai} \qquad i \in \{1,n_b\}
 \end{equation}
 where $n_\Omega$ represents the total number of nodes in $\Omega_h$ and $\phi_i$ are the problem variables defined in (\ref{variables_and_fluxes}).
-\Miguel{Note that the shape functions are the same for all the variables, $h$ and $q_i$.}
+Note that the shape functions are the same for all the variables, $h$ and $q_i$.
 Here we introduce the notation $\bm{\phi}_h$ for the vectors of nodal unknowns -momentum and water height- on the finite element domain. Following the standard Galerkin discretization, the shape functions $N_a$ are used to interpolate the test functions $\omega_k$ and the unknowns. The continuous equation (\ref{variational_balance_fic}) is combined with equation (\ref{fic_shock_capturing}) and can be expressed as the following algebraic system of equations
 \begin{equation} \label{discrete_sw}
 [\mathbf{M} + \mathbf{M}_F] \dot{\bm{\phi}}_h
@@ -486,10 +460,10 @@ where the dot ($\dot{\ }$) means temporal derivative. The matrices in Eq. (\ref{
             \mathbf{C} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}
         \end{matrix}\right] \mathbf{B}_b^T d\Omega &
     \displaystyle \mathbf{R}^{ab} &= \int_{\Omega_e} N_a \mathbf{S} N_b d\Omega \\[5pt]
-    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \Miguel{\mathbf{b}_i \pder{z}{x_i}} d\Omega +
+    \displaystyle \mathbf{T}^{ab} &= \int_{\Omega_e} N_a \mathbf{b}_i \pder{z}{x_i} d\Omega +
         \int_{\Gamma_e} N_a \mathbf{t}_b d\Gamma \nonumber
 \end{align}
-where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ \Miguel{of viscosity and diffusivity. Note that the diffusivity is zero, but the matrix structure will be reused for the stabilization. The viscosity tensor in Voigt's notation is constructed using the linearization matrices $\mathbf{K}_{ij}$.}
+where the diffusive matrix $\mathbf{L}^{ab}$ is defined using the derivatives matrix $\mathbf{B}_a$ and the isotropic tensors $\mathbf{C}$ and $\mathbf{D}$ of viscosity and diffusivity. Note that the diffusivity is zero, but the matrix structure will be reused for the stabilization. The viscosity tensor in Voigt's notation is constructed using the linearization matrices $\mathbf{K}_{ij}$.
 The matrix and the tensors are given by
 
 \begin{subequations}
@@ -524,7 +498,7 @@ The stabilization and shock capturing terms from Equation (\ref{discrete_sw}) re
         \mathbf{C}_\text{art} & \mathbf{0} \\ \mathbf{0} & \mathbf{D}_\text{art}
     \end{matrix}\right] \mathbf{B}_b^T d\Omega &
 \displaystyle\mathbf{R}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{S} N_b d\Omega \\
-\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \Miguel{\mathbf{b}_j \pder{z}{x_j}} d\Omega
+\displaystyle\mathbf{T}_F^{ab} &= \int_{\Omega_e} \frac{\beta l^e}{2} \pder{N_a}{x_i}\mathbf{A}_i \mathbf{b}_j \pder{z}{x_j} d\Omega
 \nonumber
 \end{align}
 
@@ -535,7 +509,7 @@ The resulting expression from the spatial discretization (\ref{discrete_sw}) can
 \begin{equation} \label{discrete_compact}
 \tilde{\mathbf{M}}\dot{\bm{\phi}}_h + \tilde{\mathbf{K}}\bm{\phi}_h = \tilde{\mathbf{f}}
 \end{equation}
-where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices and \Miguel{vectors} for all the elements.
+where the symbol ($\,\tilde{}\,$) denotes the assembly of the system matrices and vectors for all the elements.
 We have integrated this equation introducing a time discretization using the well known BDF2 implicit scheme \cite{curtiss1952,brayton1972}. The system of equations in a discrete time domain yields
 \begin{equation}
 \begin{split} \label{discrete_bdf2}
@@ -578,13 +552,9 @@ The first non linear iteration $\bm{\phi}_h^{n+1,0}$ is initialized using a pred
 When small or quasi zero water depths are involved in simulations, some instabilities may arise. In addition, the solution of the previous time integration scheme requires the inverse of a matrix which is singular in the dry regions. In this section we review the challenges associated to such a problem, and the way we have circumvented them.
 
 \paragraph{Recovery of the velocity field}
-\Miguel{
-The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the velocity, which will be recovered given the primary variables $\bm{\phi}$ from the previous iteration.
-}%The first issue is the computation of the velocity field,
-\Miguel{
+The evaluation of the characteristic matrices $\mathbf{A}_i$ involves the velocities, which are recovered given the primary variables $\bm{\phi}$ from the previous iteration.
 Since the computation of the velocity is the result of dividing
-}
-the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the \Miguel{inverse of the water depth} is computed at each element following the next expression, initially proposed in \cite{kurganov2007}:
+the discharge by the water height, this operation is ill-conditioned in the dry regions. In this research, the velocity field is computed in a two step procedure. First of all, the inverse of the water depth is computed at each element following the next expression, initially proposed in \cite{kurganov2007}:
 
 \begin{equation} \label{h_inv_kurganov}
 \hat{h}^{-1} \defeq \frac{\sqrt{2}\max(h,0)}{\sqrt{h^4 + \max(h^4, \varepsilon^4)}}
@@ -610,7 +580,7 @@ The expression(\ref{h_inv_kurganov}) tends to zero in dry or partially dry regio
 At the elements where the shoreline is located, the interpolated water depth will not represent the real water surface.
 Therefore, those elements need an special consideration in order to prevent unrealistic oscillations. Excluding those elements from the computations is equivalent to introduce an artificial barrier, and the inclusion of those elements will incur in a consideration of an extra volume of water.
 We chose to include all the elements in the computation and to modify the balance equations in order to satisfy equilibrium at rest (Figure \ref{partially_dry}). This is achieved by introducing a modified topography
-\Miguel{$z'$ which is obtained imposing the following equilibrium:}
+$z'$ which is obtained imposing the following equilibrium condition:
 \begin{equation}
     \pder{\eta'}{x_i} = \pder{z'}{x_i} + \pder{h}{x_i} = \mathbf{0}
 \end{equation}
@@ -632,11 +602,10 @@ This function makes possible to construct the source system vector $\mathbf{T}$ 
 
 
 \paragraph{Avoiding the singularity of the system matrix}
-\Miguel{%
-Since all the elements are included in the computational domain, the last issue to overcome with small water depths are the numerical difficulties stated in section \ref{sec:equations}.
+Since all the elements are included in the computational domain, the last issue to overcome with small water depths are the numerical difficulties stated in Section \ref{sec:equations}.
 When there is a null water depth, the theoretical flow rate and velocity are zero. In that point the matrices $\mathbf{A}_i$ are not invertible and the eigenvalues are all equal to zero. In that case, the hyperbolicity property of the system is lost.
-In practice, due to spurious oscillations, the flow rate and velocity may be different to zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
-}
+In practice, due to spurious oscillations, the flow rate and the velocity may be different from zero. The idea is to freeze the flow and to allow to invert the system matrix adding a diagonal of non zero terms to the momentum equation, i. e.,
+
 
 \begin{equation}
 \mathbf{G} \defeq \mathbf{G} + \xi\,\text{diag}(1, 1, 0)
@@ -652,14 +621,10 @@ In our numerical experiments we have chosen $k=10^3$.
 The addition of this diagonal matrix remembers to the artificial Manning friction proposed in \cite{heniche2000} in order to freeze the flow in dry areas.
 
 
-\Miguel{%
 \paragraph{Mass conservation properties}
-The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it is not providing monotonicity. It is important to note the all the modifications have been done at the momentum balance, it means that the mass is conserved globally by the weak formulation, but mass sign preservation is not guaranteed.
-}
+The stabilized method proposed is not monotonic and the dry domain model is acting to ensure stability, but it does not provide monotonicity. We note that all the modifications have been done at the momentum balance level. This means that mass is conserved globally by the weak formulation, but the mass sign preservation is not guaranteed.
 
-\Miguel{
-Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Even thoug the shock capturing can not avoid this kind of oscilations, it will mitigate them, but the order of accuracy will be lost due to the non-linear artificial diffusion \cite{badia2014}. 
-}
+Both unknowns, water depth and flow rate, are continuous at the dry-wet interface, but its derivatives are discontinuous. Even though the shock capturing scheme can not avoid this kind of oscillations, it will mitigate them, and the order of accuracy will be lost due to the introduction of the non-linear artificial diffusion \cite{badia2014}.
 
 
 \section{Examples}
@@ -673,16 +638,13 @@ The last one is devoted to test all the capabilities of the formulation in a pra
 \subsection{Wave in a channel with a backward step}
 
 The aim of the first example is to show that the Galerkin formulation applied to the shallow water equations is unstable and how the present stabilization method can overcome this issue. A calibration of the stabilization parameter is performed to optimize the effect of the stabilization terms in the obtained solution.
-\Miguel{
 We study the propagation of a wave in a channel with a backward step (Figure \ref{step_mesh}) where all the boundaries are slip. The channel depth is 1m. An initial perturbation in the free surface at the left wall generates a wave which travels from 0 to 6s. The initial perturbation reads
 \begin{equation}
 \eta(t=0) = 0.05\cos(\pi x) \quad \text{if} \quad x<1, \quad \eta=0 \quad \text{otherwise}
 \end{equation}
-}
 
-\Miguel{
+
 The wave is reflected at the right wall and then faces the step in the opposite direction.
-}%
 Figure \ref{waves_propagation} shows the propagation of the wave along the channel.
 The problem is discretized with a mesh fine enough to test the artificial diffusion added by the stabilization (Figure \ref{step_mesh}). The average element size is $0.06m$ and near the corner the mesh is refined to $0.02m$.
 The time step is set automatically to keep a maximum Courant number equal to $1.0$ at every step. The problem is run three times with different algorithmic constants $\beta = 0.001$, $0.01$ and $0.1$. In this example, the shock capturing term is disabled.
@@ -796,9 +758,7 @@ x_2(t) = -\frac{1}{2}\cos(2Bt) + a + \frac{L}{2}
 \end{split}
 \end{equation}
 
-\Miguel{
 In that example the selected parameters are $h_0=1m$ and $a=1m$.
-}
 
 The domain $\Omega$ is discretized using several meshes in order to perform a convergence analysis. The meshes employed are listed in Table \ref{parabola_convergence}. Figure \ref{parabola_mesh} shows one of the intermediate mesh. Once the simulation begins, the water starts to oscillate on the parabolic basin and the velocity field is constant on the spatial domain, while follows a periodic function respect to the time.
 
@@ -846,9 +806,8 @@ Figure \ref{parabola_graphic} shows a cut along the mesh at different times. The
 \label{parabola_graphic}
 \end{figure}
 
-\Miguel{
-A mass conservation test is performed with the mesh of size $0.005m$ in a simulation of $5s$. The results are presented in Figure \ref{parabola_mass}. The integration of the mass is performed over all the domain and over the wet domain. The wet domain is identified with the wet fraction, requiring it to be equal to $1$. Since the presented scheme is not mass sign preserving, the wet mass can not be equal to the total mass and a small fraction is lost from the wet domain. The loss depends on the size of the elements and presents an oscillatory behavior inherent of the method. Figure \ref{parabola_mass} shows that the loss is bounded and the mean does not increase with time.
-}
+A mass conservation test is performed with the mesh of size $0.005m$ in a simulation of $5s$. The results are presented in Figure \ref{parabola_mass}. The integration of the mass is performed over all the domain and over the wet domain. The wet domain is identified with the wet fraction, requiring that it is equal to $1$. Since the presented scheme is not mass sign preserving, the wet mass can not be equal to the total mass and a small fraction is lost from the wet domain. The loss depends on the element size and presents an oscillatory behavior inherent of the method. Figure \ref{parabola_mass} shows that the mass loss is bounded and the mean does not increase with time.
+
 
 \begin{figure}[H]
     \centering
@@ -905,7 +864,6 @@ For this benchmark we have considered the domain defined by the spatial domain $
 \end{split}
 \end{equation}
 
-\Miguel{
 The problem is initialized with the following values:
 \begin{equation}
 \begin{split}
@@ -913,9 +871,8 @@ The problem is initialized with the following values:
     \mathbf{q}(x,0) &= \mathbf{0}
 \end{split}
 \end{equation}
-}
 
-The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3m$ and defines the hydraulic jump. The expression of the \Miguel{stationary} exact water depth is:
+The Manning coefficient is $0.0328\ \text{m}^{-1/3}\text{s}$ and the water height $h_{ex}(x)$ is a piecewise function defined in \cite{delestre2013}. The discontinuity of the water height function is located at $x=200/3m$ and defines the hydraulic jump. The expression of the stationary exact water depth is:
 \begin{equation} \label{jump_height_definition}
     h_{ex} = \begin{cases}
         \left(\frac{4}{g}\right)^\frac{1}{3} \left(\frac{4}{3} - \frac{x}{L}\right) - \frac{9x}{10L}
@@ -1028,17 +985,10 @@ To get a general idea of the flow, Figure \ref{experiment_plots} shows several r
 \label{experiment_plots}
 \end{figure}
 
-% \Miguel{\sout{
-% The gauges 1 and 2 show a rise of the water level after the first front is arrived, this behavior correspond to the hydraulic jump generated in front of the building.
-% }}
 
-\Miguel{
-The gauge 1 is located upstream of the building and close to the left wall of the channel. In gauge 1 there are the main discrepancies between the numerical and experimental results. The vicinity of the wall is the responsible the rapid variations in the water level. After the arrival of the front wave, it is reflected in the wall and a second raise of the water level is observed. About $t=6s$, an oblique hydraulic jump is formed and registered in gauge 1. The two first shocks are well captured by the numerical results, but the oblique hydraulic jump is registered latter, at $t=10s$ and there is a general overestimation of the ones for the water depth.
-}
+Gauge 1 is located upstream of the building and close to the left wall of the channel. In gauge 1 there are the main discrepancies between the numerical and experimental results. The vicinity of the wall is the responsible for the rapid variations in the water level. After the arrival of the front wave, this is reflected in the wall and a second raise of the water level is observed. About $t=6s$, an oblique hydraulic jump is formed and registered in gauge 1. The two first shocks are well captured by the numerical results, but the oblique hydraulic jump is registered latter, at $t=10s$, and there is a general overestimation of the ones for the water depth values.
 
-\Miguel{
 The main hydraulic jump in gauge 2 formed by the reflection against the building is registered at $t=15s$, but in the numerical simulation is it formed very rapidly, presenting a discontinuity in time.
-}
 
 \begin{figure}
 \centering
@@ -1047,17 +997,12 @@ The main hydraulic jump in gauge 2 formed by the reflection against the building
 \label{experiment_gauges}
 \end{figure}
 
-\Miguel{
-The gauge 3 is located at the left hand side of the building, multiple waves are reflected and practically always it is in subcritical regime. There is a good correlation between numerical and experimental results. Gauge 4 is at the opposite side of the building but the superposition of the reflected waves is more clearly identified. The main discrepancies in the results are concentrated in the first seconds, where the flow is more dynamic.
-}
+Gauge 3 is located at the left hand side of the building, where multiple waves are reflected and practically always it is in subcritical regime. There is a good correlation between numerical and experimental results. Gauge 4 is at the opposite side of the building but the superposition of the reflected waves is more clearly identified. The main discrepancies in the results are concentrated in the first seconds, where the flow is more dynamic.
 
-\Miguel{
 Gauge 6 is located at the reservoir and registers the superposition of smooth waves during the emptying of the tank.
-}
 
-\Miguel{
-As stated in \cite{soares2007} there are some difficulties in the recording of the velocity and its validity is discussed. Here are compared only the most representative gauges. Gauge 2 is not fully submerged and the validity of the measurements is good after $t=14.5s$. It illustrates the change from supercritical flow to subcritical (Figure \ref{experiment_gauge2_vel}). The considerations are similar to the water depth.
-}
+As stated in \cite{soares2007} there are some difficulties in the recording of the velocity and its validity is discussed. Here we compare only the most representative gauges. Gauge 2 is not fully submerged and the validity of the measurements is good after $t=14.5s$. It illustrates the change from supercritical flow to subcritical (Figure \ref{experiment_gauge2_vel}). The considerations are similar to the water depth study.
+
 
 \begin{figure}
 \centering
@@ -1066,9 +1011,7 @@ As stated in \cite{soares2007} there are some difficulties in the recording of t
 \label{experiment_gauge2_vel}
 \end{figure}
 
-\Miguel{
-The experimental measurements in gauge 4 (Figure \ref{experiment_gauge4_vel}) show a change in the velocity direction around $t=15s$ due to the rise of water level. The numerical results do not capture the this change but the mean and the stationary values are correctly simulated.
-}
+The experimental measurements in gauge 4 (Figure \ref{experiment_gauge4_vel}) show a change in the velocity direction around $t=15s$ due to the rise of water level. The numerical results do not capture this change but the mean and the stationary values are correctly simulated.
 
 \begin{figure}
 \centering
@@ -1077,9 +1020,8 @@ The experimental measurements in gauge 4 (Figure \ref{experiment_gauge4_vel}) sh
 \label{experiment_gauge4_vel}
 \end{figure}
 
-\Miguel{
-In gauge 5 the formation of eddies behind the building can be appreciated from $t=20$ (Figure \ref{experiment_gauge5_vel}). In that case, the experimental results have difficulties to capture the eddies. It could be explored extending the refined region of the mesh. The authors have observed the formation of eddies, but they are not fully developed and its area of influence is not enough to arrive to gauge 5.
-}
+In gauge 5 the formation of eddies behind the building can be appreciated from $t=20$ (Figure \ref{experiment_gauge5_vel}). In that case, the experimental results have difficulties to capture the eddies. Results will probably improve by extending the refined region of the mesh. The authors have observed the formation of eddies, but they are not fully developed and its area of influence is not enough to arrive to gauge 5.
+
 
 \begin{figure}
 \centering
@@ -1088,9 +1030,8 @@ In gauge 5 the formation of eddies behind the building can be appreciated from $
 \label{experiment_gauge5_vel}
 \end{figure}
 
-\Miguel{
-In fluid-structure interaction studies pressure is needed to compute to forces over the structure. The shallow water assumptions drop the dynamic pressures retaining only the hydrostatic ones. In the present case, the pressures would be recovered integrating the hydrostatic pressures given the water depth around the building. However, there is no experimental data about the forces applied to the building and thus, the importance of the dynamic pressures can not be evaluated.
-}
+
+In fluid-structure interaction studies, pressure is needed to compute to forces over the structure. The shallow water assumptions drop the dynamic pressures retaining only the hydrostatic ones. In the present case, the pressures are recovered by integrating the hydrostatic pressures given the water depth around the building. However, there is no experimental data about the forces applied to the building and thus, the importance of the dynamic pressures can not be evaluated.
 
 
 Regarding the performance of the FIC-FEM formulation, it captures the main aspects of the flow, but not the details, since there are some regions on that experiment which violate the shallow water approximations.
