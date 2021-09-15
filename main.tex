@@ -99,7 +99,7 @@ In Section \ref{sec:stabilization} the FIC stabilization procedure is applied to
 In Section \ref{sec:fem} the spatial (FEM) and temporal discretizations are described.
 The dry domain model is presented in the same section because it mainly depends on the discretization.
 Section \ref{sec:examples} presents some numerical examples.
-The first simple example tests the stability, the second one tests the shock capturing and the third one tests the dry-wet interface.
+The first simple example tests the stability, the second one tests the dry-wet interface and the third one tests the shock capturing.
 The last example is a simulation of an experiment and the results are compared with the reference.
 The conclusions are given in Section \ref{sec:conclusions}.
 
@@ -728,7 +728,7 @@ Figures \ref{stab_parameters_time1} and \ref{stab_parameters_time2} show that th
 
 \subsection{Oscillation in a parabolic basin}
 
-The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to water at rest but the free surface is in a non horizontal plane. The solution of the problem is an oscillation where the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
+The second example is a classical benchmark oriented to test the accuracy of the location of the moving boundary. The topography follows a parabolic profile while the initial free surface elevation is planar and intersects the topography. The initial configuration corresponds to zero velocity but the free surface is in a non horizontal plane. The solution of the problem is oscillatory and the free surface elevation remains planar. An analytical solution can be found in the compilation made by Delestre et al. \cite{delestre2013}.
 
 The domain $\Omega$ is defined in the interval $[0,L]\times[0,1]m$ where $L=10m$ and all the boundaries are reflective ($\mathbf{u}\cdot\mathbf{n} = 0$). The topography is given by the following expression
 \begin{equation}
