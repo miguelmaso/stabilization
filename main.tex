@@ -324,7 +324,11 @@ The second term of Equation (\ref{variational_fic}) is integrated by parts. Note
 + \int_\Omega \beta l^e\frac{\mathbf{A}_i}{\lambda}\pder{\omega_k}{x_i} \mathbf{r} d\Omega
 - \sum_e \int_{\Gamma_e} \beta l^e\frac{\mathbf{A}_i}{\lambda}\omega_kn_k \mathbf{r} d\Gamma = 0
 \end{equation}
-In this work we neglect the boundary integrals assuming that the residual $\mathbf{r}$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term. The result is
+In this work we neglect the boundary integrals assuming that the residual $\mathbf{r}$ is null at the boundary of the elements. At this point we introduce the balance Equation (\ref{residual}) and integrate by parts the diffusive term.
+\Miguel{
+Derivatives of order higher tan two will be neglected since we are using linear triangles (see section \ref{sec:fem}).
+} \Miguel{\footnotesize (ESTA AFIRMACIÓN ESTÁ REPETIDA MÁS ADELANTE, DESPUÉS DE LA EQ \ref{variational_shock_capturing})}
+The result is
 
 \begin{multline} \label{variational_balance_fic}
 \int_\Omega \left(
@@ -620,7 +624,7 @@ The selection of the areas where there is a dry domain is controlled with the we
 
 In our numerical experiments we have chosen $k=10^3$.
 \Miguel{
-The addition of this diagonal matrix remembers the artificial Manning friction proposed in \cite{heniche2000}. This term has the role of freezing the flow in dry areas.
+The addition of a diagonal matrix remembers the artificial Manning friction proposed in \cite{heniche2000}. This term plays the role of freezing the flow in dry areas.
 }
 
 
