@@ -1052,8 +1052,11 @@ The present extension of the FIC-procedure to the shallow water equations uses t
 
 The present stabilization provides two algorithmic constants, one for the global stabilization and other one for the shock capturing term. From our numerical experiments, we have chosen $\beta=0.01$ for the stabilization and $\alpha=1.0$ for the shock capturing.
 
+Regarding the accuracy of the shock capturing and the dry domain model, one must notice that this method is not monotonic. Therefore, like in many other stabilized methods, the order of convergence is dropped around discontinuities such as hydraulic jumps and the shoreline. However, the spurious oscillations, specially the oscillations related to the moving shoreline, are bounded and the method is globally mass preserving.
+
 The present FIC-FEM procedure has produced accurate results for the examples considered.
-In the first example, the artificial diffusion is evaluated and it has been proved to be small and practically inappreciable. The shock capturing term allows to solve supercritical problems with discontinuities and the present procedure is also able to deal with partially wet domains. Finally, a numerical simulation of a dam break flow against an isolated building is performed showing a good agreement with the experimental data.
+In the first example, the artificial diffusion is evaluated and it has been proved to be small and practically inappreciable. The shock capturing term allows to solve supercritical problems with discontinuities and the present procedure is also able to deal with partially wet domains. Finally, a numerical simulation of a dam break flow against an isolated building is performed.% showing a good agreement with the experimental data.
+The limitations of the model essentially come from the shallow water equations hypothesis. In fact, the last example presents local regions where the dynamic pressure is not negligible. It is not an obstacle to simulate the main aspects of the flow and the numerical results are in good agreement with the experimental data.
 
 
 
