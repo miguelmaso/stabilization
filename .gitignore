@@ -11,6 +11,7 @@
 
 # pdflatex auxiliary files:
 *.aux
+*.toc
 *.idx
 *.ilg
 *.fls
